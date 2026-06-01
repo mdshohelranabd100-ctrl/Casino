@@ -2,1041 +2,1003 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>NexaBet - Ultimate Betting Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaBet</title>
 <style>
-:root{--gold:#f0b429;--gold2:#ffd700;--blue:#0d1b3e;--blue2:#162550;--blue3:#1e3168;--dark:#070d1f;--card:#111d3c;--border:#1e3060;--text:#e8eaf0;--muted:#7a8aaa}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:16px}
-html{font-size:16px}
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--blue)}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
+:root{--gold:#f0b429;--dark:#070d1f;--card:#111d3c;--blue:#0d1b3e;--blue2:#162550;--muted:#7a8aaa;--border:#1e3060}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:#fff;overflow-x:hidden}
 
-/* ===== NAV ===== */
-.nav{background:linear-gradient(90deg,var(--blue) 0%,var(--blue2) 100%);padding:0 18px;height:58px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:300;gap:10px}
-.logo{display:flex;align-items:center;gap:8px;cursor:pointer}
-.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:var(--blue)}
-.logo-text{font-size:20px;font-weight:900;letter-spacing:1px;color:#fff}
-.logo-text span{color:var(--gold)}
-.nav-mid{display:flex;gap:4px;flex:1;justify-content:center;overflow-x:auto;scrollbar-width:none}
-.nav-mid::-webkit-scrollbar{display:none}
-.nav-tab{padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--muted);white-space:nowrap;border:none;background:none;transition:.2s;display:flex;align-items:center;gap:5px}
-.nav-tab:hover{color:#fff;background:var(--blue3)}
-.nav-tab.on{color:var(--gold);background:var(--blue3);font-weight:700}
-.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.lb{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:3px 10px;border-radius:20px;font-size:12px;cursor:pointer;transition:.2s}
-.lb.on{background:var(--gold);color:var(--blue);font-weight:700}
-.btn-l{border:1px solid #ffffff44;color:#fff;background:transparent;padding:6px 14px;border-radius:7px;font-size:13px;cursor:pointer;transition:.2s}
-.btn-l:hover{background:#ffffff11}
-.btn-r{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue);border:none;padding:6px 16px;border-radius:7px;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
-.btn-r:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,180,41,.4)}
+/* NAV */
+.nav{background:#0d1b3e;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:2px solid var(--gold);position:fixed;top:0;left:0;right:0;z-index:100}
+.logo{color:var(--gold);font-size:20px;font-weight:900;letter-spacing:1px;cursor:pointer}
+.logo span{color:#fff}
+.nav-r{display:flex;align-items:center;gap:6px}
+.lb{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:4px 10px;border-radius:20px;font-size:12px;cursor:pointer;font-weight:700}
+.lb.on{background:var(--gold);color:#111}
+.n-btn{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;border:none}
+.n-login{background:transparent;border:1px solid #ffffff66;color:#fff}
+.n-reg{background:var(--gold);color:#111}
 
-/* ===== MARQUEE ===== */
-.mq{background:linear-gradient(90deg,var(--blue3),var(--blue2),var(--blue3));border-bottom:1px solid var(--border);overflow:hidden;padding:6px 0;position:relative}
-.mq::before,.mq::after{content:'';position:absolute;top:0;width:60px;height:100%;z-index:2}
-.mq::before{left:0;background:linear-gradient(90deg,var(--blue2),transparent)}
-.mq::after{right:0;background:linear-gradient(-90deg,var(--blue2),transparent)}
-.mq-in{display:inline-block;white-space:nowrap;animation:mqs 40s linear infinite;font-size:12px;font-weight:600;padding-left:100%}
+/* MARQUEE */
+.mq{background:var(--blue2);overflow:hidden;padding:5px 0;margin-top:56px;border-bottom:1px solid var(--border)}
+.mq-in{display:inline-block;white-space:nowrap;animation:mqs 30s linear infinite;color:#ddd;font-size:12px;font-weight:600;padding-left:100vw}
 @keyframes mqs{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-.mq-item{display:inline-block;margin-right:40px;color:var(--text)}
-.mq-item .live{color:#ff4444;margin-right:4px}
-.mq-item .odds{color:var(--gold);margin-left:4px;font-weight:700}
+.mq-live{color:#ff4444}
+.mq-odd{color:var(--gold);font-weight:700}
 
-/* ===== LAYOUT ===== */
-.wrap{display:flex;height:calc(100vh - 94px)}
-.sb{width:196px;background:var(--blue);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;scrollbar-width:none}
-.sb::-webkit-scrollbar{display:none}
-.main{flex:1;overflow-y:auto;background:var(--dark)}
-.bs{width:216px;background:var(--blue);border-left:1px solid var(--border);flex-shrink:0;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#0d1b3e;border-top:2px solid var(--gold);display:flex;z-index:100;height:58px}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;color:#7a8aaa;font-size:10px;font-weight:600;padding:6px 4px}
+.bn.on{color:var(--gold)}
+.bn-ic{font-size:20px;line-height:1}
 
-/* ===== SIDEBAR ===== */
-.sb-sec{padding:12px 14px 5px;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:800}
-.sb-i{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;font-size:13px;color:var(--muted);transition:.15s;border-left:3px solid transparent;position:relative}
-.sb-i:hover{background:var(--blue2);color:#fff}
-.sb-i.on{background:linear-gradient(90deg,var(--blue3),var(--blue2));color:var(--gold);border-left-color:var(--gold)}
-.sb-i .ic{font-size:15px;width:20px;text-align:center;flex-shrink:0}
-.sb-bx{margin-left:auto;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:800}
-.sb-bx.r{background:#ff4444;color:#fff}
-.sb-bx.g{background:#1d9e75;color:#fff}
-.sb-i .cnt{margin-left:auto;color:var(--muted);font-size:11px}
+/* MAIN */
+.main{padding:0 0 70px 0}
 
-/* ===== PAGES ===== */
-.page{display:none;padding:16px}
-.page.on{display:block}
+/* PAGES */
+.pg{display:none}
+.pg.on{display:block}
 
-/* ===== SECTION HEADER ===== */
-.sh{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.sh h2{font-size:17px;font-weight:800;color:#fff}
-.sh .tg{font-size:10px;font-weight:800;padding:3px 9px;border-radius:5px}
-.tg-r{background:#ff4444;color:#fff}
-.tg-g{background:#1d9e75;color:#fff}
-.tg-b{background:var(--gold);color:var(--blue)}
-
-/* ===== PROVIDER PILLS ===== */
-.pvs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:16px;scrollbar-width:none}
-.pvs::-webkit-scrollbar{display:none}
-.pv{flex-shrink:0;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap;transition:.15s}
-.pv:hover{border-color:var(--gold);color:var(--gold)}
-.pv.on{background:var(--gold);color:var(--blue);border-color:var(--gold);font-weight:700}
-
-/* ===== GAME GRID ===== */
-.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
-.gc{background:var(--card);border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:.2s;position:relative}
-.gc:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(240,180,41,.12)}
-.gt{height:82px;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}
-.gov{position:absolute;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;border-radius:10px 10px 0 0}
-.gc:hover .gov{display:flex}
-.gov-btn{background:var(--gold);color:var(--blue);border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer}
-.gn{padding:7px 8px;font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-top:1px solid var(--border)}
-.gp{padding:0 8px 6px;font-size:10px;color:#ffffff44;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gb{position:absolute;top:5px;left:5px;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:800;z-index:2}
-.gh{background:#ff4444;color:#fff}
-.gn2{background:#1d9e75;color:#fff}
-.gl{background:var(--gold);color:var(--blue)}
-
-/* ===== LEAGUE TABS ===== */
-.lts{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;scrollbar-width:none}
-.lts::-webkit-scrollbar{display:none}
-.lt{flex-shrink:0;background:var(--card);border:1px solid var(--border);padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;color:var(--muted);transition:.15s;white-space:nowrap}
-.lt:hover,.lt.on{background:var(--gold);color:var(--blue);border-color:var(--gold);font-weight:700}
-
-/* ===== MATCH CARD ===== */
-.mc{background:var(--card);border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid var(--border);transition:.2s;cursor:pointer}
-.mc:hover{border-color:var(--blue3);box-shadow:0 4px 16px rgba(13,27,62,.5)}
-.mm{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.mlg{font-size:11px;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:6px}
-.mlive{background:#ff4444;color:#fff;font-size:10px;padding:2px 7px;border-radius:4px;animation:blk 1.4s infinite;display:inline-flex;align-items:center;gap:3px}
-@keyframes blk{0%,100%{opacity:1}50%{opacity:.4}}
-.mtime{color:var(--muted);font-size:11px}
-.tr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
-.tm{flex:1;text-align:center}
-.tl{font-size:24px;margin-bottom:4px}
-.tn{font-size:12px;font-weight:700;color:#fff;line-height:1.3}
-.sb2{background:var(--blue2);border-radius:8px;padding:8px 14px;text-align:center;min-width:65px;border:1px solid var(--border)}
-.sn{font-size:18px;font-weight:900;color:var(--gold)}
-.sl{font-size:9px;color:var(--muted);margin-top:1px}
-.or{display:flex;gap:7px}
-.ob{flex:1;background:var(--blue2);border:1px solid var(--border);color:#fff;padding:9px 5px;border-radius:8px;text-align:center;cursor:pointer;transition:.2s;min-width:0}
-.ob:hover,.ob.on{background:var(--gold);color:var(--blue);border-color:var(--gold)}
-.ob.on .olb,.ob:hover .olb{color:var(--blue)}
-.olb{font-size:10px;color:var(--muted);display:block;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ov{font-size:13px;font-weight:800}
-
-/* ===== BETSLIP ===== */
-.bs-hd{display:flex;align-items:center;justify-content:space-between}
-.bs-title{font-size:14px;font-weight:800;color:var(--gold)}
-.bs-cnt{background:var(--gold);color:var(--blue);font-size:10px;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.bs-empty{color:var(--muted);font-size:12px;text-align:center;padding:24px 0;line-height:1.8}
-.bi{background:var(--blue2);border-radius:9px;padding:10px 11px;position:relative;border:1px solid var(--border);margin-bottom:7px}
-.bi-match{color:var(--muted);font-size:10px;margin-bottom:2px;padding-right:20px}
-.bi-pick{color:#fff;font-weight:700;font-size:12px}
-.bi-odds{color:var(--gold);font-weight:800;font-size:13px;margin-top:2px}
-.bi-rm{position:absolute;top:8px;right:9px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;transition:.2s}
-.bi-rm:hover{color:#ff4444}
-.bs-div{height:1px;background:var(--border);margin:4px 0}
-.bs-inp{background:var(--blue2);border:1px solid var(--border);color:#fff;padding:9px 12px;border-radius:8px;width:100%;font-size:14px;outline:none;transition:.2s}
-.bs-inp:focus{border-color:var(--gold)}
-.bs-info{background:var(--dark);border-radius:8px;padding:10px 12px;border:1px solid var(--border)}
-.bsr{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:5px}
-.bsr:last-child{margin-bottom:0}
-.bsr-lbl{color:var(--muted)}
-.bsr-val{color:var(--gold);font-weight:800}
-.bs-place{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue);border:none;padding:11px;border-radius:9px;font-weight:800;font-size:14px;cursor:pointer;width:100%;transition:.2s}
-.bs-place:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,180,41,.4)}
-.bs-clr{background:transparent;border:1px solid #ff444466;color:#ff4444;padding:8px;border-radius:9px;font-size:12px;cursor:pointer;width:100%;transition:.2s}
-.bs-clr:hover{background:#ff444422}
-
-/* ===== HOMEPAGE ===== */
-.hero{background:linear-gradient(135deg,var(--blue) 0%,var(--blue3) 50%,#0a2060 100%);padding:32px 20px;position:relative;overflow:hidden;margin:-16px -16px 20px;border-radius:0 0 16px 16px}
-.hero::before{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(240,180,41,.08) 0%,transparent 70%);pointer-events:none}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(240,180,41,.15);border:1px solid rgba(240,180,41,.3);color:var(--gold);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:14px}
-.hero h1{font-size:28px;font-weight:900;line-height:1.2;margin-bottom:8px}
+/* HOME HERO */
+.hero{background:linear-gradient(135deg,#0d1b3e,#1e3168,#0a2060);padding:28px 16px 24px;position:relative}
+.hero-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(240,180,41,.15);border:1px solid rgba(240,180,41,.3);color:var(--gold);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+.hero h1{font-size:26px;font-weight:900;line-height:1.2;margin-bottom:8px}
 .hero h1 span{color:var(--gold)}
-.hero p{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:400px}
-.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-.hb1{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue);border:none;padding:12px 26px;border-radius:9px;font-size:14px;font-weight:800;cursor:pointer;transition:.2s}
-.hb1:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(240,180,41,.4)}
-.hb2{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;padding:12px 26px;border-radius:9px;font-size:14px;cursor:pointer;transition:.2s}
-.hb2:hover{background:rgba(255,255,255,.1)}
-.stats-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-.stat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;flex:1;min-width:100px;text-align:center;backdrop-filter:blur(10px)}
-.stat-num{font-size:20px;font-weight:900;color:var(--gold)}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.hero p{color:#aaa;font-size:14px;margin-bottom:18px}
+.hero-btns{display:flex;flex-direction:column;gap:10px}
+.hb1{background:var(--gold);color:#111;border:none;padding:14px;border-radius:10px;font-size:16px;font-weight:800;cursor:pointer;width:100%}
+.hb2{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff;padding:12px;border-radius:10px;font-size:14px;cursor:pointer;width:100%}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.stat{background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px;text-align:center}
+.stat-n{font-size:16px;font-weight:900;color:var(--gold)}
+.stat-l{font-size:10px;color:#aaa;margin-top:2px}
 
-/* FEATURED */
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:20px}
-.feat-card{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border);cursor:pointer;transition:.2s;text-align:center}
-.feat-card:hover{border-color:var(--gold);transform:translateY(-2px)}
-.feat-icon{font-size:32px;margin-bottom:8px}
-.feat-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
-.feat-sub{font-size:11px;color:var(--muted)}
-.feat-live{display:inline-flex;align-items:center;gap:4px;background:#ff444422;border:1px solid #ff444444;color:#ff4444;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:6px}
+/* SECTION */
+.sec{padding:16px}
+.sec-title{font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.live-tag{background:#ff4444;color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* PROMO BANNER */
-.pb{border-radius:14px;padding:18px 20px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;overflow:hidden}
-.pb::before{content:'';position:absolute;top:-30%;right:-5%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
-.pb1{background:linear-gradient(135deg,#0f3460,#533483)}
-.pb2{background:linear-gradient(135deg,#0d3a2e,#1d9e75)}
-.pb3{background:linear-gradient(135deg,#3a1a0f,#8b4513)}
-.pb4{background:linear-gradient(135deg,#1a0f3a,#3a1a6a)}
-.pb5{background:linear-gradient(135deg,#0f2a3a,#0d5a7a)}
-.pb h3{color:var(--gold);font-size:16px;font-weight:800;margin-bottom:5px}
-.pb p{color:#ccc;font-size:13px}
-.pb-btn{background:var(--gold);color:var(--blue);border:none;padding:9px 18px;border-radius:8px;font-weight:800;cursor:pointer;white-space:nowrap;transition:.2s;flex-shrink:0}
-.pb-btn:hover{background:var(--gold2)}
+/* CATEGORY GRID */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.cat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;transition:.15s;position:relative}
+.cat-card:active{transform:scale(.97);border-color:var(--gold)}
+.cat-ic{font-size:36px;margin-bottom:8px}
+.cat-name{font-size:14px;font-weight:700}
+.cat-sub{font-size:11px;color:#aaa;margin-top:3px}
+.cat-live{display:inline-flex;align-items:center;gap:3px;background:#ff444422;border:1px solid #ff444444;color:#ff4444;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:6px}
+
+/* MATCH CARD */
+.mc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.mc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mc-league{font-size:11px;color:var(--gold);font-weight:700}
+.mc-live{background:#ff4444;color:#fff;font-size:9px;padding:2px 7px;border-radius:4px;animation:blink 1.4s infinite}
+.mc-time{color:#aaa;font-size:11px}
+.mc-teams{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mc-team{flex:1;text-align:center}
+.mc-logo{font-size:22px;margin-bottom:3px}
+.mc-name{font-size:12px;font-weight:700;line-height:1.3}
+.mc-score{background:#080820;border-radius:8px;padding:6px 12px;text-align:center;min-width:58px}
+.mc-sn{font-size:16px;font-weight:900;color:var(--gold)}
+.mc-sl{font-size:9px;color:#aaa}
+.odds{display:flex;gap:7px}
+.odd{flex:1;background:#0d1a40;border:1px solid #1a2a70;border-radius:8px;padding:9px 4px;text-align:center;cursor:pointer;transition:.15s;min-width:0}
+.odd:active,.odd.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.odd.on .odd-l,.odd:active .odd-l{color:#111}
+.odd-l{font-size:9px;color:#aaa;display:block;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.odd-v{font-size:13px;font-weight:800}
+
+/* SPORT NAV */
+.sport-nav{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 8px;scrollbar-width:none;background:var(--blue)}
+.sport-nav::-webkit-scrollbar{display:none}
+.sp{flex-shrink:0;background:var(--card);border:1px solid var(--border);padding:6px 14px;border-radius:20px;font-size:12px;color:#aaa;cursor:pointer;white-space:nowrap;font-weight:600}
+.sp.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+
+/* LEAGUE TABS */
+.lgs{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+.lgs::-webkit-scrollbar{display:none}
+.lg{flex-shrink:0;background:var(--card);border:1px solid var(--border);padding:5px 12px;border-radius:20px;font-size:11px;color:#aaa;cursor:pointer;white-space:nowrap}
+.lg.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+
+/* PROVIDER TABS */
+.pvs{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+.pvs::-webkit-scrollbar{display:none}
+.pv{flex-shrink:0;background:var(--card);border:1px solid var(--border);padding:6px 14px;border-radius:20px;font-size:12px;color:#aaa;cursor:pointer;white-space:nowrap;font-weight:600}
+.pv.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+
+/* GAME GRID */
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px 16px 16px}
+.gc{background:var(--card);border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border);transition:.15s}
+.gc:active{transform:scale(.96);border-color:var(--gold)}
+.gt{height:76px;display:flex;align-items:center;justify-content:center;font-size:28px;position:relative}
+.g-badge{position:absolute;top:4px;left:4px;font-size:8px;padding:2px 5px;border-radius:3px;font-weight:800}
+.g-hot{background:#ff4444;color:#fff}
+.g-new{background:#1d9e75;color:#fff}
+.g-live{background:var(--gold);color:#111}
+.gc-name{padding:5px 6px;font-size:10px;color:#aaa;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-top:1px solid var(--border)}
+.gc-prov{padding:0 6px 5px;font-size:9px;color:#ffffff33;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* PROMO */
+.promo-card{border-radius:12px;padding:16px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pc1{background:linear-gradient(135deg,#0f3460,#533483)}
+.pc2{background:linear-gradient(135deg,#0f3460,#1d9e75)}
+.pc3{background:linear-gradient(135deg,#3a1a0f,#8b4513)}
+.pc4{background:linear-gradient(135deg,#1a0f3a,#3a1a6a)}
+.pc5{background:linear-gradient(135deg,#0f2a3a,#0d5a7a)}
+.promo-card h3{color:var(--gold);font-size:15px;font-weight:700;margin-bottom:4px}
+.promo-card p{color:#ccc;font-size:12px}
+.promo-btn{background:var(--gold);color:#111;border:none;padding:9px 16px;border-radius:7px;font-weight:700;cursor:pointer;white-space:nowrap;font-size:13px}
+
+/* POPUP OVERLAY */
+.ov{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);z-index:9999;justify-content:center;align-items:flex-start;padding:20px 16px;overflow-y:auto}
+.ov.on{display:flex}
+.popup{background:#111d3c;border-radius:14px;padding:22px;width:100%;max-width:400px;border:1px solid #1e3060;position:relative;margin:auto}
+.popup-x{position:absolute;top:12px;right:14px;background:none;border:none;color:#aaa;font-size:24px;cursor:pointer;line-height:1;padding:4px}
+.popup-em{font-size:52px;text-align:center;margin-bottom:12px}
+.popup-title{font-size:18px;font-weight:800;text-align:center;margin-bottom:4px}
+.popup-sub{font-size:12px;color:#aaa;text-align:center;margin-bottom:18px;text-transform:uppercase;letter-spacing:1px}
+.form-grp{margin-bottom:14px}
+.form-grp label{display:block;font-size:12px;color:#aaa;margin-bottom:6px;font-weight:600}
+.form-inp{width:100%;background:#162550;border:1px solid var(--border);color:#fff;padding:12px 14px;border-radius:8px;font-size:16px;outline:none}
+.form-inp:focus{border-color:var(--gold)}
+.popup-btn{width:100%;background:var(--gold);color:#111;border:none;padding:13px;border-radius:9px;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:10px;margin-top:4px}
+.popup-link{text-align:center;font-size:13px;color:#aaa}
+.popup-link a{color:var(--gold);font-weight:700;text-decoration:none;cursor:pointer}
+.popup-tags{display:flex;justify-content:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.popup-tag{background:#162550;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:#aaa}
+.popup-tag span{color:var(--gold);font-weight:700}
+.popup-desc{color:#aaa;font-size:13px;line-height:1.7;margin-bottom:14px}
+.popup-demo{width:100%;background:transparent;border:1px solid var(--border);color:#aaa;padding:11px;border-radius:9px;font-size:13px;cursor:pointer}
+
+/* ALERT */
+.alert-box{background:#111d3c;border-radius:14px;padding:24px 20px;width:100%;max-width:320px;border:1px solid #1e3060;text-align:center;margin:auto;position:relative}
+.alert-em{font-size:50px;margin-bottom:12px}
+.alert-title{font-size:18px;font-weight:800;margin-bottom:8px}
+.alert-msg{font-size:14px;color:#aaa;margin-bottom:18px;line-height:1.6}
+.alert-ok{background:var(--gold);color:#111;border:none;padding:12px 30px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer}
 
 /* PROFILE */
-.profile-wrap{max-width:600px}
-.prof-banner{background:linear-gradient(135deg,var(--blue),var(--blue3));border-radius:14px;padding:24px;display:flex;align-items:center;gap:18px;margin-bottom:16px;border:1px solid var(--border)}
-.prof-avatar{width:72px;height:72px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;color:var(--blue);flex-shrink:0;border:3px solid var(--gold)}
-.prof-info h3{font-size:18px;font-weight:800;margin-bottom:4px}
-.prof-info p{color:var(--muted);font-size:13px;margin-bottom:8px}
-.prof-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(240,180,41,.15);border:1px solid rgba(240,180,41,.3);color:var(--gold);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
-.bal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px}
-.bal-card{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border);cursor:pointer;transition:.2s}
-.bal-card:hover{border-color:var(--gold)}
-.bal-icon{font-size:22px;margin-bottom:8px}
-.bal-lbl{font-size:11px;color:var(--muted);margin-bottom:4px}
-.bal-amt{font-size:20px;font-weight:900;color:var(--gold)}
-.bal-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.prof-actions{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.pa-btn{flex:1;min-width:120px;padding:12px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;border:none;display:flex;align-items:center;justify-content:center;gap:6px}
-.pa-dep{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue)}
-.pa-dep:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,180,41,.3)}
-.pa-wd{background:var(--card);color:#fff;border:1px solid var(--border)!important}
-.pa-wd:hover{border-color:var(--gold)!important;color:var(--gold)}
-.prof-sec{background:var(--card);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
-.prof-sec-hd{padding:14px 16px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
-.prof-sec-hd span{color:var(--gold)}
-.prof-row{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);font-size:13px}
-.prof-row:last-child{border-bottom:none}
-.prof-row-lbl{color:var(--muted)}
-.prof-row-val{color:#fff;font-weight:600}
-.prof-row-val.good{color:#1d9e75}
-.prof-row-val.warn{color:var(--gold)}
+.profile-sec{padding:16px}
+.prof-banner{background:linear-gradient(135deg,var(--blue),#1e3168);border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;margin-bottom:14px;border:1px solid var(--border)}
+.prof-av{width:64px;height:64px;background:linear-gradient(135deg,var(--gold),#ffd700);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#111;flex-shrink:0;border:3px solid var(--gold)}
+.prof-info h3{font-size:17px;font-weight:800;margin-bottom:3px}
+.prof-info p{font-size:12px;color:#aaa;margin-bottom:6px}
+.prof-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(240,180,41,.15);border:1px solid rgba(240,180,41,.3);color:var(--gold);font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
+.bal-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.bal-card{background:var(--card);border-radius:12px;padding:14px 10px;text-align:center;border:1px solid var(--border);cursor:pointer}
+.bal-card:active{border-color:var(--gold)}
+.bal-ic{font-size:20px;margin-bottom:5px}
+.bal-lbl{font-size:10px;color:#aaa;margin-bottom:3px}
+.bal-amt{font-size:15px;font-weight:900;color:var(--gold)}
+.act-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.act-btn{flex:1;min-width:100px;padding:12px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:5px}
+.act-dep{background:var(--gold);color:#111}
+.act-wd{background:var(--card);color:#fff;border:1px solid var(--border)!important}
+.info-card{background:var(--card);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.info-hd{padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;color:var(--gold)}
+.info-row{padding:12px 16px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border-bottom:none}
+.info-lbl{color:#aaa}
+.info-val{font-weight:600}
+.info-val.good{color:#1d9e75}
+.info-val.warn{color:var(--gold)}
+.logout-btn{width:100%;background:transparent;border:1px solid #ff444466;color:#ff4444;padding:12px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px}
 
-/* DEPOSIT PAGE */
-.dep-wrap{max-width:520px}
-.dep-methods{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px}
-.dep-m{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:.2s}
-.dep-m:hover,.dep-m.on{border-color:var(--gold);background:var(--blue2)}
-.dep-m .dm-icon{font-size:28px;margin-bottom:6px}
-.dep-m .dm-name{font-size:12px;font-weight:700;color:#fff}
-.dep-m .dm-min{font-size:10px;color:var(--muted);margin-top:2px}
-.dep-form{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--border)}
+/* DEPOSIT */
+.dep-sec{padding:16px}
+.dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.dep-m{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 8px;text-align:center;cursor:pointer;transition:.15s}
+.dep-m.on,.dep-m:active{border-color:var(--gold);background:#162550}
+.dep-m-ic{font-size:26px;margin-bottom:4px}
+.dep-m-nm{font-size:12px;font-weight:700}
+.dep-m-min{font-size:10px;color:#aaa;margin-top:2px}
+.dep-form{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border)}
 .dep-form h3{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--gold)}
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}
-.form-inp{width:100%;background:var(--blue2);border:1px solid var(--border);color:#fff;padding:10px 14px;border-radius:8px;font-size:14px;outline:none;transition:.2s}
-.form-inp:focus{border-color:var(--gold)}
-.quick-amts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.qa{background:var(--blue3);border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s}
-.qa:hover{border-color:var(--gold);color:var(--gold)}
-.submit-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue);border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer;transition:.2s;margin-top:6px}
-.submit-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,180,41,.4)}
+.quick-amts{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.qa{background:#162550;border:1px solid var(--border);color:#aaa;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.qa:active{border-color:var(--gold);color:var(--gold)}
+.dep-inst{background:#162550;border-radius:8px;padding:12px;border:1px solid var(--border);font-size:12px;color:#ccc;line-height:1.8;margin-bottom:14px}
+.submit-btn{width:100%;background:var(--gold);color:#111;border:none;padding:14px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer}
 
-/* POPUP */
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
-.ov.on{display:flex!important}
-.pp{background:var(--card);border-radius:14px;padding:24px;max-width:360px;width:100%;border:1px solid var(--border);position:relative}
-.pp-x{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;transition:.2s}
-.pp-x:hover{color:#fff}
-.pp-em{font-size:54px;text-align:center;margin-bottom:12px}
-.pp-name{font-size:18px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px}
-.pp-prov{font-size:11px;color:var(--muted);text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-.pp-rtp{display:flex;justify-content:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.pp-tag{background:var(--blue2);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:11px;color:var(--muted)}
-.pp-tag span{color:var(--gold);font-weight:700}
-.pp-desc{color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:16px}
-.pp-play{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--blue);border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:8px;transition:.2s}
-.pp-play:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,180,41,.4)}
-.pp-demo{width:100%;background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px;border-radius:9px;font-size:13px;cursor:pointer;transition:.2s}
-.pp-demo:hover{border-color:var(--gold);color:var(--gold)}
-
-/* MOBILE NAV */
-@media(max-width:768px){.sb{display:none}.bs{display:none}.mobnav{display:flex}.wrap{height:calc(100vh - 104px)}}
-@media(min-width:769px){.mobnav{display:none}}
-.mobnav{position:fixed;bottom:0;left:0;right:0;background:var(--blue);border-top:2px solid var(--gold);display:flex;z-index:400}
-.mn{flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;border:none;background:none;transition:.2s;min-height:56px}
-.mn.on{color:var(--gold)}
-.mn-ic{font-size:24px;display:block;margin-bottom:3px}
-
-/* MISC */
-.no-games{color:var(--muted);padding:30px;text-align:center;grid-column:1/-1;font-size:13px}
-.section-sub{font-size:13px;font-weight:700;color:var(--gold);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
-
-/* ===== MOBILE FIXES ===== */
-@media(max-width:768px){
-  .hero{padding:24px 16px 28px}
-  .hero h1{font-size:28px}
-  .hero p{font-size:15px}
-  .hb1,.hb2{width:100%;padding:14px;font-size:16px;border-radius:10px}
-  .nav{padding:8px 12px}
-  .logo-text{font-size:18px}
-  .btn-l,.btn-r{padding:8px 14px;font-size:14px}
-  .nav-mid{display:none}
-  .feat-card{padding:18px}
-  .feat-icon{font-size:38px}
-  .feat-name{font-size:15px;font-weight:700}
-  .feat-sub{font-size:12px}
-  .sh h2{font-size:18px}
-  .mc{padding:14px}
-  .tn{font-size:14px}
-  .ov,.ob{font-size:14px}
-  .ov{font-size:16px;font-weight:700}
-  .pp{padding:24px 20px}
-  .pp-name{font-size:20px}
-  .pp-desc{font-size:14px}
-  .pp-play,.pp-demo{font-size:15px;padding:14px}
-  .form-inp{font-size:16px;padding:12px 14px}
-  .submit-btn{font-size:16px;padding:14px}
-  .stat-card{min-width:80px}
-  .stat-num{font-size:22px}
-  .lts,.pvs{padding-bottom:10px}
-  .lt,.pv{font-size:13px;padding:7px 14px}
-  .gc .gn{font-size:12px}
-  .bs-place{font-size:15px;padding:13px}
-  .hero-btns{flex-direction:column;gap:10px}
-  .wrap{height:calc(100vh - 110px)}
-  .mobnav{height:56px}
-}
+/* BET SLIP FLOAT */
+.bs-float{display:none;position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--gold);color:#111;border:none;border-radius:50px;padding:11px 22px;font-weight:800;font-size:14px;cursor:pointer;z-index:90;box-shadow:0 4px 20px rgba(240,180,41,.5);white-space:nowrap}
+.bs-float.show{display:block}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav">
-  <div class="logo" onclick="goPage('home',null)">
-    <div class="logo-icon">N</div>
-    <div class="logo-text">Nexa<span>Bet</span></div>
-  </div>
-  <div class="nav-mid">
-    <button class="nav-tab on" onclick="goPage('home',this)" id="nt-home">🏠 Home</button>
-    <button class="nav-tab" onclick="goPage('sports',this)" id="nt-sports">⚽ Sports</button>
-    <button class="nav-tab" onclick="goPage('live-casino',this)" id="nt-live">🔴 Live Casino</button>
-    <button class="nav-tab" onclick="goPage('slots',this)" id="nt-slots">🎰 Slots</button>
-    <button class="nav-tab" onclick="goPage('crash',this)" id="nt-crash">🚀 Crash</button>
-    <button class="nav-tab" onclick="goPage('promo',this)" id="nt-promo">🎁 Promos</button>
-  </div>
-  <div class="nav-right">
+  <div class="logo" onclick="showPg('home')">Nexa<span>Bet</span></div>
+  <div class="nav-r">
     <button class="lb on" onclick="setLang('en',this)">EN</button>
     <button class="lb" onclick="setLang('bn',this)">বাং</button>
-    <button class="btn-l" id="n-login" onclick="showLoginPopup()">Login</button>
-    <button class="btn-r" id="n-reg" onclick="showRegPopup()">Register</button>
-    <!-- logged in user button (hidden by default) -->
-    <button class="btn-l" id="n-user" style="display:none;color:var(--gold);border-color:var(--gold)" onclick="goPage('profile',null)">👤 <span id="n-uname">User</span></button>
+    <button class="n-btn n-login" id="n-login" onclick="openOv('ov-login')">Login</button>
+    <button class="n-btn n-reg" id="n-reg" onclick="openOv('ov-reg')">Register</button>
+    <button class="n-btn n-reg" id="n-user" style="display:none" onclick="showPg('profile')">👤 <span id="n-uname"></span></button>
   </div>
 </nav>
 
 <!-- MARQUEE -->
 <div class="mq">
-  <div class="mq-in" id="mq-txt">
-    <span class="mq-item"><span class="live">●</span> Man City vs Real Madrid <span class="odds">1.85 | 3.40 | 3.20</span></span>
-    <span class="mq-item"><span class="live">●</span> IPL: MI vs CSK <span class="odds">1.85 | 2.05</span></span>
-    <span class="mq-item">🎰 JILI Money Coming — Jackpot ৳500,000</span>
-    <span class="mq-item">🎁 100% Welcome Bonus up to ৳10,000</span>
-    <span class="mq-item"><span class="live">●</span> NBA Finals: Lakers vs Warriors <span class="odds">2.40 | 1.60</span></span>
-    <span class="mq-item">🐉 Evolution Dragon Tiger — LIVE NOW</span>
-    <span class="mq-item">💰 10% Weekly Cashback — Every Monday</span>
-    <span class="mq-item"><span class="live">●</span> CS2 Major: NaVi vs Astralis <span class="odds">1.65 | 2.25</span></span>
-  </div>
-</div>
-
-<div class="wrap">
-<!-- SIDEBAR -->
-<div class="sb">
-  <div class="sb-sec" id="sb-s1">⚽ Sports</div>
-  <div class="sb-i on" onclick="goSport('cricket',this)"><span class="ic">🏏</span><span id="sb-cricket">Cricket</span><span class="sb-bx r">LIVE</span></div>
-  <div class="sb-i" onclick="goSport('football',this)"><span class="ic">⚽</span><span id="sb-football">Football</span></div>
-  <div class="sb-i" onclick="goSport('basketball',this)"><span class="ic">🏀</span><span id="sb-basketball">Basketball</span></div>
-  <div class="sb-i" onclick="goSport('tennis',this)"><span class="ic">🎾</span><span id="sb-tennis">Tennis</span></div>
-  <div class="sb-i" onclick="goSport('baseball',this)"><span class="ic">⚾</span><span id="sb-baseball">Baseball</span></div>
-  <div class="sb-i" onclick="goSport('hockey',this)"><span class="ic">🏒</span><span id="sb-hockey">Hockey</span></div>
-  <div class="sb-i" onclick="goSport('volleyball',this)"><span class="ic">🏐</span><span id="sb-volleyball">Volleyball</span></div>
-  <div class="sb-i" onclick="goSport('boxing',this)"><span class="ic">🥊</span><span id="sb-boxing">Boxing/MMA</span></div>
-  <div class="sb-i" onclick="goSport('esports',this)"><span class="ic">🎮</span><span id="sb-esports">Esports</span></div>
-  <div class="sb-i" onclick="goSport('golf',this)"><span class="ic">⛳</span><span id="sb-golf">Golf</span></div>
-  <div class="sb-i" onclick="goSport('rugby',this)"><span class="ic">🏉</span><span id="sb-rugby">Rugby</span></div>
-  <div class="sb-i" onclick="goSport('handball',this)"><span class="ic">🤾</span><span id="sb-handball">Handball</span></div>
-  <div class="sb-i" onclick="goSport('darts',this)"><span class="ic">🎯</span><span id="sb-darts">Darts</span></div>
-  <div class="sb-i" onclick="goSport('snooker',this)"><span class="ic">🎱</span><span id="sb-snooker">Snooker</span></div>
-  <div class="sb-i" onclick="goSport('formula1',this)"><span class="ic">🏎️</span><span id="sb-f1">Formula 1</span></div>
-  <div class="sb-i" onclick="goSport('cycling',this)"><span class="ic">🚴</span><span id="sb-cycling">Cycling</span></div>
-
-  <div class="sb-sec" id="sb-s2">🎰 Casino</div>
-  <div class="sb-i" onclick="goPage('live-casino',this)"><span class="ic">🔴</span><span id="sb-livec">Live Casino</span><span class="sb-bx r">LIVE</span></div>
-  <div class="sb-i" onclick="goPage('slots',this)"><span class="ic">🎰</span><span id="sb-slots2">Slots</span><span class="sb-bx g">5000+</span></div>
-  <div class="sb-i" onclick="goPage('crash',this)"><span class="ic">🚀</span><span id="sb-crash2">Crash</span></div>
-  <div class="sb-i" onclick="goPage('table',this)"><span class="ic">🃏</span><span id="sb-table">Table Games</span></div>
-  <div class="sb-i" onclick="goPage('fishing',this)"><span class="ic">🐟</span><span id="sb-fish">Fishing</span></div>
-  <div class="sb-i" onclick="goPage('promo',this)"><span class="ic">🎁</span><span id="sb-promo">Promotions</span></div>
-  <div class="sb-i" onclick="goPage('deposit',this)"><span class="ic">💳</span><span id="sb-dep">Deposit</span></div>
+  <span class="mq-in" id="mq">
+    <span class="mq-live">●</span> Man City vs Real Madrid LIVE <span class="mq-odd">1.85 | 3.40 | 3.20</span> &nbsp;|&nbsp;
+    <span class="mq-live">●</span> IPL: MI vs CSK <span class="mq-odd">1.85 | 2.05</span> &nbsp;|&nbsp;
+    🎰 JILI Money Coming Jackpot ৳500,000 &nbsp;|&nbsp;
+    🎁 100% Welcome Bonus &nbsp;|&nbsp;
+    <span class="mq-live">●</span> NBA Finals LIVE <span class="mq-odd">2.40 | 1.60</span> &nbsp;|&nbsp;
+    🐉 Evolution Dragon Tiger LIVE &nbsp;|&nbsp;
+  </span>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-<!-- HOME PAGE -->
-<div class="page on" id="pg-home">
+<!-- HOME -->
+<div class="pg on" id="pg-home">
   <div class="hero">
-    <div class="hero-tag">🏆 <span id="h-tag">World's Best Betting Platform</span></div>
-    <h1 id="h-title">The Future of<br><span>Online Betting</span></h1>
-    <p id="h-sub">Sports Betting, Live Casino, Slots & More — All in one place. Secure, Fast & Exciting!</p>
+    <div class="hero-tag">🏆 <span id="h-tag">World's Best Betting</span></div>
+    <h1>The Future of<br><span>Online Betting</span></h1>
+    <p id="h-sub">Sports, Live Casino, Slots & More — Fast, Safe & Exciting!</p>
     <div class="hero-btns">
-      <button class="hb1" id="h-btn1" onclick="showRegPopup()">🚀 Join Now — It's Free</button>
-      <button class="hb2" id="h-btn2" onclick="goPage('sports',null)">⚽ Explore Sports</button>
+      <button class="hb1" onclick="openOv('ov-reg')" id="h-join">🚀 Join Now — Free</button>
+      <button class="hb2" onclick="showPg('sports')" id="h-sports">⚽ Explore Sports</button>
     </div>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">50K+</div><div class="stat-lbl" id="st1">Active Players</div></div>
-      <div class="stat-card"><div class="stat-num">5000+</div><div class="stat-lbl" id="st2">Casino Games</div></div>
-      <div class="stat-card"><div class="stat-num">30+</div><div class="stat-lbl" id="st3">Game Providers</div></div>
-      <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-lbl" id="st4">Live Support</div></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">50K+</div><div class="stat-l" id="st1">Players</div></div>
+      <div class="stat"><div class="stat-n">5000+</div><div class="stat-l" id="st2">Games</div></div>
+      <div class="stat"><div class="stat-n">30+</div><div class="stat-l" id="st3">Providers</div></div>
+      <div class="stat"><div class="stat-n">24/7</div><div class="stat-l" id="st4">Support</div></div>
     </div>
   </div>
 
-  <div class="sh"><h2 id="h-featured">🔥 Featured Categories</h2></div>
-  <div class="feat-grid">
-    <div class="feat-card" onclick="goPage('sports',null)"><div class="feat-icon">⚽</div><div class="feat-name" id="fc1">Sports Betting</div><div class="feat-sub">Cricket, Football +14</div><div class="feat-live">● LIVE</div></div>
-    <div class="feat-card" onclick="goPage('live-casino',null)"><div class="feat-icon">🔴</div><div class="feat-name" id="fc2">Live Casino</div><div class="feat-sub">Evolution, Ezugi +11</div><div class="feat-live">● LIVE</div></div>
-    <div class="feat-card" onclick="goPage('slots',null)"><div class="feat-icon">🎰</div><div class="feat-name" id="fc3">Slots</div><div class="feat-sub">JILI, PG, Netent +28</div></div>
-    <div class="feat-card" onclick="goPage('crash',null)"><div class="feat-icon">🚀</div><div class="feat-name" id="fc4">Crash Games</div><div class="feat-sub">Aviator, JetX +13</div></div>
-    <div class="feat-card" onclick="goPage('fishing',null)"><div class="feat-icon">🐟</div><div class="feat-name" id="fc5">Fishing Games</div><div class="feat-sub">JILI, JDB Ocean King</div></div>
-    <div class="feat-card" onclick="goPage('promo',null)"><div class="feat-icon">🎁</div><div class="feat-name" id="fc6">Promotions</div><div class="feat-sub">Bonus up to ৳10,000</div></div>
+  <div class="sec">
+    <div class="sec-title" id="h-cats">🔥 Featured Categories</div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="showPg('sports')">
+        <div class="cat-ic">⚽</div>
+        <div class="cat-name" id="c1">Sports Betting</div>
+        <div class="cat-sub">Cricket, Football +14</div>
+        <div class="cat-live">● LIVE</div>
+      </div>
+      <div class="cat-card" onclick="showPg('live-casino')">
+        <div class="cat-ic">🔴</div>
+        <div class="cat-name" id="c2">Live Casino</div>
+        <div class="cat-sub">Evolution, Ezugi +11</div>
+        <div class="cat-live">● LIVE</div>
+      </div>
+      <div class="cat-card" onclick="showPg('slots')">
+        <div class="cat-ic">🎰</div>
+        <div class="cat-name" id="c3">Slots</div>
+        <div class="cat-sub">JILI, PG, Netent +28</div>
+      </div>
+      <div class="cat-card" onclick="showPg('crash')">
+        <div class="cat-ic">🚀</div>
+        <div class="cat-name" id="c4">Crash Games</div>
+        <div class="cat-sub">Aviator, JetX +13</div>
+      </div>
+      <div class="cat-card" onclick="showPg('fishing')">
+        <div class="cat-ic">🐟</div>
+        <div class="cat-name" id="c5">Fishing Games</div>
+        <div class="cat-sub">JILI, JDB Ocean King</div>
+      </div>
+      <div class="cat-card" onclick="showPg('promo')">
+        <div class="cat-ic">🎁</div>
+        <div class="cat-name" id="c6">Promotions</div>
+        <div class="cat-sub">Bonus up to ৳10,000</div>
+      </div>
+    </div>
   </div>
 
-  <div class="sh"><h2 id="h-hotmatches">⚡ Hot Matches</h2><span class="tg tg-r">LIVE</span></div>
-  <div id="home-matches"></div>
+  <div class="sec">
+    <div class="sec-title">⚡ Hot Matches <span class="live-tag">LIVE</span></div>
+    <div id="home-matches"></div>
+  </div>
 
-  <div class="sh" style="margin-top:20px"><h2 id="h-hotgames">🎮 Hot Games</h2></div>
-  <div class="gg" id="home-games"></div>
+  <div class="sec">
+    <div class="sec-title">🎮 Hot Games</div>
+    <div class="gg" id="home-games"></div>
+  </div>
 </div>
 
-<!-- SPORTS PAGE -->
-<div class="page" id="pg-sports">
-  <div class="sh"><h2>⚽ <span id="sport-title">Cricket</span></h2><span class="tg tg-r" id="sport-live-tag">LIVE</span></div>
-  <div class="lts" id="sport-leagues"></div>
-  <div id="sport-matches"></div>
+<!-- SPORTS -->
+<div class="pg" id="pg-sports">
+  <div class="sport-nav" id="sport-nav"></div>
+  <div class="lgs" id="sport-lgs"></div>
+  <div class="sec" style="padding-top:8px">
+    <div class="sec-title" id="sport-title-el">🏏 Cricket <span class="live-tag" id="sport-live-tag">LIVE</span></div>
+    <div id="sport-matches"></div>
+  </div>
 </div>
 
 <!-- LIVE CASINO -->
-<div class="page" id="pg-live-casino">
-  <div class="sh"><h2 id="h-lc">🔴 Live Casino</h2><span class="tg tg-r">LIVE</span></div>
+<div class="pg" id="pg-live-casino">
   <div class="pvs" id="lc-pvs"></div>
-  <div class="gg" id="lc-gg"></div>
+  <div class="sec" style="padding-top:4px">
+    <div class="sec-title">🔴 Live Casino <span class="live-tag">LIVE</span></div>
+    <div class="gg" id="lc-gg" style="padding:0 0 8px"></div>
+  </div>
 </div>
 
 <!-- SLOTS -->
-<div class="page" id="pg-slots">
-  <div class="sh"><h2 id="h-sl">🎰 Slots</h2><span class="tg tg-b">5000+ Games</span></div>
+<div class="pg" id="pg-slots">
   <div class="pvs" id="sl-pvs"></div>
-  <div class="gg" id="sl-gg"></div>
+  <div class="sec" style="padding-top:4px">
+    <div class="sec-title">🎰 Slots</div>
+    <div class="gg" id="sl-gg" style="padding:0 0 8px"></div>
+  </div>
 </div>
 
 <!-- CRASH -->
-<div class="page" id="pg-crash">
-  <div class="sh"><h2 id="h-cr">🚀 Crash Games</h2></div>
+<div class="pg" id="pg-crash">
   <div class="pvs" id="cr-pvs"></div>
-  <div class="gg" id="cr-gg"></div>
+  <div class="sec" style="padding-top:4px">
+    <div class="sec-title">🚀 Crash Games</div>
+    <div class="gg" id="cr-gg" style="padding:0 0 8px"></div>
+  </div>
 </div>
 
 <!-- TABLE -->
-<div class="page" id="pg-table">
-  <div class="sh"><h2 id="h-tb">🃏 Table Games</h2></div>
+<div class="pg" id="pg-table">
   <div class="pvs" id="tb-pvs"></div>
-  <div class="gg" id="tb-gg"></div>
+  <div class="sec" style="padding-top:4px">
+    <div class="sec-title">🃏 Table Games</div>
+    <div class="gg" id="tb-gg" style="padding:0 0 8px"></div>
+  </div>
 </div>
 
 <!-- FISHING -->
-<div class="page" id="pg-fishing">
-  <div class="sh"><h2 id="h-fi">🐟 Fishing Games</h2></div>
+<div class="pg" id="pg-fishing">
   <div class="pvs" id="fi-pvs"></div>
-  <div class="gg" id="fi-gg"></div>
+  <div class="sec" style="padding-top:4px">
+    <div class="sec-title">🐟 Fishing Games</div>
+    <div class="gg" id="fi-gg" style="padding:0 0 8px"></div>
+  </div>
 </div>
 
 <!-- PROMO -->
-<div class="page" id="pg-promo">
-  <div class="sh"><h2 id="h-pr">🎁 Promotions</h2></div>
-  <div id="promo-list"></div>
+<div class="pg" id="pg-promo">
+  <div class="sec">
+    <div class="sec-title" id="h-promo">🎁 Promotions</div>
+    <div id="promo-list"></div>
+  </div>
 </div>
 
 <!-- PROFILE -->
-<div class="page" id="pg-profile">
-  <div class="profile-wrap">
+<div class="pg" id="pg-profile">
+  <div class="profile-sec">
     <div class="prof-banner">
-      <div class="prof-avatar" id="prof-av">U</div>
+      <div class="prof-av" id="prof-av">U</div>
       <div class="prof-info">
         <h3 id="prof-name">Username</h3>
         <p id="prof-email">user@email.com</p>
-        <div class="prof-badge">⭐ <span id="prof-level">Gold Member</span></div>
+        <div class="prof-badge">⭐ Gold Member</div>
       </div>
     </div>
-    <div class="bal-cards">
-      <div class="bal-card" onclick="goPage('deposit',null)">
-        <div class="bal-icon">💰</div>
-        <div class="bal-lbl" id="bl1">Main Balance</div>
-        <div class="bal-amt" id="bal-main">৳0.00</div>
-        <div class="bal-sub" id="bl1s">Click to Deposit</div>
-      </div>
-      <div class="bal-card">
-        <div class="bal-icon">🎁</div>
-        <div class="bal-lbl" id="bl2">Bonus Balance</div>
-        <div class="bal-amt" id="bal-bonus">৳0.00</div>
-        <div class="bal-sub" id="bl2s">Welcome Bonus</div>
+    <div class="bal-row">
+      <div class="bal-card" onclick="showPg('deposit')">
+        <div class="bal-ic">💰</div>
+        <div class="bal-lbl">Balance</div>
+        <div class="bal-amt" id="bal-main">৳0</div>
       </div>
       <div class="bal-card">
-        <div class="bal-icon">🏆</div>
-        <div class="bal-lbl" id="bl3">Total Won</div>
-        <div class="bal-amt" id="bal-won">৳0.00</div>
-        <div class="bal-sub" id="bl3s">All time</div>
+        <div class="bal-ic">🎁</div>
+        <div class="bal-lbl">Bonus</div>
+        <div class="bal-amt" id="bal-bonus">৳0</div>
+      </div>
+      <div class="bal-card">
+        <div class="bal-ic">🏆</div>
+        <div class="bal-lbl">Won</div>
+        <div class="bal-amt" id="bal-won">৳0</div>
       </div>
     </div>
-    <div class="prof-actions">
-      <button class="pa-btn pa-dep" onclick="goPage('deposit',null)">💳 <span id="pa1">Deposit</span></button>
-      <button class="pa-btn pa-wd" style="border:1px solid var(--border)">💸 <span id="pa2">Withdraw</span></button>
-      <button class="pa-btn pa-wd" style="border:1px solid var(--border)">📋 <span id="pa3">Bet History</span></button>
+    <div class="act-row">
+      <button class="act-btn act-dep" onclick="showPg('deposit')">💳 Deposit</button>
+      <button class="act-btn act-wd" style="border:1px solid var(--border)">💸 Withdraw</button>
+      <button class="act-btn act-wd" style="border:1px solid var(--border)">📋 History</button>
     </div>
-    <div class="prof-sec">
-      <div class="prof-sec-hd">👤 <span id="ps1">Account Info</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl1">Username</span><span class="prof-row-val" id="prv-uname">-</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl2">Email</span><span class="prof-row-val" id="prv-email">-</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl3">Member Since</span><span class="prof-row-val">June 2025</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl4">Account Status</span><span class="prof-row-val good" id="prl4v">✅ Verified</span></div>
+    <div class="info-card">
+      <div class="info-hd">👤 Account Info</div>
+      <div class="info-row"><span class="info-lbl">Username</span><span class="info-val" id="prv-un">-</span></div>
+      <div class="info-row"><span class="info-lbl">Email</span><span class="info-val" id="prv-em">-</span></div>
+      <div class="info-row"><span class="info-lbl">Status</span><span class="info-val good">✅ Verified</span></div>
     </div>
-    <div class="prof-sec">
-      <div class="prof-sec-hd">📊 <span id="ps2">Betting Stats</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl5">Total Bets</span><span class="prof-row-val">0</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl6">Win Rate</span><span class="prof-row-val warn">0%</span></div>
-      <div class="prof-row"><span class="prof-row-lbl" id="prl7">Biggest Win</span><span class="prof-row-val good">৳0.00</span></div>
+    <div class="info-card">
+      <div class="info-hd">📊 Stats</div>
+      <div class="info-row"><span class="info-lbl">Total Bets</span><span class="info-val" id="prv-bets">0</span></div>
+      <div class="info-row"><span class="info-lbl">Win Rate</span><span class="info-val warn">0%</span></div>
     </div>
-    <button class="bs-clr" onclick="logout()" id="logout-btn" style="max-width:200px">🚪 Logout</button>
+    <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
   </div>
 </div>
 
 <!-- DEPOSIT -->
-<div class="page" id="pg-deposit">
-  <div class="dep-wrap">
-    <div class="sh"><h2 id="h-dep">💳 Deposit</h2></div>
-    <div class="section-sub" id="dep-method-lbl">Select Payment Method</div>
-    <div class="dep-methods">
-      <div class="dep-m on" onclick="selDepMethod(this,'bKash')"><div class="dm-icon">📱</div><div class="dm-name">bKash</div><div class="dm-min">Min ৳200</div></div>
-      <div class="dep-m" onclick="selDepMethod(this,'Nagad')"><div class="dm-icon">💚</div><div class="dm-name">Nagad</div><div class="dm-min">Min ৳200</div></div>
-      <div class="dep-m" onclick="selDepMethod(this,'Rocket')"><div class="dm-icon">🚀</div><div class="dm-name">Rocket</div><div class="dm-min">Min ৳200</div></div>
-      <div class="dep-m" onclick="selDepMethod(this,'USDT')"><div class="dm-icon">💎</div><div class="dm-name">USDT</div><div class="dm-min">Min $5</div></div>
-      <div class="dep-m" onclick="selDepMethod(this,'Bitcoin')"><div class="dm-icon">₿</div><div class="dm-name">Bitcoin</div><div class="dm-min">Min $10</div></div>
-      <div class="dep-m" onclick="selDepMethod(this,'Visa/MC')"><div class="dm-icon">💳</div><div class="dm-name">Visa/MC</div><div class="dm-min">Min $20</div></div>
+<div class="pg" id="pg-deposit">
+  <div class="dep-sec">
+    <div class="sec-title">💳 Deposit</div>
+    <div class="dep-grid">
+      <div class="dep-m on" onclick="selDep(this,'bKash')"><div class="dep-m-ic">📱</div><div class="dep-m-nm">bKash</div><div class="dep-m-min">Min ৳200</div></div>
+      <div class="dep-m" onclick="selDep(this,'Nagad')"><div class="dep-m-ic">💚</div><div class="dep-m-nm">Nagad</div><div class="dep-m-min">Min ৳200</div></div>
+      <div class="dep-m" onclick="selDep(this,'Rocket')"><div class="dep-m-ic">🚀</div><div class="dep-m-nm">Rocket</div><div class="dep-m-min">Min ৳200</div></div>
+      <div class="dep-m" onclick="selDep(this,'USDT')"><div class="dep-m-ic">💎</div><div class="dep-m-nm">USDT</div><div class="dep-m-min">Min $5</div></div>
+      <div class="dep-m" onclick="selDep(this,'Bitcoin')"><div class="dep-m-ic">₿</div><div class="dep-m-nm">Bitcoin</div><div class="dep-m-min">Min $10</div></div>
+      <div class="dep-m" onclick="selDep(this,'Visa')"><div class="dep-m-ic">💳</div><div class="dep-m-nm">Visa/MC</div><div class="dep-m-min">Min $20</div></div>
     </div>
     <div class="dep-form">
-      <h3 id="dep-form-title">💳 Deposit via bKash</h3>
-      <div class="form-group">
-        <label id="dep-lbl1">Amount (৳)</label>
-        <input class="form-inp" type="number" id="dep-amount" placeholder="Enter amount">
+      <h3 id="dep-title">💳 Deposit via bKash</h3>
+      <div class="form-grp">
+        <label>Amount (৳)</label>
+        <input class="form-inp" type="number" id="dep-amt" placeholder="Enter amount">
         <div class="quick-amts">
-          <span class="qa" onclick="setDepAmt(500)">৳500</span>
-          <span class="qa" onclick="setDepAmt(1000)">৳1,000</span>
-          <span class="qa" onclick="setDepAmt(2000)">৳2,000</span>
-          <span class="qa" onclick="setDepAmt(5000)">৳5,000</span>
-          <span class="qa" onclick="setDepAmt(10000)">৳10,000</span>
+          <span class="qa" onclick="document.getElementById('dep-amt').value=500">৳500</span>
+          <span class="qa" onclick="document.getElementById('dep-amt').value=1000">৳1,000</span>
+          <span class="qa" onclick="document.getElementById('dep-amt').value=2000">৳2,000</span>
+          <span class="qa" onclick="document.getElementById('dep-amt').value=5000">৳5,000</span>
+          <span class="qa" onclick="document.getElementById('dep-amt').value=10000">৳10,000</span>
         </div>
       </div>
-      <div class="form-group">
-        <label id="dep-lbl2">Your bKash Number</label>
-        <input class="form-inp" type="text" id="dep-phone" placeholder="+880 1X XXXX XXXX">
+      <div class="form-grp">
+        <label id="dep-num-lbl">Your bKash Number</label>
+        <input class="form-inp" type="text" id="dep-num" placeholder="+880 1X XXXX XXXX">
       </div>
-      <div class="form-group" style="background:var(--blue2);border-radius:8px;padding:12px;border:1px solid var(--border)">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:4px" id="dep-inst-lbl">Instructions:</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.8" id="dep-instructions">1. Send money to: <strong style="color:var(--gold)">01XXXXXXXXXX</strong><br>2. Enter your bKash number above<br>3. Click Confirm Deposit</div>
+      <div class="dep-inst" id="dep-inst">
+        1. Send money to: <strong style="color:var(--gold)">01XXXXXXXXXX</strong><br>
+        2. Enter your bKash number above<br>
+        3. Click Confirm Deposit
       </div>
-      <button class="submit-btn" id="dep-submit-btn" onclick="submitDeposit()">✅ Confirm Deposit</button>
+      <button class="submit-btn" onclick="doDeposit()">✅ Confirm Deposit</button>
     </div>
   </div>
 </div>
 
 </div><!-- /main -->
 
-<!-- BETSLIP -->
-<div class="bs">
-  <div class="bs-hd">
-    <div class="bs-title" id="bs-t">🎯 Bet Slip</div>
-    <div class="bs-cnt" id="bs-cnt" style="display:none">0</div>
-  </div>
-  <div id="bs-items"><div class="bs-empty" id="bs-emp">No selections yet.<br>Click any odds to add.</div></div>
-  <div id="bs-bot" style="display:none;flex-direction:column;gap:8px">
-    <input class="bs-inp" id="bs-stake" type="number" placeholder="Stake ৳" oninput="calcBet()">
-    <div class="bs-info">
-      <div class="bsr"><span class="bsr-lbl" id="bs-tl">Total Odds</span><span class="bsr-val" id="bs-to">-</span></div>
-      <div class="bsr"><span class="bsr-lbl" id="bs-wl">Potential Win</span><span class="bsr-val" id="bs-pw">৳0.00</span></div>
-    </div>
-    <button class="bs-place" id="bs-pb" onclick="placeBet()">Place Bet</button>
-    <button class="bs-clr" id="bs-cb" onclick="clearBets()">Clear All</button>
-  </div>
-</div>
-</div><!-- /wrap -->
-
-<!-- MOBILE NAV -->
-<div class="mobnav">
-  <button class="mn on" onclick="goPage('home',this)"><span class="mn-ic">🏠</span><span id="mn-h">Home</span></button>
-  <button class="mn" onclick="goPage('sports',this)"><span class="mn-ic">⚽</span><span id="mn-s">Sports</span></button>
-  <button class="mn" onclick="goPage('live-casino',this)"><span class="mn-ic">🔴</span><span id="mn-l">Live</span></button>
-  <button class="mn" onclick="goPage('slots',this)"><span class="mn-ic">🎰</span><span id="mn-sl">Slots</span></button>
-  <button class="mn" onclick="goPage('promo',this)"><span class="mn-ic">🎁</span><span id="mn-p">Promo</span></button>
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="bn on" id="bn-home" onclick="showPg('home');setActive(this)"><span class="bn-ic">🏠</span><span id="bn1">Home</span></button>
+  <button class="bn" id="bn-sports" onclick="showPg('sports');setActive(this)"><span class="bn-ic">⚽</span><span id="bn2">Sports</span></button>
+  <button class="bn" id="bn-live" onclick="showPg('live-casino');setActive(this)"><span class="bn-ic">🔴</span><span id="bn3">Live</span></button>
+  <button class="bn" id="bn-slots" onclick="showPg('slots');setActive(this)"><span class="bn-ic">🎰</span><span id="bn4">Slots</span></button>
+  <button class="bn" id="bn-promo" onclick="showPg('promo');setActive(this)"><span class="bn-ic">🎁</span><span id="bn5">Promo</span></button>
 </div>
 
-<!-- LOGIN POPUP -->
-<div class="ov" id="login-ov" onclick="closeOvClick(event,'login-ov')">
-  <div class="pp" style="max-width:380px">
-    <button class="pp-x" onclick="closeOv('login-ov')">✕</button>
-    <div style="font-size:32px;text-align:center;margin-bottom:12px">🔐</div>
-    <div class="pp-name" id="lp-title">Welcome Back!</div>
-    <div class="pp-prov" id="lp-sub" style="margin-bottom:18px">Login to your NexaBet account</div>
-    <div class="form-group">
-      <label id="lp-l1">Username or Email</label>
-      <input class="form-inp" id="lp-user" type="text" placeholder="Enter username">
-    </div>
-    <div class="form-group">
-      <label id="lp-l2">Password</label>
-      <input class="form-inp" id="lp-pass" type="password" placeholder="Enter password">
-    </div>
-    <button class="pp-play" id="lp-btn" onclick="doLogin()">🔓 Login</button>
-    <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--muted)"><span id="lp-noacc">Don't have an account?</span> <a href="#" onclick="closeOv('login-ov');showRegPopup()" style="color:var(--gold);text-decoration:none;font-weight:700" id="lp-reg-link">Register</a></div>
+<!-- BET SLIP FLOAT BUTTON -->
+<button class="bs-float" id="bs-float" onclick="openOv('ov-betslip')">🎯 Bet Slip (<span id="bs-cnt">0</span>)</button>
+
+<!-- ======= OVERLAYS ======= -->
+
+<!-- LOGIN -->
+<div class="ov" id="ov-login" onclick="bgClose(event,'ov-login')">
+  <div class="popup">
+    <button class="popup-x" onclick="closeOv('ov-login')">✕</button>
+    <div class="popup-em">🔐</div>
+    <div class="popup-title">Welcome Back!</div>
+    <div class="popup-sub">Login to NexaBet</div>
+    <div class="form-grp"><label>Username or Email</label><input class="form-inp" id="l-user" type="text" placeholder="Enter username"></div>
+    <div class="form-grp"><label>Password</label><input class="form-inp" id="l-pass" type="password" placeholder="Enter password"></div>
+    <button class="popup-btn" onclick="doLogin()">🔓 Login</button>
+    <div class="popup-link">No account? <a onclick="closeOv('ov-login');openOv('ov-reg')">Register Free</a></div>
   </div>
 </div>
 
-<!-- REGISTER POPUP -->
-<div class="ov" id="reg-ov" onclick="closeOvClick(event,'reg-ov')">
-  <div class="pp" style="max-width:400px">
-    <button class="pp-x" onclick="closeOv('reg-ov')">✕</button>
-    <div style="font-size:32px;text-align:center;margin-bottom:12px">🚀</div>
-    <div class="pp-name" id="rp-title">Create Account</div>
-    <div class="pp-prov" id="rp-sub" style="margin-bottom:18px">Join NexaBet today — It's free!</div>
-    <div class="form-group">
-      <label id="rp-l1">Username</label>
-      <input class="form-inp" id="rp-user" type="text" placeholder="Choose a username">
-    </div>
-    <div class="form-group">
-      <label id="rp-l2">Email</label>
-      <input class="form-inp" id="rp-email" type="email" placeholder="your@email.com">
-    </div>
-    <div class="form-group">
-      <label id="rp-l3">Password</label>
-      <input class="form-inp" id="rp-pass" type="password" placeholder="Min 8 characters">
-    </div>
-    <div class="form-group">
-      <label id="rp-l4">Phone Number</label>
-      <input class="form-inp" id="rp-phone" type="tel" placeholder="+1 XXX XXX XXXX">
-    </div>
-    <button class="pp-play" id="rp-btn" onclick="doRegister()">✅ Create Account</button>
-    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted)" id="rp-terms">By registering you agree to our Terms & Conditions. 18+ only.</div>
+<!-- REGISTER -->
+<div class="ov" id="ov-reg" onclick="bgClose(event,'ov-reg')">
+  <div class="popup">
+    <button class="popup-x" onclick="closeOv('ov-reg')">✕</button>
+    <div class="popup-em">🚀</div>
+    <div class="popup-title">Create Account</div>
+    <div class="popup-sub">Join NexaBet — It's Free!</div>
+    <div class="form-grp"><label>Username</label><input class="form-inp" id="r-user" type="text" placeholder="Choose a username"></div>
+    <div class="form-grp"><label>Email</label><input class="form-inp" id="r-email" type="email" placeholder="your@email.com"></div>
+    <div class="form-grp"><label>Password</label><input class="form-inp" id="r-pass" type="password" placeholder="Min 8 characters"></div>
+    <div class="form-grp"><label>Phone</label><input class="form-inp" id="r-phone" type="tel" placeholder="+1 XXX XXX XXXX"></div>
+    <button class="popup-btn" onclick="doRegister()">✅ Create Account</button>
+    <div class="popup-link" style="font-size:11px;color:#aaa;text-align:center">By registering you agree to our Terms. 18+ only.</div>
   </div>
 </div>
 
 <!-- GAME POPUP -->
-<div class="ov" id="game-ov" onclick="closeOvClick(event,'game-ov')">
-  <div class="pp">
-    <button class="pp-x" onclick="closeOv('game-ov')">✕</button>
-    <div class="pp-em" id="pp-em">🎰</div>
-    <div class="pp-name" id="pp-nm">Game</div>
-    <div class="pp-prov" id="pp-pv">Provider</div>
-    <div class="pp-rtp">
-      <div class="pp-tag">RTP: <span id="pp-rtp">96.5%</span></div>
-      <div class="pp-tag">Volatility: <span id="pp-vol">Medium</span></div>
-      <div class="pp-tag">Min Bet: <span id="pp-min">৳10</span></div>
+<div class="ov" id="ov-game" onclick="bgClose(event,'ov-game')">
+  <div class="popup">
+    <button class="popup-x" onclick="closeOv('ov-game')">✕</button>
+    <div class="popup-em" id="g-em">🎰</div>
+    <div class="popup-title" id="g-name">Game</div>
+    <div class="popup-sub" id="g-prov">Provider</div>
+    <div class="popup-tags">
+      <div class="popup-tag">RTP: <span id="g-rtp">96%</span></div>
+      <div class="popup-tag">Vol: <span id="g-vol">Medium</span></div>
+      <div class="popup-tag">Min: <span>৳10</span></div>
     </div>
-    <div class="pp-desc" id="pp-dc"></div>
-    <button class="pp-play" id="pp-pl" onclick="playGame()">🎮 Play Now</button>
-    <button class="pp-demo" id="pp-dm" onclick="closeOv('game-ov')">Try Demo (Free)</button>
+    <div class="popup-desc" id="g-desc"></div>
+    <button class="popup-btn" id="g-play" onclick="playGame()">🎮 Play Now</button>
+    <button class="popup-demo" id="g-demo" onclick="closeOv('ov-game')">Try Demo (Free)</button>
   </div>
 </div>
 
-<!-- ALERT POPUP -->
-<div class="ov" id="alert-ov" onclick="closeOvClick(event,'alert-ov')">
-  <div class="pp" style="max-width:320px;text-align:center">
-    <button class="pp-x" onclick="closeOv('alert-ov')">✕</button>
-    <div class="pp-em" id="al-em">✅</div>
-    <div class="pp-name" id="al-title">Success</div>
-    <div class="pp-desc" id="al-msg" style="text-align:center"></div>
-    <button class="pp-play" onclick="closeOv('alert-ov')" id="al-btn">OK</button>
+<!-- BETSLIP -->
+<div class="ov" id="ov-betslip" onclick="bgClose(event,'ov-betslip')">
+  <div class="popup">
+    <button class="popup-x" onclick="closeOv('ov-betslip')">✕</button>
+    <div class="popup-title" style="text-align:left;margin-bottom:14px;color:var(--gold)">🎯 Bet Slip</div>
+    <div id="bs-items"><div style="color:#aaa;text-align:center;padding:20px;font-size:13px">No selections yet.<br>Tap any odds to add.</div></div>
+    <div id="bs-bot" style="display:none;flex-direction:column;gap:10px;margin-top:10px">
+      <input class="form-inp" id="bs-stake" type="number" placeholder="Stake ৳" oninput="calcBet()">
+      <div style="background:#0d1b3e;border-radius:8px;padding:10px 12px;border:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:#aaa">Total Odds</span><span style="color:var(--gold);font-weight:800" id="bs-to">-</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#aaa">Potential Win</span><span style="color:var(--gold);font-weight:800" id="bs-pw">৳0</span></div>
+      </div>
+      <button class="popup-btn" style="margin:0" onclick="placeBet()">Place Bet</button>
+      <button class="popup-demo" onclick="clearBets();closeOv('ov-betslip')">Clear All</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="ov" id="ov-alert">
+  <div class="alert-box">
+    <div class="alert-em" id="al-em">✅</div>
+    <div class="alert-title" id="al-title">Success</div>
+    <div class="alert-msg" id="al-msg"></div>
+    <button class="alert-ok" onclick="closeOv('ov-alert')">OK</button>
   </div>
 </div>
 
 <script>
-// ==================== ALL DATA ====================
-
-const SPORTS = {
-  cricket:{icon:'🏏',name:{en:'Cricket',bn:'ক্রিকেট'},hasLive:true,
-    leagues:['All','IPL','T20 World Cup','The Ashes','PSL','BBL','CPL','SA20'],
+// ========== ALL DATA ==========
+const SPORTS_DATA = {
+  cricket:{icon:'🏏',name:{en:'Cricket',bn:'ক্রিকেট'},live:true,
+    leagues:['All','IPL','T20 World Cup','The Ashes','PSL','BBL','CPL'],
     matches:[
       {lg:'IPL 2025',live:1,tm:'32.4 Ov',t1:'Mumbai Indians',t2:'Chennai SK',s1:'142/4',s2:'98/7',o:[{l:'MI Win',v:1.85},{l:'CSK Win',v:2.05}]},
       {lg:'IPL 2025',live:1,tm:'18.2 Ov',t1:'RCB',t2:'KKR',s1:'98/3',s2:'',o:[{l:'RCB',v:1.70},{l:'KKR',v:2.20}]},
       {lg:'IPL 2025',live:0,tm:'Today 19:30',t1:'GT',t2:'DC',s1:'',s2:'',o:[{l:'GT',v:1.75},{l:'DC',v:2.10}]},
-      {lg:'IPL 2025',live:0,tm:'Jun 3 15:30',t1:'SRH',t2:'PBKS',s1:'',s2:'',o:[{l:'SRH',v:1.90},{l:'PBKS',v:1.95}]},
       {lg:'T20 World Cup',live:0,tm:'Jun 3 14:00',t1:'India',t2:'Pakistan',s1:'',s2:'',o:[{l:'India',v:1.60},{l:'Draw',v:18.0},{l:'Pakistan',v:2.40}]},
-      {lg:'T20 World Cup',live:0,tm:'Jun 4 10:00',t1:'Australia',t2:'England',s1:'',s2:'',o:[{l:'Australia',v:1.80},{l:'England',v:2.00}]},
-      {lg:'The Ashes',live:0,tm:'Jun 5 09:00',t1:'England',t2:'Australia',s1:'',s2:'',o:[{l:'England',v:2.10},{l:'Draw',v:2.80},{l:'Australia',v:2.50}]},
+      {lg:'The Ashes',live:0,tm:'Jun 5',t1:'England',t2:'Australia',s1:'',s2:'',o:[{l:'England',v:2.10},{l:'Draw',v:2.80},{l:'Australia',v:2.50}]},
       {lg:'PSL',live:1,tm:'14.0 Ov',t1:'Karachi Kings',t2:'Lahore Qalandars',s1:'76/2',s2:'',o:[{l:'Karachi',v:2.00},{l:'Lahore',v:1.85}]},
     ]},
-  football:{icon:'⚽',name:{en:'Football',bn:'ফুটবল'},hasLive:true,
-    leagues:['All','Champions League','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','World Cup','Copa America','MLS'],
+  football:{icon:'⚽',name:{en:'Football',bn:'ফুটবল'},live:true,
+    leagues:['All','Champions League','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','World Cup','MLS'],
     matches:[
       {lg:'Champions League',live:1,tm:"58'",t1:'Man City',t2:'Real Madrid',s1:'1',s2:'1',o:[{l:'Man City',v:2.10},{l:'Draw',v:3.40},{l:'Real Madrid',v:3.20}]},
       {lg:'La Liga',live:1,tm:"67'",t1:'Barcelona',t2:'Atletico',s1:'2',s2:'1',o:[{l:'Barca',v:1.65},{l:'Draw',v:4.20},{l:'Atletico',v:5.50}]},
-      {lg:'Bundesliga',live:1,tm:"44'",t1:'Bayern Munich',t2:'Dortmund',s1:'3',s2:'0',o:[{l:'Bayern',v:1.25},{l:'Draw',v:7.00},{l:'Dortmund',v:10.0}]},
       {lg:'Premier League',live:0,tm:'Today 19:00',t1:'Arsenal',t2:'Liverpool',s1:'',s2:'',o:[{l:'Arsenal',v:2.30},{l:'Draw',v:3.10},{l:'Liverpool',v:2.80}]},
       {lg:'Premier League',live:0,tm:'Today 21:00',t1:'Chelsea',t2:'Tottenham',s1:'',s2:'',o:[{l:'Chelsea',v:2.00},{l:'Draw',v:3.20},{l:'Spurs',v:3.50}]},
-      {lg:'Serie A',live:0,tm:'Tonight 21:00',t1:'Inter Milan',t2:'Juventus',s1:'',s2:'',o:[{l:'Inter',v:1.90},{l:'Draw',v:3.50},{l:'Juventus',v:3.80}]},
-      {lg:'Ligue 1',live:0,tm:'Tonight 20:00',t1:'PSG',t2:'Marseille',s1:'',s2:'',o:[{l:'PSG',v:1.40},{l:'Draw',v:4.50},{l:'Marseille',v:6.00}]},
+      {lg:'Bundesliga',live:1,tm:"44'",t1:'Bayern',t2:'Dortmund',s1:'3',s2:'0',o:[{l:'Bayern',v:1.25},{l:'Draw',v:7.00},{l:'Dortmund',v:10.0}]},
       {lg:'World Cup',live:0,tm:'Jun 3 16:00',t1:'Brazil',t2:'Argentina',s1:'',s2:'',o:[{l:'Brazil',v:2.00},{l:'Draw',v:3.20},{l:'Argentina',v:2.10}]},
-      {lg:'MLS',live:0,tm:'Today 23:00',t1:'LA Galaxy',t2:'NYCFC',s1:'',s2:'',o:[{l:'Galaxy',v:1.90},{l:'Draw',v:3.30},{l:'NYCFC',v:3.60}]},
     ]},
-  basketball:{icon:'🏀',name:{en:'Basketball',bn:'বাস্কেটবল'},hasLive:true,leagues:['All','NBA','EuroLeague','NBL','FIBA'],
+  basketball:{icon:'🏀',name:{en:'Basketball',bn:'বাস্কেটবল'},live:true,
+    leagues:['All','NBA','EuroLeague','FIBA'],
     matches:[
-      {lg:'NBA Finals',live:1,tm:'Q3 7:24',t1:'Lakers',t2:'Warriors',s1:'78',s2:'82',o:[{l:'Lakers',v:2.40},{l:'Warriors',v:1.60}]},
+      {lg:'NBA Finals',live:1,tm:'Q3',t1:'Lakers',t2:'Warriors',s1:'78',s2:'82',o:[{l:'Lakers',v:2.40},{l:'Warriors',v:1.60}]},
       {lg:'NBA',live:0,tm:'Today 22:00',t1:'Celtics',t2:'Heat',s1:'',s2:'',o:[{l:'Celtics',v:1.75},{l:'Heat',v:2.10}]},
-      {lg:'NBA',live:0,tm:'Today 01:00',t1:'Bulls',t2:'Knicks',s1:'',s2:'',o:[{l:'Bulls',v:2.20},{l:'Knicks',v:1.70}]},
-      {lg:'EuroLeague',live:1,tm:'Q4 2:10',t1:'Real Madrid',t2:'CSKA',s1:'71',s2:'68',o:[{l:'Real Madrid',v:1.50},{l:'CSKA',v:2.60}]},
     ]},
-  tennis:{icon:'🎾',name:{en:'Tennis',bn:'টেনিস'},hasLive:true,leagues:['All','Wimbledon','US Open','French Open','Australian Open','ATP','WTA'],
+  tennis:{icon:'🎾',name:{en:'Tennis',bn:'টেনিস'},live:true,
+    leagues:['All','Wimbledon','US Open','French Open','ATP','WTA'],
     matches:[
-      {lg:'Wimbledon',live:1,tm:'Set 2',t1:'Djokovic',t2:'Alcaraz',s1:'6-4, 3',s2:'',o:[{l:'Djokovic',v:1.80},{l:'Alcaraz',v:2.00}]},
-      {lg:'French Open',live:0,tm:'Tomorrow 11:00',t1:'Sinner',t2:'Medvedev',s1:'',s2:'',o:[{l:'Sinner',v:1.60},{l:'Medvedev',v:2.30}]},
-      {lg:'WTA',live:1,tm:'Set 1',t1:'Swiatek',t2:'Sabalenka',s1:'4-3',s2:'',o:[{l:'Swiatek',v:1.70},{l:'Sabalenka',v:2.10}]},
-      {lg:'ATP',live:0,tm:'Today 14:00',t1:'Zverev',t2:'Rublev',s1:'',s2:'',o:[{l:'Zverev',v:1.90},{l:'Rublev',v:1.95}]},
+      {lg:'Wimbledon',live:1,tm:'Set 2',t1:'Djokovic',t2:'Alcaraz',s1:'6-4,3',s2:'',o:[{l:'Djokovic',v:1.80},{l:'Alcaraz',v:2.00}]},
+      {lg:'French Open',live:0,tm:'Tomorrow',t1:'Sinner',t2:'Medvedev',s1:'',s2:'',o:[{l:'Sinner',v:1.60},{l:'Medvedev',v:2.30}]},
     ]},
-  baseball:{icon:'⚾',name:{en:'Baseball',bn:'বেসবল'},hasLive:true,leagues:['All','MLB','NPB','KBO'],
+  baseball:{icon:'⚾',name:{en:'Baseball',bn:'বেসবল'},live:true,
+    leagues:['All','MLB','NPB','KBO'],
     matches:[
       {lg:'MLB',live:1,tm:'7th Inn',t1:'Yankees',t2:'Red Sox',s1:'4',s2:'3',o:[{l:'Yankees',v:1.80},{l:'Red Sox',v:2.05}]},
-      {lg:'MLB',live:0,tm:'Today 23:00',t1:'Dodgers',t2:'Giants',s1:'',s2:'',o:[{l:'Dodgers',v:1.65},{l:'Giants',v:2.25}]},
     ]},
-  hockey:{icon:'🏒',name:{en:'Hockey',bn:'হকি'},hasLive:true,leagues:['All','NHL','KHL','SHL'],
+  hockey:{icon:'🏒',name:{en:'Hockey',bn:'হকি'},live:true,
+    leagues:['All','NHL','KHL'],
     matches:[
-      {lg:'NHL Playoffs',live:1,tm:'P2 12:44',t1:'Maple Leafs',t2:'Bruins',s1:'2',s2:'1',o:[{l:'Maple Leafs',v:1.90},{l:'Bruins',v:1.95}]},
-      {lg:'NHL',live:0,tm:'Tomorrow 02:00',t1:'Rangers',t2:'Penguins',s1:'',s2:'',o:[{l:'Rangers',v:2.00},{l:'Penguins',v:1.85}]},
+      {lg:'NHL Playoffs',live:1,tm:'P2',t1:'Maple Leafs',t2:'Bruins',s1:'2',s2:'1',o:[{l:'Maple Leafs',v:1.90},{l:'Bruins',v:1.95}]},
     ]},
-  volleyball:{icon:'🏐',name:{en:'Volleyball',bn:'ভলিবল'},hasLive:false,leagues:['All','FIVB VNL','CEV Champions League'],
+  boxing:{icon:'🥊',name:{en:'Boxing/MMA',bn:'বক্সিং'},live:false,
+    leagues:['All','UFC','ONE Championship','WBC'],
     matches:[
-      {lg:'FIVB VNL',live:1,tm:'Set 3',t1:'Brazil',t2:'Poland',s1:'2-0',s2:'',o:[{l:'Brazil',v:1.55},{l:'Poland',v:2.40}]},
+      {lg:'UFC 310',live:0,tm:'Jun 7',t1:'Jon Jones',t2:'Stipe Miocic',s1:'',s2:'',o:[{l:'Jones Win',v:1.45},{l:'Miocic Win',v:2.75}]},
+      {lg:'WBC Boxing',live:0,tm:'Jun 8',t1:'Fury',t2:'Usyk',s1:'',s2:'',o:[{l:'Fury',v:2.10},{l:'Usyk',v:1.75}]},
     ]},
-  boxing:{icon:'🥊',name:{en:'Boxing/MMA',bn:'বক্সিং'},hasLive:false,leagues:['All','UFC','ONE Championship','Bellator','WBC','IBF'],
-    matches:[
-      {lg:'UFC 310',live:0,tm:'Jun 7 06:00',t1:'Jon Jones',t2:'Stipe Miocic',s1:'',s2:'',o:[{l:'Jones Win',v:1.45},{l:'Miocic Win',v:2.75}]},
-      {lg:'WBC Boxing',live:0,tm:'Jun 8 03:00',t1:'Fury',t2:'Usyk',s1:'',s2:'',o:[{l:'Fury',v:2.10},{l:'Usyk',v:1.75}]},
-    ]},
-  esports:{icon:'🎮',name:{en:'Esports',bn:'ই-স্পোর্টস'},hasLive:true,leagues:['All','CS2 Major','Dota 2 TI','LOL Worlds','Valorant','PUBG','Mobile Legends'],
+  esports:{icon:'🎮',name:{en:'Esports',bn:'ই-স্পোর্টস'},live:true,
+    leagues:['All','CS2 Major','Dota 2 TI','LOL Worlds','Valorant'],
     matches:[
       {lg:'CS2 Major',live:1,tm:'Map 2',t1:'NaVi',t2:'Astralis',s1:'1-0',s2:'',o:[{l:'NaVi',v:1.65},{l:'Astralis',v:2.25}]},
-      {lg:'Dota 2 TI',live:0,tm:'Today 17:00',t1:'Team Spirit',t2:'OG',s1:'',s2:'',o:[{l:'Spirit',v:1.80},{l:'OG',v:2.05}]},
-      {lg:'LOL Worlds',live:0,tm:'Tomorrow 12:00',t1:'T1',t2:'G2',s1:'',s2:'',o:[{l:'T1',v:1.55},{l:'G2',v:2.40}]},
+      {lg:'Dota 2 TI',live:0,tm:'Today',t1:'Team Spirit',t2:'OG',s1:'',s2:'',o:[{l:'Spirit',v:1.80},{l:'OG',v:2.05}]},
     ]},
-  golf:{icon:'⛳',name:{en:'Golf',bn:'গলফ'},hasLive:false,leagues:['All','PGA Tour','The Masters','US Open Golf','The Open'],
-    matches:[
-      {lg:'PGA Tour',live:0,tm:'Jun 5-8',t1:'Scottie Scheffler',t2:'',s1:'',s2:'',o:[{l:'Scheffler',v:3.50},{l:'McIlroy',v:5.00},{l:'Rahm',v:7.00}]},
-    ]},
-  rugby:{icon:'🏉',name:{en:'Rugby',bn:'রাগবি'},hasLive:false,leagues:['All','Six Nations','World Cup','Super Rugby'],
-    matches:[
-      {lg:'Six Nations',live:0,tm:'Today 15:00',t1:'England',t2:'France',s1:'',s2:'',o:[{l:'England',v:2.20},{l:'Draw',v:10.0},{l:'France',v:1.70}]},
-    ]},
-  handball:{icon:'🤾',name:{en:'Handball',bn:'হ্যান্ডবল'},hasLive:false,leagues:['All','EHF Champions League','IHF World Championship'],
-    matches:[{lg:'EHF CL',live:0,tm:'Today 18:00',t1:'Kiel',t2:'Barcelona',s1:'',s2:'',o:[{l:'Kiel',v:2.30},{l:'Draw',v:8.00},{l:'Barcelona',v:1.65}]}]},
-  darts:{icon:'🎯',name:{en:'Darts',bn:'ডার্টস'},hasLive:false,leagues:['All','PDC World Championship','Premier League Darts'],
-    matches:[{lg:'PDC Premier League',live:0,tm:'Tonight 19:00',t1:'van Gerwen',t2:'Peter Wright',s1:'',s2:'',o:[{l:'van Gerwen',v:1.50},{l:'Wright',v:2.60}]}]},
-  snooker:{icon:'🎱',name:{en:'Snooker',bn:'স্নুকার'},hasLive:true,leagues:['All','World Championship','UK Championship','Masters'],
-    matches:[{lg:'World Championship',live:1,tm:'Frame 18',t1:"O'Sullivan",t2:'Judd Trump',s1:'10',s2:'8',o:[{l:"O'Sullivan",v:1.70},{l:'Trump',v:2.15}]}]},
-  formula1:{icon:'🏎️',name:{en:'Formula 1',bn:'ফর্মুলা ১'},hasLive:false,leagues:['All','F1 2025'],
-    matches:[{lg:'F1 2025',live:0,tm:'Jun 8 15:00',t1:'Monaco GP — Top Picks',t2:'',s1:'',s2:'',o:[{l:'Verstappen',v:1.80},{l:'Hamilton',v:4.00},{l:'Leclerc',v:5.00}]}]},
-  cycling:{icon:'🚴',name:{en:'Cycling',bn:'সাইক্লিং'},hasLive:false,leagues:['All','Tour de France','Giro d\'Italia'],
-    matches:[{lg:'Tour de France',live:0,tm:'Jul 1-21',t1:'Stage Winner Picks',t2:'',s1:'',s2:'',o:[{l:'Vingegaard',v:2.20},{l:'Pogacar',v:1.90}]}]},
+  golf:{icon:'⛳',name:{en:'Golf',bn:'গলফ'},live:false,
+    leagues:['All','PGA Tour','The Masters'],
+    matches:[{lg:'PGA Tour',live:0,tm:'Jun 5-8',t1:'Scheffler',t2:'',s1:'',s2:'',o:[{l:'Scheffler',v:3.50},{l:'McIlroy',v:5.00},{l:'Rahm',v:7.00}]}]},
+  rugby:{icon:'🏉',name:{en:'Rugby',bn:'রাগবি'},live:false,
+    leagues:['All','Six Nations','Super Rugby'],
+    matches:[{lg:'Six Nations',live:0,tm:'Today',t1:'England',t2:'France',s1:'',s2:'',o:[{l:'England',v:2.20},{l:'Draw',v:10.0},{l:'France',v:1.70}]}]},
+  volleyball:{icon:'🏐',name:{en:'Volleyball',bn:'ভলিবল'},live:true,
+    leagues:['All','FIVB VNL','CEV CL'],
+    matches:[{lg:'FIVB VNL',live:1,tm:'Set 3',t1:'Brazil',t2:'Poland',s1:'2-0',s2:'',o:[{l:'Brazil',v:1.55},{l:'Poland',v:2.40}]}]},
+  handball:{icon:'🤾',name:{en:'Handball',bn:'হ্যান্ডবল'},live:false,
+    leagues:['All','EHF CL'],
+    matches:[{lg:'EHF CL',live:0,tm:'Today',t1:'Kiel',t2:'Barcelona',s1:'',s2:'',o:[{l:'Kiel',v:2.30},{l:'Draw',v:8.00},{l:'Barcelona',v:1.65}]}]},
+  darts:{icon:'🎯',name:{en:'Darts',bn:'ডার্টস'},live:false,
+    leagues:['All','PDC'],
+    matches:[{lg:'PDC',live:0,tm:'Tonight',t1:'van Gerwen',t2:'Wright',s1:'',s2:'',o:[{l:'van Gerwen',v:1.50},{l:'Wright',v:2.60}]}]},
+  snooker:{icon:'🎱',name:{en:'Snooker',bn:'স্নুকার'},live:true,
+    leagues:['All','World Championship'],
+    matches:[{lg:'World Championship',live:1,tm:'Frame 18',t1:"O'Sullivan",t2:'Trump',s1:'10',s2:'8',o:[{l:"O'Sullivan",v:1.70},{l:'Trump',v:2.15}]}]},
+  formula1:{icon:'🏎️',name:{en:'Formula 1',bn:'F1'},live:false,
+    leagues:['All','F1 2025'],
+    matches:[{lg:'F1 2025',live:0,tm:'Jun 8',t1:'Monaco GP',t2:'',s1:'',s2:'',o:[{l:'Verstappen',v:1.80},{l:'Hamilton',v:4.00},{l:'Leclerc',v:5.00}]}]},
 };
 
-const LC_PVRS=['All','Evolution','Pragmatic Live','Ezugi','SA Gaming','Asia Gaming','Vivo Gaming','Playtech Live','Microgaming Live','BetGames','TVBet','OneTouch','Authentic Gaming','Bombay Live'];
+const LC_PVRS=['All','Evolution','Pragmatic Live','Ezugi','SA Gaming','Asia Gaming','Vivo Gaming','Playtech Live','Microgaming Live','BetGames','TVBet','OneTouch','Authentic Gaming'];
 const LC_GAMES=[
-  {e:'⚡',n:'Lightning Baccarat',p:'Evolution',b:'gh',bg:'#0a1a2e',rtp:'98.76%',vol:'Low'},{e:'🎡',n:'Immersive Roulette',p:'Evolution',b:'gl',bg:'#1a0a2e',rtp:'97.30%',vol:'Low'},
-  {e:'🃟',n:'Infinite Blackjack',p:'Evolution',b:'gh',bg:'#0a2e1a',rtp:'99.51%',vol:'Low'},{e:'🐉',n:'Dragon Tiger',p:'Evolution',b:'gl',bg:'#2e0a0a',rtp:'96.72%',vol:'Low'},
-  {e:'🎪',n:'Crazy Time',p:'Evolution',b:'gh',bg:'#2e2e0a',rtp:'96.08%',vol:'High'},{e:'🎠',n:'Dream Catcher',p:'Evolution',b:'gh',bg:'#0a2e2e',rtp:'96.58%',vol:'Medium'},
-  {e:'💰',n:'Monopoly Live',p:'Evolution',b:'gn2',bg:'#2e0a2e',rtp:'96.23%',vol:'High'},{e:'🎲',n:'Craps Live',p:'Evolution',b:'gn2',bg:'#1a2e0a',rtp:'98.36%',vol:'Low'},
-  {e:'🎯',n:'Deal or No Deal',p:'Evolution',b:'gh',bg:'#1a1a2e',rtp:'95.42%',vol:'High'},{e:'🏆',n:'Side Bet City',p:'Evolution',b:'',bg:'#2e1a1a',rtp:'98.39%',vol:'Medium'},
-  {e:'🃏',n:'Speed Baccarat',p:'Pragmatic Live',b:'gh',bg:'#0a1a3e',rtp:'98.76%',vol:'Low'},{e:'🎡',n:'Mega Roulette',p:'Pragmatic Live',b:'gn2',bg:'#2e1a0a',rtp:'97.30%',vol:'Low'},
-  {e:'🃟',n:'One Blackjack',p:'Pragmatic Live',b:'',bg:'#0a2e2e',rtp:'99.51%',vol:'Low'},{e:'🐮',n:'Sic Bo Deluxe',p:'Pragmatic Live',b:'gn2',bg:'#1a0a1a',rtp:'97.22%',vol:'Medium'},
-  {e:'🎴',n:'Teen Patti Live',p:'Ezugi',b:'gh',bg:'#1a0a2e',rtp:'96.50%',vol:'Medium'},{e:'🃠',n:'Andar Bahar Live',p:'Ezugi',b:'gl',bg:'#2e0a1a',rtp:'97.85%',vol:'Low'},
-  {e:'🎲',n:'32 Cards Live',p:'Ezugi',b:'',bg:'#0a2e0a',rtp:'97.12%',vol:'Low'},{e:'🃏',n:'Baccarat Classic',p:'SA Gaming',b:'',bg:'#1a1a0a',rtp:'98.76%',vol:'Low'},
-  {e:'🎡',n:'Roulette Deluxe',p:'SA Gaming',b:'gn2',bg:'#0a0a2e',rtp:'97.30%',vol:'Low'},{e:'🃏',n:'All Stars Baccarat',p:'Asia Gaming',b:'gh',bg:'#1a0a0a',rtp:'98.76%',vol:'Low'},
-  {e:'🎰',n:'Wheel of Fortune',p:'Vivo Gaming',b:'gl',bg:'#2e2e0a',rtp:'96.40%',vol:'Medium'},{e:'🃟',n:'Blackjack Platinum',p:'Playtech Live',b:'',bg:'#0a1a1a',rtp:'99.51%',vol:'Low'},
-  {e:'🎲',n:'Dice Live',p:'BetGames',b:'gn2',bg:'#2e0a2e',rtp:'97.00%',vol:'Medium'},{e:'🏆',n:'War of Bets',p:'TVBet',b:'',bg:'#0a2e1a',rtp:'96.80%',vol:'Medium'},
-  {e:'🃏',n:'Punto Banco',p:'Microgaming Live',b:'gn2',bg:'#1a0a1a',rtp:'98.76%',vol:'Low'},{e:'🎡',n:'VIP Roulette',p:'OneTouch',b:'gh',bg:'#2e1a2e',rtp:'97.30%',vol:'Low'},
-  {e:'🃟',n:'Premium Blackjack',p:'Authentic Gaming',b:'gn2',bg:'#0a1a2e',rtp:'99.51%',vol:'Low'},{e:'🎪',n:'Live Keno',p:'TVBet',b:'',bg:'#1a2e0a',rtp:'95.00%',vol:'High'},
-  {e:'🐯',n:'Tiger Rush',p:'Bombay Live',b:'gn2',bg:'#2e0a0a',rtp:'96.50%',vol:'Medium'},{e:'🎴',n:'Andar Bahar Plus',p:'Bombay Live',b:'gh',bg:'#0a2e1a',rtp:'97.50%',vol:'Low'},
+  {e:'⚡',n:'Lightning Baccarat',p:'Evolution',b:'g-hot',bg:'#0a1a2e',rtp:'98.76%',vol:'Low'},
+  {e:'🎡',n:'Immersive Roulette',p:'Evolution',b:'g-live',bg:'#1a0a2e',rtp:'97.30%',vol:'Low'},
+  {e:'🃟',n:'Infinite Blackjack',p:'Evolution',b:'g-hot',bg:'#0a2e1a',rtp:'99.51%',vol:'Low'},
+  {e:'🐉',n:'Dragon Tiger',p:'Evolution',b:'g-live',bg:'#2e0a0a',rtp:'96.72%',vol:'Low'},
+  {e:'🎪',n:'Crazy Time',p:'Evolution',b:'g-hot',bg:'#2e2e0a',rtp:'96.08%',vol:'High'},
+  {e:'🎠',n:'Dream Catcher',p:'Evolution',b:'g-hot',bg:'#0a2e2e',rtp:'96.58%',vol:'Medium'},
+  {e:'💰',n:'Monopoly Live',p:'Evolution',b:'g-new',bg:'#2e0a2e',rtp:'96.23%',vol:'High'},
+  {e:'🎲',n:'Craps Live',p:'Evolution',b:'g-new',bg:'#1a2e0a',rtp:'98.36%',vol:'Low'},
+  {e:'🃏',n:'Speed Baccarat',p:'Pragmatic Live',b:'g-hot',bg:'#0a1a3e',rtp:'98.76%',vol:'Low'},
+  {e:'🎡',n:'Mega Roulette',p:'Pragmatic Live',b:'g-new',bg:'#2e1a0a',rtp:'97.30%',vol:'Low'},
+  {e:'🎴',n:'Teen Patti Live',p:'Ezugi',b:'g-hot',bg:'#1a0a2e',rtp:'96.50%',vol:'Medium'},
+  {e:'🃠',n:'Andar Bahar Live',p:'Ezugi',b:'g-live',bg:'#2e0a1a',rtp:'97.85%',vol:'Low'},
+  {e:'🎲',n:'32 Cards Live',p:'Ezugi',b:'',bg:'#0a2e0a',rtp:'97.12%',vol:'Low'},
+  {e:'🃏',n:'Baccarat Classic',p:'SA Gaming',b:'',bg:'#1a1a0a',rtp:'98.76%',vol:'Low'},
+  {e:'🎡',n:'Roulette Deluxe',p:'SA Gaming',b:'g-new',bg:'#0a0a2e',rtp:'97.30%',vol:'Low'},
+  {e:'🃏',n:'All Stars Baccarat',p:'Asia Gaming',b:'g-hot',bg:'#1a0a0a',rtp:'98.76%',vol:'Low'},
+  {e:'🎰',n:'Wheel of Fortune',p:'Vivo Gaming',b:'g-live',bg:'#2e2e0a',rtp:'96.40%',vol:'Medium'},
+  {e:'🃟',n:'Blackjack Platinum',p:'Playtech Live',b:'',bg:'#0a1a1a',rtp:'99.51%',vol:'Low'},
+  {e:'🎲',n:'Dice Live',p:'BetGames',b:'g-new',bg:'#2e0a2e',rtp:'97.00%',vol:'Medium'},
+  {e:'🎡',n:'VIP Roulette',p:'OneTouch',b:'g-hot',bg:'#2e1a2e',rtp:'97.30%',vol:'Low'},
+  {e:'🃟',n:'Premium Blackjack',p:'Authentic Gaming',b:'g-new',bg:'#0a1a2e',rtp:'99.51%',vol:'Low'},
+  {e:'🃏',n:'Punto Banco',p:'Microgaming Live',b:'',bg:'#1a0a1a',rtp:'98.76%',vol:'Low'},
 ];
 
-const SL_PVRS=['All','JILI','JDB','PG Soft','Pragmatic Play','Netent','Habanero','Hacksaw','Microgaming','Playtech','Yggdrasil','Nolimit City','Relax Gaming','ELK Studios','Push Gaming','Blueprint','iSoftBet','Thunderkick','Quickspin','Red Tiger','BGaming','Kalamba','Wazdan','Booming','Endorphina','Betsoft','Spinomenal','GameArt','Spadegaming','CQ9'];
+const SL_PVRS=['All','JILI','JDB','PG Soft','Pragmatic Play','Netent','Habanero','Hacksaw','Microgaming','Playtech','Yggdrasil','Nolimit City','Relax Gaming','ELK Studios','Push Gaming','iSoftBet','Thunderkick','Quickspin','Red Tiger','BGaming','Wazdan','Booming','Endorphina','Betsoft','Spadegaming','CQ9','GameArt','Kalamba','Blueprint','Spinomenal'];
 const SL_GAMES=[
-  {e:'💵',n:'Money Coming',p:'JILI',b:'gh',bg:'#1a1a0a',rtp:'97.0%',vol:'High'},{e:'💎',n:'Golden Empire',p:'JILI',b:'gh',bg:'#0a1a0a',rtp:'96.8%',vol:'High'},{e:'🐉',n:'Dragon Fortune',p:'JILI',b:'gn2',bg:'#1a0a0a',rtp:'97.2%',vol:'High'},{e:'🦁',n:'Super Ace',p:'JILI',b:'gh',bg:'#1a0a1a',rtp:'97.3%',vol:'High'},
-  {e:'🍒',n:'Fruit Party',p:'JILI',b:'gn2',bg:'#1a1a1a',rtp:'96.5%',vol:'Medium'},{e:'💰',n:'Cash Mania',p:'JILI',b:'gh',bg:'#0a0a1a',rtp:'96.9%',vol:'High'},{e:'🎯',n:'Crazy 777',p:'JILI',b:'',bg:'#0a1a1a',rtp:'96.6%',vol:'Medium'},{e:'🌟',n:'Lucky Ball',p:'JILI',b:'gn2',bg:'#1a0a0a',rtp:'97.1%',vol:'Medium'},
-  {e:'🎪',n:'Boxing King',p:'JILI',b:'gh',bg:'#2e0a0a',rtp:'97.0%',vol:'High'},{e:'🐅',n:'Tiger Treasures',p:'JILI',b:'',bg:'#2e1a0a',rtp:'96.7%',vol:'High'},{e:'🔥',n:'Burning Pearl',p:'JILI',b:'gn2',bg:'#2e0a1a',rtp:'96.8%',vol:'High'},{e:'⚡',n:'Lightning God',p:'JILI',b:'gh',bg:'#1a0a2e',rtp:'97.2%',vol:'High'},
-  {e:'🌺',n:'Blooming Fortune',p:'JILI',b:'',bg:'#0a2e1a',rtp:'96.5%',vol:'Medium'},{e:'🎭',n:'Masked Carnival',p:'JILI',b:'gn2',bg:'#2e0a2e',rtp:'96.9%',vol:'High'},
-  {e:'🐬',n:'Dolphin Reef',p:'JDB',b:'gh',bg:'#0a0a2e',rtp:'96.5%',vol:'Medium'},{e:'🌊',n:'Ocean King',p:'JDB',b:'',bg:'#0a1a2e',rtp:'97.0%',vol:'Medium'},{e:'🦈',n:'Fishing God',p:'JDB',b:'gn2',bg:'#0a2e1a',rtp:'96.8%',vol:'High'},{e:'🐟',n:'Crab King',p:'JDB',b:'gh',bg:'#2e0a0a',rtp:'96.5%',vol:'Medium'},
-  {e:'🎪',n:'Circus Joy',p:'JDB',b:'gn2',bg:'#2e2e0a',rtp:'96.3%',vol:'Medium'},{e:'🐉',n:'Dragon King',p:'JDB',b:'gh',bg:'#1a0a2e',rtp:'97.1%',vol:'High'},{e:'🌸',n:'Blossom Garden',p:'JDB',b:'',bg:'#0a2e2e',rtp:'96.4%',vol:'Medium'},{e:'💫',n:'Star Fortune',p:'JDB',b:'gn2',bg:'#2e0a2e',rtp:'96.6%',vol:'High'},
-  {e:'🐉',n:'Dragon Hatch',p:'PG Soft',b:'gh',bg:'#1a0a2e',rtp:'96.74%',vol:'High'},{e:'🎆',n:'Mahjong Ways',p:'PG Soft',b:'gh',bg:'#1a2e2e',rtp:'96.95%',vol:'High'},{e:'🍄',n:'Mushroom Fantasy',p:'PG Soft',b:'gn2',bg:'#0a2e1a',rtp:'96.75%',vol:'High'},{e:'🦋',n:'Butterfly Blossom',p:'PG Soft',b:'',bg:'#2e1a0a',rtp:'96.73%',vol:'Medium'},
-  {e:'🎭',n:'Medusa II',p:'PG Soft',b:'gh',bg:'#0a0a2e',rtp:'96.81%',vol:'High'},{e:'🌙',n:'Moon Princess 100',p:'PG Soft',b:'gn2',bg:'#2e0a1a',rtp:'96.94%',vol:'High'},{e:'🏛️',n:'Rise of Samurai',p:'PG Soft',b:'',bg:'#1a2e0a',rtp:'96.78%',vol:'High'},{e:'🎪',n:'Lucky Neko',p:'PG Soft',b:'gh',bg:'#2e2e0a',rtp:'96.74%',vol:'High'},
-  {e:'🍬',n:'Sweet Bonanza',p:'Pragmatic Play',b:'gh',bg:'#2e0a0a',rtp:'96.48%',vol:'High'},{e:'🐺',n:'Wolf Gold',p:'Pragmatic Play',b:'',bg:'#0a2e0a',rtp:'96.01%',vol:'Medium'},{e:'💰',n:'Gates of Olympus',p:'Pragmatic Play',b:'gh',bg:'#0a0a2e',rtp:'96.50%',vol:'High'},{e:'🐟',n:'Big Bass Bonanza',p:'Pragmatic Play',b:'gn2',bg:'#0a2e2e',rtp:'96.71%',vol:'High'},
-  {e:'🍭',n:'Candy Stars',p:'Pragmatic Play',b:'gn2',bg:'#2e0a2e',rtp:'96.52%',vol:'High'},{e:'⚔️',n:'Kingdom of Asgard',p:'Pragmatic Play',b:'gh',bg:'#2e1a0a',rtp:'96.48%',vol:'High'},{e:'🦁',n:'Savanna King',p:'Pragmatic Play',b:'',bg:'#1a2e1a',rtp:'96.02%',vol:'Medium'},
-  {e:'🌿',n:'Starburst',p:'Netent',b:'gh',bg:'#1a0a2e',rtp:'96.09%',vol:'Low'},{e:'💀',n:'Dead or Alive 2',p:'Netent',b:'',bg:'#1a1a2e',rtp:'96.82%',vol:'High'},{e:'🎃',n:"Gonzo's Quest",p:'Netent',b:'',bg:'#0a2e0a',rtp:'95.97%',vol:'Medium'},{e:'💎',n:'Mega Fortune',p:'Netent',b:'gh',bg:'#2e1a0a',rtp:'96.40%',vol:'High'},
-  {e:'🔮',n:'Divine Fortune',p:'Netent',b:'gn2',bg:'#0a0a2e',rtp:'96.59%',vol:'Medium'},{e:'🎸',n:'Guns N Roses',p:'Netent',b:'gh',bg:'#2e0a0a',rtp:'96.98%',vol:'Medium'},{e:'🧙',n:'Narcos',p:'Netent',b:'',bg:'#1a2e2e',rtp:'96.23%',vol:'Medium'},
-  {e:'🍒',n:'Hot Hot Fruit',p:'Habanero',b:'gh',bg:'#2e0a1a',rtp:'96.71%',vol:'High'},{e:'🐺',n:'Wolf Riches',p:'Habanero',b:'',bg:'#1a2e0a',rtp:'96.70%',vol:'High'},{e:'🌙',n:'Koi Gate',p:'Habanero',b:'gn2',bg:'#0a1a2e',rtp:'96.68%',vol:'High'},{e:'🏆',n:'Rome Fight For Gold',p:'Habanero',b:'',bg:'#2e2e0a',rtp:'96.69%',vol:'High'},
-  {e:'🔪',n:'Wanted Dead or Wild',p:'Hacksaw',b:'gh',bg:'#2e1a1a',rtp:'96.38%',vol:'High'},{e:'💣',n:'Chaos Crew 2',p:'Hacksaw',b:'gn2',bg:'#1a2e1a',rtp:'96.30%',vol:'High'},{e:'🎭',n:'Monster Pop',p:'Hacksaw',b:'',bg:'#1a1a2e',rtp:'96.36%',vol:'High'},
-  {e:'🎩',n:'Thunderstruck II',p:'Microgaming',b:'gh',bg:'#1a0a2e',rtp:'96.65%',vol:'Medium'},{e:'🐾',n:'Mega Moolah',p:'Microgaming',b:'gh',bg:'#0a2e0a',rtp:'88.12%',vol:'High'},{e:'🐉',n:'Immortal Romance',p:'Microgaming',b:'',bg:'#2e0a0a',rtp:'96.86%',vol:'High'},
-  {e:'🧙',n:'Age of Gods',p:'Playtech',b:'gh',bg:'#0a0a2e',rtp:'95.02%',vol:'High'},{e:'🦄',n:'Rainbow Riches',p:'Playtech',b:'gn2',bg:'#2e2e0a',rtp:'95.00%',vol:'High'},
-  {e:'🌊',n:'Vikings',p:'Yggdrasil',b:'gh',bg:'#1a1a2e',rtp:'96.05%',vol:'High'},{e:'🔥',n:'Joker Millions',p:'Yggdrasil',b:'gn2',bg:'#2e0a1a',rtp:'96.00%',vol:'High'},
-  {e:'🎰',n:'San Quentin',p:'Nolimit City',b:'gh',bg:'#1a0a0a',rtp:'96.04%',vol:'High'},{e:'💀',n:'Tombstone RIP',p:'Nolimit City',b:'gh',bg:'#0a1a1a',rtp:'96.08%',vol:'High'},
-  {e:'🎪',n:'Money Train 3',p:'Relax Gaming',b:'gh',bg:'#2e1a2e',rtp:'96.00%',vol:'High'},{e:'⚡',n:'Snake Arena',p:'Relax Gaming',b:'gn2',bg:'#1a2e0a',rtp:'96.05%',vol:'High'},
-  {e:'🦌',n:'Wild Hunt',p:'ELK Studios',b:'gh',bg:'#0a2e2e',rtp:'96.30%',vol:'High'},{e:'🎯',n:'Jammin Jars 2',p:'Push Gaming',b:'gh',bg:'#1a2e1a',rtp:'96.83%',vol:'High'},
-  {e:'🐉',n:'Shining Crown',p:'Wazdan',b:'',bg:'#2e2e0a',rtp:'96.18%',vol:'Medium'},{e:'🍀',n:'Lucky Clover',p:'BGaming',b:'gn2',bg:'#0a2e0a',rtp:'96.50%',vol:'Medium'},
-  {e:'🌺',n:'Royal Lotus',p:'Spadegaming',b:'gh',bg:'#1a1a0a',rtp:'96.40%',vol:'High'},{e:'🐯',n:'Tiger Warrior',p:'Spadegaming',b:'',bg:'#2e1a0a',rtp:'96.35%',vol:'High'},
-  {e:'🎪',n:'Calaca Sugar Skull',p:'CQ9',b:'gn2',bg:'#0a1a2e',rtp:'96.60%',vol:'High'},{e:'🐲',n:'Dragon's Gold',p:'CQ9',b:'gh',bg:'#2e0a1a',rtp:'96.50%',vol:'High'},
+  {e:'💵',n:'Money Coming',p:'JILI',b:'g-hot',bg:'#1a1a0a',rtp:'97.0%',vol:'High'},
+  {e:'💎',n:'Golden Empire',p:'JILI',b:'g-hot',bg:'#0a1a0a',rtp:'96.8%',vol:'High'},
+  {e:'🐉',n:'Dragon Fortune',p:'JILI',b:'g-new',bg:'#1a0a0a',rtp:'97.2%',vol:'High'},
+  {e:'🦁',n:'Super Ace',p:'JILI',b:'g-hot',bg:'#1a0a1a',rtp:'97.3%',vol:'High'},
+  {e:'🍒',n:'Fruit Party',p:'JILI',b:'g-new',bg:'#1a1a1a',rtp:'96.5%',vol:'Medium'},
+  {e:'💰',n:'Cash Mania',p:'JILI',b:'g-hot',bg:'#0a0a1a',rtp:'96.9%',vol:'High'},
+  {e:'🎯',n:'Crazy 777',p:'JILI',b:'',bg:'#0a1a1a',rtp:'96.6%',vol:'Medium'},
+  {e:'🌟',n:'Lucky Ball',p:'JILI',b:'g-new',bg:'#1a0a0a',rtp:'97.1%',vol:'Medium'},
+  {e:'🎪',n:'Boxing King',p:'JILI',b:'g-hot',bg:'#2e0a0a',rtp:'97.0%',vol:'High'},
+  {e:'🔥',n:'Burning Pearl',p:'JILI',b:'g-new',bg:'#2e0a1a',rtp:'96.8%',vol:'High'},
+  {e:'⚡',n:'Lightning God',p:'JILI',b:'g-hot',bg:'#1a0a2e',rtp:'97.2%',vol:'High'},
+  {e:'🌺',n:'Blooming Fortune',p:'JILI',b:'',bg:'#0a2e1a',rtp:'96.5%',vol:'Medium'},
+  {e:'🐬',n:'Dolphin Reef',p:'JDB',b:'g-hot',bg:'#0a0a2e',rtp:'96.5%',vol:'Medium'},
+  {e:'🌊',n:'Ocean King',p:'JDB',b:'',bg:'#0a1a2e',rtp:'97.0%',vol:'Medium'},
+  {e:'🦈',n:'Fishing God',p:'JDB',b:'g-new',bg:'#0a2e1a',rtp:'96.8%',vol:'High'},
+  {e:'🐟',n:'Crab King',p:'JDB',b:'g-hot',bg:'#2e0a0a',rtp:'96.5%',vol:'Medium'},
+  {e:'🎪',n:'Circus Joy',p:'JDB',b:'g-new',bg:'#2e2e0a',rtp:'96.3%',vol:'Medium'},
+  {e:'🐉',n:'Dragon King',p:'JDB',b:'g-hot',bg:'#1a0a2e',rtp:'97.1%',vol:'High'},
+  {e:'🐉',n:'Dragon Hatch',p:'PG Soft',b:'g-hot',bg:'#1a0a2e',rtp:'96.74%',vol:'High'},
+  {e:'🎆',n:'Mahjong Ways',p:'PG Soft',b:'g-hot',bg:'#1a2e2e',rtp:'96.95%',vol:'High'},
+  {e:'🍄',n:'Mushroom Fantasy',p:'PG Soft',b:'g-new',bg:'#0a2e1a',rtp:'96.75%',vol:'High'},
+  {e:'🌙',n:'Moon Princess 100',p:'PG Soft',b:'g-new',bg:'#2e0a1a',rtp:'96.94%',vol:'High'},
+  {e:'🎭',n:'Medusa II',p:'PG Soft',b:'g-hot',bg:'#0a0a2e',rtp:'96.81%',vol:'High'},
+  {e:'🎪',n:'Lucky Neko',p:'PG Soft',b:'g-hot',bg:'#2e2e0a',rtp:'96.74%',vol:'High'},
+  {e:'🍬',n:'Sweet Bonanza',p:'Pragmatic Play',b:'g-hot',bg:'#2e0a0a',rtp:'96.48%',vol:'High'},
+  {e:'🐺',n:'Wolf Gold',p:'Pragmatic Play',b:'',bg:'#0a2e0a',rtp:'96.01%',vol:'Medium'},
+  {e:'💰',n:'Gates of Olympus',p:'Pragmatic Play',b:'g-hot',bg:'#0a0a2e',rtp:'96.50%',vol:'High'},
+  {e:'🐟',n:'Big Bass Bonanza',p:'Pragmatic Play',b:'g-new',bg:'#0a2e2e',rtp:'96.71%',vol:'High'},
+  {e:'⚔️',n:'Kingdom of Asgard',p:'Pragmatic Play',b:'g-new',bg:'#2e1a0a',rtp:'96.48%',vol:'High'},
+  {e:'🌿',n:'Starburst',p:'Netent',b:'g-hot',bg:'#1a0a2e',rtp:'96.09%',vol:'Low'},
+  {e:'💀',n:'Dead or Alive 2',p:'Netent',b:'',bg:'#1a1a2e',rtp:'96.82%',vol:'High'},
+  {e:'💎',n:'Mega Fortune',p:'Netent',b:'g-hot',bg:'#2e1a0a',rtp:'96.40%',vol:'High'},
+  {e:'🔮',n:'Divine Fortune',p:'Netent',b:'g-new',bg:'#0a0a2e',rtp:'96.59%',vol:'Medium'},
+  {e:'🎸',n:'Guns N Roses',p:'Netent',b:'g-hot',bg:'#2e0a0a',rtp:'96.98%',vol:'Medium'},
+  {e:'🍒',n:'Hot Hot Fruit',p:'Habanero',b:'g-hot',bg:'#2e0a1a',rtp:'96.71%',vol:'High'},
+  {e:'🌙',n:'Koi Gate',p:'Habanero',b:'g-new',bg:'#0a1a2e',rtp:'96.68%',vol:'High'},
+  {e:'🏆',n:'Rome Fight Gold',p:'Habanero',b:'',bg:'#2e2e0a',rtp:'96.69%',vol:'High'},
+  {e:'🔪',n:'Wanted Dead Wild',p:'Hacksaw',b:'g-hot',bg:'#2e1a1a',rtp:'96.38%',vol:'High'},
+  {e:'💣',n:'Chaos Crew 2',p:'Hacksaw',b:'g-new',bg:'#1a2e1a',rtp:'96.30%',vol:'High'},
+  {e:'🎩',n:'Thunderstruck II',p:'Microgaming',b:'g-hot',bg:'#1a0a2e',rtp:'96.65%',vol:'Medium'},
+  {e:'🐾',n:'Mega Moolah',p:'Microgaming',b:'g-hot',bg:'#0a2e0a',rtp:'88.12%',vol:'High'},
+  {e:'🧙',n:'Age of Gods',p:'Playtech',b:'g-hot',bg:'#0a0a2e',rtp:'95.02%',vol:'High'},
+  {e:'🦄',n:'Rainbow Riches',p:'Playtech',b:'g-new',bg:'#2e2e0a',rtp:'95.00%',vol:'High'},
+  {e:'🌊',n:'Vikings',p:'Yggdrasil',b:'g-hot',bg:'#1a1a2e',rtp:'96.05%',vol:'High'},
+  {e:'🎰',n:'San Quentin',p:'Nolimit City',b:'g-hot',bg:'#1a0a0a',rtp:'96.04%',vol:'High'},
+  {e:'💀',n:'Tombstone RIP',p:'Nolimit City',b:'g-hot',bg:'#0a1a1a',rtp:'96.08%',vol:'High'},
+  {e:'🎪',n:'Money Train 3',p:'Relax Gaming',b:'g-hot',bg:'#2e1a2e',rtp:'96.00%',vol:'High'},
+  {e:'🦌',n:'Wild Hunt',p:'ELK Studios',b:'g-hot',bg:'#0a2e2e',rtp:'96.30%',vol:'High'},
+  {e:'🎯',n:'Jammin Jars 2',p:'Push Gaming',b:'g-hot',bg:'#1a2e1a',rtp:'96.83%',vol:'High'},
+  {e:'🍀',n:'Lucky Clover',p:'BGaming',b:'g-new',bg:'#0a2e0a',rtp:'96.50%',vol:'Medium'},
+  {e:'🌺',n:'Royal Lotus',p:'Spadegaming',b:'g-hot',bg:'#1a1a0a',rtp:'96.40%',vol:'High'},
+  {e:'🐯',n:'Tiger Warrior',p:'Spadegaming',b:'',bg:'#2e1a0a',rtp:'96.35%',vol:'High'},
+  {e:'🐲',n:'Dragon Gold',p:'CQ9',b:'g-new',bg:'#2e0a1a',rtp:'96.50%',vol:'High'},
 ];
 
-const CR_PVRS=['All','Spribe','JILI','Smartsoft','Evolution','PG Soft','Hacksaw','Turbo Games'];
+const CR_PVRS=['All','Spribe','Smartsoft','JILI','Evolution','PG Soft','Hacksaw'];
 const CR_GAMES=[
-  {e:'✈️',n:'Aviator',p:'Spribe',b:'gh',bg:'#1a0a0a',rtp:'97.00%',vol:'High'},{e:'💣',n:'Mines',p:'Spribe',b:'gh',bg:'#0a1a0a',rtp:'97.00%',vol:'High'},{e:'⚽',n:'Goal',p:'Spribe',b:'gn2',bg:'#0a0a1a',rtp:'97.00%',vol:'High'},
-  {e:'🎱',n:'Plinko',p:'Spribe',b:'gh',bg:'#1a1a0a',rtp:'97.00%',vol:'High'},{e:'🎰',n:'Hilo',p:'Spribe',b:'',bg:'#0a1a1a',rtp:'97.00%',vol:'High'},{e:'🔮',n:'Keno',p:'Spribe',b:'gn2',bg:'#1a0a1a',rtp:'97.00%',vol:'High'},
-  {e:'🏓',n:'Mini Roulette',p:'Spribe',b:'',bg:'#2e0a0a',rtp:'97.00%',vol:'Low'},{e:'🎯',n:'Penalty Shoot',p:'Spribe',b:'gn2',bg:'#0a2e2e',rtp:'97.00%',vol:'High'},
-  {e:'⚡',n:'JetX',p:'Smartsoft',b:'gh',bg:'#1a1a0a',rtp:'97.00%',vol:'High'},{e:'🚀',n:'JetX3',p:'Smartsoft',b:'gn2',bg:'#2e0a0a',rtp:'97.00%',vol:'High'},{e:'🏎️',n:'Turbo',p:'Smartsoft',b:'',bg:'#0a2e0a',rtp:'97.00%',vol:'High'},
-  {e:'🎯',n:'Plinko X',p:'JILI',b:'gh',bg:'#0a1a1a',rtp:'97.00%',vol:'High'},{e:'💰',n:'Fortune Wheel',p:'JILI',b:'gn2',bg:'#2e0a2e',rtp:'96.50%',vol:'Medium'},
-  {e:'🌊',n:'Cash or Crash',p:'Evolution',b:'gh',bg:'#0a2e1a',rtp:'96.08%',vol:'High'},{e:'🎪',n:'Balloon',p:'Hacksaw',b:'gn2',bg:'#2e1a1a',rtp:'96.50%',vol:'High'},
+  {e:'✈️',n:'Aviator',p:'Spribe',b:'g-hot',bg:'#1a0a0a',rtp:'97%',vol:'High'},
+  {e:'💣',n:'Mines',p:'Spribe',b:'g-hot',bg:'#0a1a0a',rtp:'97%',vol:'High'},
+  {e:'⚽',n:'Goal',p:'Spribe',b:'g-new',bg:'#0a0a1a',rtp:'97%',vol:'High'},
+  {e:'🎱',n:'Plinko',p:'Spribe',b:'g-hot',bg:'#1a1a0a',rtp:'97%',vol:'High'},
+  {e:'🔮',n:'Keno',p:'Spribe',b:'g-new',bg:'#1a0a1a',rtp:'97%',vol:'High'},
+  {e:'⚡',n:'JetX',p:'Smartsoft',b:'g-hot',bg:'#1a1a0a',rtp:'97%',vol:'High'},
+  {e:'🚀',n:'JetX3',p:'Smartsoft',b:'g-new',bg:'#2e0a0a',rtp:'97%',vol:'High'},
+  {e:'🎯',n:'Plinko X',p:'JILI',b:'g-hot',bg:'#0a1a1a',rtp:'97%',vol:'High'},
+  {e:'🌊',n:'Cash or Crash',p:'Evolution',b:'g-hot',bg:'#0a2e1a',rtp:'96%',vol:'High'},
+  {e:'🎪',n:'Balloon',p:'Hacksaw',b:'g-new',bg:'#2e1a1a',rtp:'96.5%',vol:'High'},
 ];
 
-const TB_PVRS=['All','Evolution','Playtech','Microgaming','Netent','Pragmatic Play','iSoftBet'];
+const TB_PVRS=['All','Evolution','Playtech','Microgaming','Netent','Pragmatic Play'];
 const TB_GAMES=[
-  {e:'🃏',n:'Baccarat Pro',p:'Evolution',b:'gh',bg:'#0a1a2e',rtp:'98.76%',vol:'Low'},{e:'🎡',n:'European Roulette',p:'Evolution',b:'',bg:'#1a0a2e',rtp:'97.30%',vol:'Low'},
-  {e:'🃟',n:'Blackjack Gold',p:'Evolution',b:'gh',bg:'#0a2e0a',rtp:'99.51%',vol:'Low'},{e:'🎲',n:'Sic Bo',p:'Evolution',b:'gn2',bg:'#2e1a0a',rtp:'97.22%',vol:'Medium'},
-  {e:'🎴',n:'Teen Patti',p:'Playtech',b:'gh',bg:'#1a0a1a',rtp:'96.50%',vol:'Medium'},{e:'🃠',n:'Andar Bahar',p:'Playtech',b:'',bg:'#0a1a1a',rtp:'97.85%',vol:'Low'},
-  {e:'🂡',n:'Texas Holdem',p:'Microgaming',b:'gh',bg:'#1a1a0a',rtp:'99.53%',vol:'Medium'},{e:'🎲',n:'Craps',p:'Microgaming',b:'gn2',bg:'#0a0a1a',rtp:'98.60%',vol:'Low'},
-  {e:'🃏',n:'Caribbean Stud',p:'Netent',b:'',bg:'#2e0a2e',rtp:'97.37%',vol:'Medium'},{e:'🎡',n:'French Roulette',p:'Netent',b:'gn2',bg:'#0a2e2e',rtp:'98.65%',vol:'Low'},
-  {e:'🃟',n:'Multihand BJ',p:'Pragmatic Play',b:'gh',bg:'#2e2e0a',rtp:'99.51%',vol:'Low'},{e:'🎰',n:'Video Poker',p:'iSoftBet',b:'gn2',bg:'#1a2e1a',rtp:'99.54%',vol:'Low'},
+  {e:'🃏',n:'Baccarat Pro',p:'Evolution',b:'g-hot',bg:'#0a1a2e',rtp:'98.76%',vol:'Low'},
+  {e:'🎡',n:'European Roulette',p:'Evolution',b:'',bg:'#1a0a2e',rtp:'97.30%',vol:'Low'},
+  {e:'🃟',n:'Blackjack Gold',p:'Evolution',b:'g-hot',bg:'#0a2e0a',rtp:'99.51%',vol:'Low'},
+  {e:'🎲',n:'Sic Bo',p:'Evolution',b:'g-new',bg:'#2e1a0a',rtp:'97.22%',vol:'Medium'},
+  {e:'🎴',n:'Teen Patti',p:'Playtech',b:'g-hot',bg:'#1a0a1a',rtp:'96.50%',vol:'Medium'},
+  {e:'🃠',n:'Andar Bahar',p:'Playtech',b:'',bg:'#0a1a1a',rtp:'97.85%',vol:'Low'},
+  {e:'🂡',n:'Texas Holdem',p:'Microgaming',b:'g-hot',bg:'#1a1a0a',rtp:'99.53%',vol:'Medium'},
+  {e:'🃏',n:'Caribbean Stud',p:'Netent',b:'',bg:'#2e0a2e',rtp:'97.37%',vol:'Medium'},
+  {e:'🎡',n:'French Roulette',p:'Netent',b:'g-new',bg:'#0a2e2e',rtp:'98.65%',vol:'Low'},
+  {e:'🃟',n:'Multihand BJ',p:'Pragmatic Play',b:'g-hot',bg:'#2e2e0a',rtp:'99.51%',vol:'Low'},
 ];
 
-const FI_PVRS=['All','JILI','JDB','CQ9','KA Gaming','Habanero'];
+const FI_PVRS=['All','JILI','JDB','CQ9','KA Gaming'];
 const FI_GAMES=[
-  {e:'🐟',n:'Ocean King 3',p:'JILI',b:'gh',bg:'#0a1a2e',rtp:'96.50%',vol:'High'},{e:'🦈',n:'Dragon Fortune Fish',p:'JILI',b:'gh',bg:'#0a2e1a',rtp:'96.80%',vol:'High'},
-  {e:'🐬',n:'Dinosaur Tycoon',p:'JILI',b:'gn2',bg:'#1a0a2e',rtp:'96.60%',vol:'High'},{e:'🌊',n:'Bombing Fishing',p:'JDB',b:'gh',bg:'#0a0a2e',rtp:'96.50%',vol:'High'},
-  {e:'🐡',n:'Crab King',p:'JDB',b:'',bg:'#1a2e0a',rtp:'96.40%',vol:'Medium'},{e:'🦑',n:'Deep Sea King',p:'JDB',b:'gn2',bg:'#2e0a0a',rtp:'96.60%',vol:'High'},
-  {e:'🐠',n:'Happy Fishing',p:'CQ9',b:'gh',bg:'#0a2e2e',rtp:'96.50%',vol:'High'},{e:'🦀',n:'Jackpot Fishing',p:'KA Gaming',b:'gn2',bg:'#2e1a0a',rtp:'96.70%',vol:'High'},
-  {e:'🐙',n:'Mega Fishing',p:'JILI',b:'gh',bg:'#1a0a0a',rtp:'96.80%',vol:'High'},{e:'🌊',n:'Sea Emperor',p:'Habanero',b:'gn2',bg:'#0a1a1a',rtp:'96.60%',vol:'High'},
+  {e:'🐟',n:'Ocean King 3',p:'JILI',b:'g-hot',bg:'#0a1a2e',rtp:'96.50%',vol:'High'},
+  {e:'🦈',n:'Dragon Fortune Fish',p:'JILI',b:'g-hot',bg:'#0a2e1a',rtp:'96.80%',vol:'High'},
+  {e:'🐬',n:'Dinosaur Tycoon',p:'JILI',b:'g-new',bg:'#1a0a2e',rtp:'96.60%',vol:'High'},
+  {e:'🌊',n:'Bombing Fishing',p:'JDB',b:'g-hot',bg:'#0a0a2e',rtp:'96.50%',vol:'High'},
+  {e:'🐡',n:'Crab King',p:'JDB',b:'',bg:'#1a2e0a',rtp:'96.40%',vol:'Medium'},
+  {e:'🦑',n:'Deep Sea King',p:'JDB',b:'g-new',bg:'#2e0a0a',rtp:'96.60%',vol:'High'},
+  {e:'🐠',n:'Happy Fishing',p:'CQ9',b:'g-hot',bg:'#0a2e2e',rtp:'96.50%',vol:'High'},
+  {e:'🦀',n:'Jackpot Fishing',p:'KA Gaming',b:'g-new',bg:'#2e1a0a',rtp:'96.70%',vol:'High'},
+  {e:'🐙',n:'Mega Fishing',p:'JILI',b:'g-hot',bg:'#1a0a0a',rtp:'96.80%',vol:'High'},
 ];
 
 const PROMOS={en:[
-  {c:'pb1',i:'🎁',t:'100% Welcome Bonus',d:'Get up to ৳10,000 on your first deposit. Minimum ৳500. 10x wagering.',btn:'Claim Now'},
-  {c:'pb2',i:'💰',t:'10% Weekly Cashback',d:'Lose this week? Get 10% of net losses back every Monday automatically.',btn:'Learn More'},
-  {c:'pb3',i:'🏆',t:'Refer & Earn ৳500',d:'Invite a friend. They deposit — you get ৳500 instantly, no cap!',btn:'Share Now'},
-  {c:'pb4',i:'🎰',t:'Free Spins Friday',d:'Every Friday: 50 free spins on selected JILI & PG Soft games.',btn:'Get Spins'},
-  {c:'pb5',i:'⚽',t:'Sports Weekend Reload',d:'Every weekend: 20% bonus on sports deposits up to ৳5,000.',btn:'Deposit Now'},
+  {c:'pc1',i:'🎁',t:'100% Welcome Bonus',d:'Get up to ৳10,000 on your first deposit. Min ৳500. 10x wagering.',btn:'Claim Now'},
+  {c:'pc2',i:'💰',t:'10% Weekly Cashback',d:'Get 10% of net losses back every Monday automatically.',btn:'Learn More'},
+  {c:'pc3',i:'🏆',t:'Refer & Earn ৳500',d:'Invite a friend — earn ৳500 when they deposit!',btn:'Share Now'},
+  {c:'pc4',i:'🎰',t:'Free Spins Friday',d:'Every Friday: 50 free spins on JILI & PG Soft games.',btn:'Get Spins'},
+  {c:'pc5',i:'⚽',t:'Sports Weekend Reload',d:'Every weekend: 20% bonus on sports deposits up to ৳5,000.',btn:'Deposit Now'},
 ],bn:[
-  {c:'pb1',i:'🎁',t:'১০০% ওয়েলকাম বোনাস',d:'প্রথম ডিপোজিটে ৳১০,০০০ পর্যন্ত বোনাস। সর্বনিম্ন ৳৫০০। ১০x ওয়াজারিং।',btn:'এখনই নিন'},
-  {c:'pb2',i:'💰',t:'১০% সাপ্তাহিক ক্যাশব্যাক',d:'হারলে ফেরত পাবেন! প্রতি সোমবার স্বয়ংক্রিয়ভাবে ১০% ক্যাশব্যাক।',btn:'বিস্তারিত'},
-  {c:'pb3',i:'🏆',t:'রেফার করুন ৳৫০০ পান',d:'বন্ধুকে আমন্ত্রণ জানান — তারা ডিপোজিট করলেই আপনি পাবেন ৳৫০০!',btn:'শেয়ার করুন'},
-  {c:'pb4',i:'🎰',t:'ফ্রি স্পিন ফ্রাইডে',d:'প্রতি শুক্রবার: JILI ও PG Soft গেমে ৫০টি ফ্রি স্পিন পান।',btn:'স্পিন নিন'},
-  {c:'pb5',i:'⚽',t:'স্পোর্টস উইকএন্ড বোনাস',d:'প্রতি সপ্তাহান্তে স্পোর্টস ডিপোজিটে ৳৫,০০০ পর্যন্ত ২০% বোনাস।',btn:'ডিপোজিট করুন'},
+  {c:'pc1',i:'🎁',t:'১০০% ওয়েলকাম বোনাস',d:'প্রথম ডিপোজিটে ৳১০,০০০ পর্যন্ত বোনাস পান।',btn:'এখনই নিন'},
+  {c:'pc2',i:'💰',t:'১০% সাপ্তাহিক ক্যাশব্যাক',d:'প্রতি সোমবার স্বয়ংক্রিয়ভাবে ১০% ক্যাশব্যাক।',btn:'বিস্তারিত'},
+  {c:'pc3',i:'🏆',t:'রেফার করুন ৳৫০০ পান',d:'বন্ধুকে আনুন — তারা ডিপোজিট করলেই ৳৫০০!',btn:'শেয়ার করুন'},
+  {c:'pc4',i:'🎰',t:'ফ্রি স্পিন ফ্রাইডে',d:'প্রতি শুক্রবার JILI ও PG Soft গেমে ৫০টি স্পিন।',btn:'স্পিন নিন'},
+  {c:'pc5',i:'⚽',t:'স্পোর্টস বোনাস',d:'প্রতি সপ্তাহান্তে স্পোর্টস ডিপোজিটে ২০% বোনাস।',btn:'ডিপোজিট করুন'},
 ]};
 
-const LANG={en:{login:'Login',reg:'Register',placeBet:'Place Bet',clearAll:'Clear All',stake:'Stake ৳',tOdds:'Total Odds',potWin:'Potential Win',play:'🎮 Play Now',demo:'Try Demo (Free)',noGames:'No games for this provider',noMatches:'No matches available',
-  mq:''},
-bn:{login:'লগইন',reg:'রেজিস্টার',placeBet:'বেট করুন',clearAll:'সব মুছুন',stake:'বাজির পরিমাণ ৳',tOdds:'মোট অডস',potWin:'সম্ভাব্য জয়',play:'🎮 এখনই খেলুন',demo:'ডেমো (ফ্রি)',noGames:'এই provider-এর কোনো গেম নেই',noMatches:'কোনো ম্যাচ নেই',mq:''}};
+// ========== STATE ==========
+let lang='en', bets=[], user=null, curSport='cricket', provF={};
 
-let lang='en',bets=[],provF={},currentSport='cricket',user=null;
-
-// ========== LANG ==========
-function setLang(l,btn){
-  lang=l;
-  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('n-login').textContent=LANG[l].login;
-  document.getElementById('n-reg').textContent=LANG[l].reg;
-  document.getElementById('bs-pb').textContent=LANG[l].placeBet;
-  document.getElementById('bs-cb').textContent=LANG[l].clearAll;
-  document.getElementById('bs-stake').placeholder=LANG[l].stake;
-  document.getElementById('bs-tl').textContent=LANG[l].tOdds;
-  document.getElementById('bs-wl').textContent=LANG[l].potWin;
-  document.getElementById('pp-pl').textContent=LANG[l].play;
-  document.getElementById('pp-dm').textContent=LANG[l].demo;
-  const emp=document.getElementById('bs-emp');
-  if(emp) emp.innerHTML=l==='bn'?'কোনো বাছাই নেই।<br>অডসে চাপুন।':'No selections yet.<br>Click any odds to add.';
-  buildPromos();
-  if(SPORTS[currentSport]) buildSport(currentSport);
-}
-
-// ========== NAVIGATION ==========
-function goPage(id,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.mn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pg-'+id)?.classList.add('on');
-  if(el){el.classList.add('on');}
-  if(id==='home') buildHome();
-  if(SPORTS[id]) goSport(id,null);
-  if(id==='sports'){goSport(currentSport,null);}
+// ========== PAGE NAV ==========
+function showPg(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  const pg=document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='sports') buildSports();
   if(id==='live-casino') buildCasino('lc',LC_PVRS,LC_GAMES);
   if(id==='slots') buildCasino('sl',SL_PVRS,SL_GAMES);
   if(id==='crash') buildCasino('cr',CR_PVRS,CR_GAMES);
   if(id==='table') buildCasino('tb',TB_PVRS,TB_GAMES);
   if(id==='fishing') buildCasino('fi',FI_PVRS,FI_GAMES);
   if(id==='promo') buildPromos();
-  if(id==='profile'&&!user){showLoginPopup();return;}
-  if(id==='deposit'&&!user){showLoginPopup();return;}
+  if(id==='profile'&&!user){openOv('ov-login');return;}
+  if(id==='deposit'&&!user){openOv('ov-login');return;}
 }
 
-function goSport(id,el){
-  currentSport=id;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.getElementById('pg-sports')?.classList.add('on');
-  document.querySelectorAll('.sb-i').forEach(s=>s.classList.remove('on'));
-  if(el) el.classList.add('on');
-  buildSport(id);
+function setActive(btn){
+  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// ========== LANG ==========
+function setLang(l,btn){
+  lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const bn=lang==='bn';
+  document.getElementById('n-login').textContent=bn?'লগইন':'Login';
+  document.getElementById('n-reg').textContent=bn?'রেজিস্টার':'Register';
+  buildPromos();
+  if(SPORTS_DATA[curSport]) buildSports();
 }
 
 // ========== HOME ==========
 function buildHome(){
-  // Hot matches (live ones)
-  const allMatches=[];
-  Object.values(SPORTS).forEach(s=>s.matches.filter(m=>m.live).forEach(m=>allMatches.push({...m,icon:s.icon})));
-  const hm=document.getElementById('home-matches');
-  if(hm) hm.innerHTML=allMatches.slice(0,3).map(m=>matchHTML(m,'home')).join('');
+  // Live matches
+  const matches=[];
+  Object.values(SPORTS_DATA).forEach(s=>s.matches.filter(m=>m.live).forEach(m=>matches.push({...m,icon:s.icon})));
+  document.getElementById('home-matches').innerHTML=matches.slice(0,3).map(m=>matchCard(m,'?')).join('');
   // Hot games
-  const hotGames=[...LC_GAMES.filter(g=>g.b==='gh').slice(0,4),...SL_GAMES.filter(g=>g.b==='gh').slice(0,4)];
-  const hg=document.getElementById('home-games');
-  if(hg) hg.innerHTML=hotGames.map(g=>gameCard(g)).join('');
+  const hot=[...LC_GAMES.filter(g=>g.b==='g-hot').slice(0,3),...SL_GAMES.filter(g=>g.b==='g-hot').slice(0,6)];
+  document.getElementById('home-games').innerHTML=hot.map(g=>gameCard(g)).join('');
 }
 
-// ========== SPORT ==========
-function buildSport(id){
-  const d=SPORTS[id]; if(!d) return;
-  const nm=d.name[lang];
-  document.getElementById('sport-title').textContent=nm;
-  document.getElementById('sport-live-tag').style.display=d.hasLive?'inline-flex':'none';
-  const ltEl=document.getElementById('sport-leagues');
-  ltEl.innerHTML=d.leagues.map((l,i)=>`<div class="lt${i===0?' on':''}" onclick="filterLg('${id}','${l}',this)">${l}</div>`).join('');
+// ========== SPORTS ==========
+function buildSports(){
+  // Sport nav
+  const nav=document.getElementById('sport-nav');
+  nav.innerHTML=Object.entries(SPORTS_DATA).map(([k,v])=>
+    `<button class="sp${k===curSport?' on':''}" onclick="switchSport('${k}',this)">${v.icon} ${v.name[lang]||v.name.en}</button>`
+  ).join('');
+  renderSport(curSport);
+}
+
+function switchSport(id,btn){
+  curSport=id;
+  document.querySelectorAll('.sp').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderSport(id);
+}
+
+function renderSport(id){
+  const d=SPORTS_DATA[id]; if(!d) return;
+  document.getElementById('sport-title-el').innerHTML=`${d.icon} ${d.name[lang]||d.name.en} ${d.live?'<span class="live-tag">LIVE</span>':''}`;
+  document.getElementById('sport-live-tag') && (document.getElementById('sport-live-tag').style.display=d.live?'inline-block':'none');
+  // Leagues
+  document.getElementById('sport-lgs').innerHTML=d.leagues.map((l,i)=>
+    `<button class="lg${i===0?' on':''}" onclick="filterLg('${id}','${l}',this)">${l}</button>`
+  ).join('');
   renderMatches(id,'All');
 }
 
-function filterLg(id,lg,el){
-  document.querySelectorAll('#sport-leagues .lt').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
+function filterLg(id,lg,btn){
+  document.querySelectorAll('.lg').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
   renderMatches(id,lg);
 }
 
 function renderMatches(id,lg){
-  const d=SPORTS[id]; if(!d) return;
+  const d=SPORTS_DATA[id]; if(!d) return;
   const list=lg==='All'?d.matches:d.matches.filter(m=>m.lg===lg);
-  const el=document.getElementById('sport-matches'); if(!el) return;
-  if(!list.length){el.innerHTML=`<div style="color:var(--muted);padding:30px;text-align:center">${LANG[lang].noMatches}</div>`;return;}
-  el.innerHTML=list.map(m=>matchHTML(m,id)).join('');
+  document.getElementById('sport-matches').innerHTML=list.length
+    ?list.map(m=>matchCard(m,id)).join('')
+    :'<div style="color:#aaa;padding:20px;text-align:center">No matches available</div>';
 }
 
-function matchHTML(m,sport){
-  const icon=SPORTS[sport]?.icon||'🏆';
-  const liveHtml=m.live?`<span class="mlive">● LIVE ${m.tm}</span>`:`<span class="mtime">⏰ ${m.tm||''}</span>`;
-  const hasScore=m.s1&&m.s1!=='';
-  const scoreHtml=hasScore?`<div class="sb2"><div class="sn">${m.s1}${m.s2?' - '+m.s2:''}</div><div class="sl">Score</div></div>`:`<div class="sb2"><div class="sn" style="font-size:13px;color:var(--muted)">VS</div></div>`;
-  const oddsHtml=m.o.map(o=>`<div class="ob" onclick="addBet(this,'${(m.t1+(m.t2?' vs '+m.t2:'')).replace(/'/g,"\\'")}','${o.l.replace(/'/g,"\\'")}',${o.v})"><span class="olb">${o.l}</span><span class="ov">${o.v.toFixed(2)}</span></div>`).join('');
-  return`<div class="mc"><div class="mm"><span class="mlg">${m.lg}</span>${liveHtml}</div><div class="tr"><div class="tm"><div class="tl">${icon}</div><div class="tn">${m.t1}</div></div>${scoreHtml}<div class="tm"><div class="tl">${icon}</div><div class="tn">${m.t2||'TBD'}</div></div></div><div class="or">${oddsHtml}</div></div>`;
+function matchCard(m,sport){
+  const icon=SPORTS_DATA[sport]?.icon||'🏆';
+  const liveEl=m.live?`<span class="mc-live">● LIVE ${m.tm}</span>`:`<span class="mc-time">⏰ ${m.tm}</span>`;
+  const scoreEl=m.s1?`<div class="mc-score"><div class="mc-sn">${m.s1}${m.s2?' - '+m.s2:''}</div><div class="mc-sl">Score</div></div>`
+    :`<div class="mc-score"><div class="mc-sn" style="font-size:12px;color:#aaa">VS</div></div>`;
+  const oddsEl=m.o.map(o=>`<div class="odd" onclick="toggleBet(this,'${(m.t1+(m.t2?' vs '+m.t2:'')).replace(/'/g,"\\'")}','${o.l.replace(/'/g,"\\'")}',${o.v})"><span class="odd-l">${o.l}</span><span class="odd-v">${o.v.toFixed(2)}</span></div>`).join('');
+  return`<div class="mc">
+    <div class="mc-top"><span class="mc-league">${m.lg}</span>${liveEl}</div>
+    <div class="mc-teams">
+      <div class="mc-team"><div class="mc-logo">${icon}</div><div class="mc-name">${m.t1}</div></div>
+      ${scoreEl}
+      <div class="mc-team"><div class="mc-logo">${icon}</div><div class="mc-name">${m.t2||'TBD'}</div></div>
+    </div>
+    <div class="odds">${oddsEl}</div>
+  </div>`;
 }
 
 // ========== CASINO ==========
 function buildCasino(key,pvrs,games){
   if(!provF[key]) provF[key]='All';
-  document.getElementById(key+'-pvs').innerHTML=pvrs.map(p=>`<button class="pv${provF[key]===p?' on':''}" onclick="filterPv('${key}',this,'${p}')">${p}</button>`).join('');
+  document.getElementById(key+'-pvs').innerHTML=pvrs.map(p=>
+    `<button class="pv${provF[key]===p?' on':''}" onclick="filterPv('${key}','${p}',this)">${p}</button>`
+  ).join('');
   renderGames(key,games,provF[key]);
 }
-function filterPv(key,btn,pv){
+
+function filterPv(key,pv,btn){
   provF[key]=pv;
   document.querySelectorAll(`#${key}-pvs .pv`).forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  const gMap={lc:LC_GAMES,sl:SL_GAMES,cr:CR_GAMES,tb:TB_GAMES,fi:FI_GAMES};
-  renderGames(key,gMap[key],pv);
+  const map={lc:LC_GAMES,sl:SL_GAMES,cr:CR_GAMES,tb:TB_GAMES,fi:FI_GAMES};
+  renderGames(key,map[key],pv);
 }
+
 function renderGames(key,games,pv){
   const el=document.getElementById(key+'-gg'); if(!el) return;
   const list=pv==='All'?games:games.filter(g=>g.p===pv);
-  if(!list.length){el.innerHTML=`<div class="no-games">${LANG[lang].noGames}</div>`;return;}
-  el.innerHTML=list.map(g=>gameCard(g)).join('');
+  el.innerHTML=list.length?list.map(g=>gameCard(g)).join('')
+    :`<div style="color:#aaa;text-align:center;padding:20px;grid-column:1/-1">No games for this provider</div>`;
 }
+
 function gameCard(g){
-  return`<div class="gc" onclick="showGame('${g.n.replace(/'/g,"\\'")}','${g.p}','${g.e}','${g.rtp||'96%'}','${g.vol||'Medium'}')"><div class="gt" style="background:${g.bg}">${g.e}${g.b?`<span class="gb ${g.b}">${g.b==='gh'?'HOT':g.b==='gn2'?'NEW':'LIVE'}</span>`:''}<div class="gov"><button class="gov-btn">${lang==='bn'?'খেলুন':'Play'}</button></div></div><div class="gn">${g.n}</div><div class="gp">${g.p}</div></div>`;
+  const label=g.b==='g-hot'?'HOT':g.b==='g-new'?'NEW':g.b==='g-live'?'LIVE':'';
+  return`<div class="gc" onclick="openGame('${g.n.replace(/'/g,"\\'")}','${g.p}','${g.e}','${g.rtp||'96%'}','${g.vol||'Med'}')">
+    <div class="gt" style="background:${g.bg}">${g.e}${label?`<span class="g-badge ${g.b}">${label}</span>`:''}
+    </div>
+    <div class="gc-name">${g.n}</div>
+    <div class="gc-prov">${g.p}</div>
+  </div>`;
 }
 
 // ========== GAME POPUP ==========
-function showGame(name,prov,em,rtp,vol){
-  document.getElementById('pp-em').textContent=em;
-  document.getElementById('pp-nm').textContent=name;
-  document.getElementById('pp-pv').textContent='🏢 '+prov;
-  document.getElementById('pp-rtp').textContent=rtp;
-  document.getElementById('pp-vol').textContent=vol;
-  document.getElementById('pp-min').textContent='৳10';
-  document.getElementById('pp-dc').textContent=lang==='bn'
-    ?`${name} — ${prov} কোম্পানির গেম। রিয়েল মানি বা ডেমো মোডে খেলুন। জিতলে সাথে সাথে ব্যালেন্সে যোগ হবে!`
-    :`${name} by ${prov}. Play with real money or try Demo mode free. Wins credited instantly to your balance!`;
-  document.getElementById('pp-pl').textContent=LANG[lang].play;
-  document.getElementById('pp-dm').textContent=LANG[lang].demo;
-  document.getElementById('game-ov').classList.add('on');
-}
-function playGame(){
-  if(!user){closeOv('game-ov');showLoginPopup();return;}
-  showAlert('🎮','Launching Game...','Game launching! In real site, game will open in fullscreen here.');
+function openGame(name,prov,em,rtp,vol){
+  document.getElementById('g-em').textContent=em;
+  document.getElementById('g-name').textContent=name;
+  document.getElementById('g-prov').textContent='🏢 '+prov;
+  document.getElementById('g-rtp').textContent=rtp;
+  document.getElementById('g-vol').textContent=vol;
+  document.getElementById('g-desc').textContent=lang==='bn'
+    ?`${name} — ${prov} কোম্পানির গেম। Play Now চাপুন শুরু করতে।`
+    :`${name} by ${prov}. Play with real money or try Demo for free!`;
+  document.getElementById('g-play').textContent=lang==='bn'?'🎮 এখনই খেলুন':'🎮 Play Now';
+  document.getElementById('g-demo').textContent=lang==='bn'?'ডেমো (ফ্রি)':'Try Demo (Free)';
+  openOv('ov-game');
 }
 
-// ========== BETSLIP ==========
-function addBet(el,match,pick,odds){
+function playGame(){
+  if(!user){closeOv('ov-game');openOv('ov-login');return;}
+  closeOv('ov-game');
+  showAlert('🎮','Launching...',lang==='bn'?'গেম লোড হচ্ছে!':'Game is loading!');
+}
+
+// ========== BET SLIP ==========
+function toggleBet(el,match,pick,odds){
   const key=match+'|'+pick;
   const idx=bets.findIndex(b=>b.k===key);
   if(idx>-1){bets.splice(idx,1);el.classList.remove('on');}
   else{bets.push({k:key,match,pick,odds});el.classList.add('on');}
+  updateBsFloat();
   renderBs();
 }
-function removeBet(i){bets.splice(i,1);renderBs();}
-function clearBets(){bets=[];document.querySelectorAll('.ob.on').forEach(e=>e.classList.remove('on'));renderBs();}
-function renderBs(){
-  const items=document.getElementById('bs-items'),bot=document.getElementById('bs-bot'),cnt=document.getElementById('bs-cnt');
-  cnt.style.display=bets.length?'flex':'none';cnt.textContent=bets.length;
-  if(!bets.length){items.innerHTML=`<div class="bs-empty" id="bs-emp">${lang==='bn'?'কোনো বাছাই নেই।<br>অডসে চাপুন।':'No selections yet.<br>Click any odds to add.'}</div>`;bot.style.display='none';return;}
-  items.innerHTML=bets.map((b,i)=>`<div class="bi"><button class="bi-rm" onclick="removeBet(${i})">✕</button><div class="bi-match">${b.match}</div><div class="bi-pick">${b.pick}</div><div class="bi-odds">@ ${b.odds.toFixed(2)}</div></div>`).join('');
-  bot.style.display='flex';bot.style.flexDirection='column';bot.style.gap='8px';calcBet();
+
+function updateBsFloat(){
+  const f=document.getElementById('bs-float'),c=document.getElementById('bs-cnt');
+  f.classList.toggle('show',bets.length>0);
+  c.textContent=bets.length;
 }
+
+function renderBs(){
+  const items=document.getElementById('bs-items'),bot=document.getElementById('bs-bot');
+  if(!bets.length){
+    items.innerHTML='<div style="color:#aaa;text-align:center;padding:20px;font-size:13px">No selections yet.<br>Tap any odds to add.</div>';
+    bot.style.display='none';return;
+  }
+  items.innerHTML=bets.map((b,i)=>`<div style="background:#162550;border-radius:8px;padding:9px 10px;margin-bottom:7px;position:relative;border:1px solid var(--border)">
+    <button onclick="removeBet(${i})" style="position:absolute;top:7px;right:8px;background:none;border:none;color:#aaa;font-size:16px;cursor:pointer">✕</button>
+    <div style="font-size:10px;color:#aaa;margin-bottom:2px;padding-right:20px">${b.match}</div>
+    <div style="font-weight:700;font-size:13px">${b.pick}</div>
+    <div style="color:var(--gold);font-weight:800;font-size:13px">@ ${b.odds.toFixed(2)}</div>
+  </div>`).join('');
+  bot.style.display='flex';bot.style.flexDirection='column';bot.style.gap='8px';
+  calcBet();
+}
+
+function removeBet(i){bets.splice(i,1);updateBsFloat();renderBs();}
+function clearBets(){bets=[];document.querySelectorAll('.odd.on').forEach(e=>e.classList.remove('on'));updateBsFloat();renderBs();}
+
 function calcBet(){
   const stake=parseFloat(document.getElementById('bs-stake').value)||0;
   const tot=bets.reduce((a,b)=>a*b.odds,1);
   document.getElementById('bs-to').textContent=bets.length?tot.toFixed(2):'-';
   document.getElementById('bs-pw').textContent='৳'+(stake*tot).toFixed(2);
 }
+
 function placeBet(){
-  if(!user){showLoginPopup();return;}
-  if(!bets.length) return;
+  if(!user){closeOv('ov-betslip');openOv('ov-login');return;}
   const stake=parseFloat(document.getElementById('bs-stake').value)||0;
-  if(!stake){showAlert('⚠️','Enter Stake','Please enter your stake amount.');return;}
-  showAlert('✅','Bet Placed!',`Your bet of ৳${stake} has been placed successfully! Good luck! 🍀`);
+  if(!stake){showAlert('⚠️','Error',lang==='bn'?'বেটের পরিমাণ দিন।':'Please enter stake amount.');return;}
+  closeOv('ov-betslip');
+  showAlert('✅','Bet Placed!',`৳${stake} bet placed! Good luck! 🍀`);
   clearBets();
 }
 
 // ========== AUTH ==========
-function showLoginPopup(){document.getElementById('login-ov').classList.add('on');}
-function showRegPopup(){document.getElementById('reg-ov').classList.add('on');}
 function doLogin(){
-  const u=document.getElementById('lp-user').value.trim();
-  const p=document.getElementById('lp-pass').value;
-  if(!u||!p){showAlert('⚠️','Error','Please enter username and password.');return;}
-  user={name:u,email:u+'@nexabet.com',balance:0,bonus:0};
-  closeOv('login-ov');
-  updateUserUI();
-  showAlert('✅','Welcome Back!',`Welcome back, ${u}! 🎉`);
+  const u=document.getElementById('l-user').value.trim();
+  const p=document.getElementById('l-pass').value;
+  if(!u||!p){showAlert('⚠️','Error','Please enter username & password.');return;}
+  user={name:u,email:u+'@nexabet.com',balance:0,bonus:500};
+  closeOv('ov-login');
+  updateUserNav();
+  showAlert('✅','Welcome Back!',`Welcome, ${u}! 🎉`);
 }
+
 function doRegister(){
-  const u=document.getElementById('rp-user').value.trim();
-  const e=document.getElementById('rp-email').value.trim();
-  const p=document.getElementById('rp-pass').value;
-  if(!u||!e||!p){showAlert('⚠️','Error','Please fill all fields.');return;}
+  const u=document.getElementById('r-user').value.trim();
+  const e=document.getElementById('r-email').value.trim();
+  const p=document.getElementById('r-pass').value;
+  if(!u||!e||!p){showAlert('⚠️','Error','Please fill all required fields.');return;}
   if(p.length<8){showAlert('⚠️','Error','Password must be at least 8 characters.');return;}
   user={name:u,email:e,balance:0,bonus:500};
-  closeOv('reg-ov');
-  updateUserUI();
-  showAlert('🎉','Welcome to NexaBet!',`Account created! ৳500 welcome bonus added! 🎁`);
+  closeOv('ov-reg');
+  updateUserNav();
+  showAlert('🎉','Welcome to NexaBet!',`Account created! ৳500 bonus added! 🎁`);
 }
-function updateUserUI(){
+
+function updateUserNav(){
   if(!user) return;
   document.getElementById('n-login').style.display='none';
   document.getElementById('n-reg').style.display='none';
@@ -1045,60 +1007,61 @@ function updateUserUI(){
   document.getElementById('prof-av').textContent=user.name[0].toUpperCase();
   document.getElementById('prof-name').textContent=user.name;
   document.getElementById('prof-email').textContent=user.email;
-  document.getElementById('prv-uname').textContent=user.name;
-  document.getElementById('prv-email').textContent=user.email;
-  document.getElementById('bal-main').textContent='৳'+user.balance.toFixed(2);
-  document.getElementById('bal-bonus').textContent='৳'+user.bonus.toFixed(2);
-  document.getElementById('bal-won').textContent='৳0.00';
+  document.getElementById('prv-un').textContent=user.name;
+  document.getElementById('prv-em').textContent=user.email;
+  document.getElementById('bal-main').textContent='৳'+user.balance;
+  document.getElementById('bal-bonus').textContent='৳'+user.bonus;
 }
-function logout(){
+
+function doLogout(){
   user=null;
   document.getElementById('n-login').style.display='';
   document.getElementById('n-reg').style.display='';
   document.getElementById('n-user').style.display='none';
-  goPage('home',null);
-  showAlert('👋','Logged Out','You have been logged out successfully.');
+  showPg('home');
+  showAlert('👋','Logged Out','See you again!');
 }
 
 // ========== DEPOSIT ==========
-function selDepMethod(el,method){
+function selDep(el,method){
   document.querySelectorAll('.dep-m').forEach(m=>m.classList.remove('on'));
   el.classList.add('on');
-  document.getElementById('dep-form-title').textContent=`💳 Deposit via ${method}`;
-  document.getElementById('dep-lbl2').textContent=method==='USDT'?'USDT Wallet Address':method==='Bitcoin'?'Bitcoin Address':`Your ${method} Number`;
-  document.getElementById('dep-phone').placeholder=method==='USDT'?'Your TRC20/ERC20 address':method==='Bitcoin'?'Your BTC address':'+880 1X XXXX XXXX';
-  document.getElementById('dep-instructions').innerHTML=`1. Send money to: <strong style="color:var(--gold)">01XXXXXXXXXX</strong><br>2. Enter your ${method} number/address<br>3. Click Confirm Deposit`;
+  document.getElementById('dep-title').textContent=`💳 Deposit via ${method}`;
+  document.getElementById('dep-num-lbl').textContent=
+    method==='USDT'?'USDT Wallet Address':method==='Bitcoin'?'Bitcoin Address':`Your ${method} Number`;
+  document.getElementById('dep-num').placeholder=
+    method==='USDT'?'TRC20/ERC20 address':method==='Bitcoin'?'BTC address':'+880 1X XXXX XXXX';
 }
-function setDepAmt(v){document.getElementById('dep-amount').value=v;}
-function submitDeposit(){
-  if(!user){showLoginPopup();return;}
-  const amt=parseFloat(document.getElementById('dep-amount').value);
+
+function doDeposit(){
+  if(!user){openOv('ov-login');return;}
+  const amt=parseFloat(document.getElementById('dep-amt').value);
   if(!amt||amt<200){showAlert('⚠️','Error','Minimum deposit is ৳200.');return;}
   user.balance+=amt;
-  document.getElementById('bal-main').textContent='৳'+user.balance.toFixed(2);
-  showAlert('✅','Deposit Submitted!',`Your deposit request of ৳${amt} has been submitted! It will be credited within 5 minutes.`);
+  document.getElementById('bal-main').textContent='৳'+user.balance;
+  showAlert('✅','Deposit Submitted!',`৳${amt} deposit submitted! Will be credited in 5 minutes.`);
 }
 
 // ========== PROMOS ==========
 function buildPromos(){
   const el=document.getElementById('promo-list'); if(!el) return;
-  el.innerHTML=(PROMOS[lang]||PROMOS.en).map(p=>`<div class="pb ${p.c}"><div><h3>${p.i} ${p.t}</h3><p>${p.d}</p></div><button class="pb-btn">${p.btn}</button></div>`).join('');
+  el.innerHTML=(PROMOS[lang]).map(p=>`<div class="promo-card ${p.c}"><div><h3>${p.i} ${p.t}</h3><p>${p.d}</p></div><button class="promo-btn">${p.btn}</button></div>`).join('');
 }
 
-// ========== POPUP HELPERS ==========
+// ========== OVERLAY ==========
+function openOv(id){document.getElementById(id).classList.add('on');}
+function closeOv(id){document.getElementById(id).classList.remove('on');}
+function bgClose(e,id){if(e.target.id===id) closeOv(id);}
+
 function showAlert(em,title,msg){
   document.getElementById('al-em').textContent=em;
   document.getElementById('al-title').textContent=title;
   document.getElementById('al-msg').textContent=msg;
-  document.getElementById('alert-ov').classList.add('on');
+  openOv('ov-alert');
 }
-function closeOv(id){document.getElementById(id).classList.remove('on');}
-function closeOvClick(e,id){if(e.target.id===id) closeOv(id);}
-
-// duplicate removed
 
 // ========== INIT ==========
-window.onload=()=>{
+window.addEventListener('load',()=>{
   buildHome();
   buildCasino('lc',LC_PVRS,LC_GAMES);
   buildCasino('sl',SL_PVRS,SL_GAMES);
@@ -1106,8 +1069,8 @@ window.onload=()=>{
   buildCasino('tb',TB_PVRS,TB_GAMES);
   buildCasino('fi',FI_PVRS,FI_GAMES);
   buildPromos();
-  buildSport('cricket');
-};
+  buildSports();
+});
 </script>
 </body>
 </html>
