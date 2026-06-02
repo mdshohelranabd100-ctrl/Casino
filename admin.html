@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaBet Admin Panel</title>
+<style>
+:root{--gold:#f0b429;--dark:#070d1f;--card:#111d3c;--blue:#0d1b3e;--blue2:#162550;--muted:#7a8aaa;--border:#1e3060;--green:#1d9e75;--red:#e24b4a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.nav{background:var(--blue);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold)}
+.logo{color:var(--gold);font-size:18px;font-weight:900}
+.logo span{color:#fff}
+.admin-badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.layout{display:flex;min-height:calc(100vh - 54px)}
+.sb{width:200px;background:var(--blue);border-right:1px solid var(--border);padding:10px 0;flex-shrink:0}
+.sb-i{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;font-size:13px;color:var(--muted);border-left:3px solid transparent;transition:.15s}
+.sb-i:hover{background:var(--blue2);color:#fff}
+.sb-i.on{background:var(--blue2);color:var(--gold);border-left-color:var(--gold)}
+.sb-i .ic{font-size:16px;width:20px;text-align:center}
+.main{flex:1;padding:20px;overflow-y:auto}
+.pg{display:none}.pg.on{display:block}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--border)}
+.stat-icon{font-size:28px;margin-bottom:8px}
+.stat-val{font-size:24px;font-weight:900;color:var(--gold)}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.sec-title{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--gold)}
+.table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.table th{background:var(--blue2);padding:11px 14px;text-align:left;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border)}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:#ffffff05}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.b-pending{background:#f0b42922;color:var(--gold);border:1px solid var(--gold)}
+.b-approved{background:#1d9e7522;color:var(--green);border:1px solid var(--green)}
+.b-rejected{background:#e24b4a22;color:var(--red);border:1px solid var(--red)}
+.btn{border:none;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.btn-approve{background:var(--green);color:#fff}
+.btn-reject{background:var(--red);color:#fff}
+.btn-approve:hover{background:#157a5a}
+.btn-reject:hover{background:#c03a3a}
+.btn-gold{background:var(--gold);color:#111;padding:10px 20px;font-size:13px}
+.form-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);max-width:500px;margin-bottom:20px}
+.form-card h3{font-size:15px;font-weight:700;color:var(--gold);margin-bottom:16px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.fg input,.fg select{width:100%;background:var(--blue2);border:1px solid var(--border);color:#fff;padding:10px 12px;border-radius:8px;font-size:14px;outline:none}
+.fg input:focus,.fg select:focus{border-color:var(--gold)}
+.fg select option{background:var(--blue)}
+.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none}
+.alert.show{display:block}
+.alert-s{background:#1d9e7522;border:1px solid var(--green);color:#4ecca3}
+.alert-e{background:#e24b4a22;border:1px solid var(--red);color:#ff6b6b}
+@media(max-width:600px){.sb{display:none}.stats-grid{grid-template-columns:1fr 1fr}.table{font-size:12px}.table th,.table td{padding:8px 10px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">Nexa<span>Bet</span> <span style="font-size:13px;color:var(--muted);font-weight:400">Admin</span></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="admin-badge">🔐 ADMIN</span>
+    <span style="font-size:13px;color:var(--muted)" id="admin-name">Admin</span>
+  </div>
+</nav>
+
+<div id="login-screen" style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:20px">
+  <div style="background:var(--card);border-radius:14px;padding:30px;max-width:360px;width:100%;border:1px solid var(--border);text-align:center">
+    <div style="font-size:48px;margin-bottom:14px">🔐</div>
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:6px">Admin Login</h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:20px">NexaBet Admin Panel</p>
+    <div style="margin-bottom:12px;text-align:left">
+      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">Username</label>
+      <input id="a-user" type="text" placeholder="admin" style="width:100%;background:var(--blue2);border:1px solid var(--border);color:#fff;padding:11px 14px;border-radius:8px;font-size:14px;outline:none">
+    </div>
+    <div style="margin-bottom:18px;text-align:left">
+      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:5px">Password</label>
+      <input id="a-pass" type="password" placeholder="••••••••" style="width:100%;background:var(--blue2);border:1px solid var(--border);color:#fff;padding:11px 14px;border-radius:8px;font-size:14px;outline:none">
+    </div>
+    <button onclick="adminLogin()" style="width:100%;background:var(--gold);color:#111;border:none;padding:13px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer">Login to Admin</button>
+    <p style="color:var(--muted);font-size:11px;margin-top:12px">Default: admin / nexabet2025</p>
+  </div>
+</div>
+
+<div id="admin-panel" style="display:none">
+<div class="layout">
+<div class="sb">
+  <div class="sb-i on" onclick="showPg('dashboard',this)"><span class="ic">📊</span>Dashboard</div>
+  <div class="sb-i" onclick="showPg('deposits',this)"><span class="ic">💳</span>Deposits</div>
+  <div class="sb-i" onclick="showPg('withdrawals',this)"><span class="ic">💸</span>Withdrawals</div>
+  <div class="sb-i" onclick="showPg('users',this)"><span class="ic">👥</span>Users</div>
+  <div class="sb-i" onclick="showPg('balance',this)"><span class="ic">💰</span>Update Balance</div>
+  <div class="sb-i" onclick="showPg('bets',this)"><span class="ic">🎯</span>Bet History</div>
+  <div class="sb-i" onclick="showPg('settings',this)"><span class="ic">⚙️</span>Settings</div>
+</div>
+
+<div class="main">
+
+<!-- DASHBOARD -->
+<div class="pg on" id="pg-dashboard">
+  <div class="sec-title">📊 Dashboard Overview</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="s-users">0</div><div class="stat-lbl">Total Users</div></div>
+    <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="s-dep">৳0</div><div class="stat-lbl">Total Deposits</div></div>
+    <div class="stat-card"><div class="stat-icon">💸</div><div class="stat-val" id="s-wd">৳0</div><div class="stat-lbl">Total Withdrawals</div></div>
+    <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" id="s-pend">0</div><div class="stat-lbl">Pending Requests</div></div>
+    <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-val" id="s-bets">0</div><div class="stat-lbl">Total Bets</div></div>
+    <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-val" id="s-profit">৳0</div><div class="stat-lbl">Net Profit</div></div>
+  </div>
+
+  <div class="sec-title">⏳ Pending Requests</div>
+  <table class="table" id="pending-table">
+    <thead><tr><th>User</th><th>Type</th><th>Amount</th><th>Method</th><th>Time</th><th>Action</th></tr></thead>
+    <tbody id="pending-tbody"><tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px">No pending requests</td></tr></tbody>
+  </table>
+</div>
+
+<!-- DEPOSITS -->
+<div class="pg" id="pg-deposits">
+  <div class="sec-title">💳 All Deposit Requests</div>
+  <table class="table">
+    <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Number</th><th>Status</th><th>Time</th><th>Action</th></tr></thead>
+    <tbody id="dep-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No deposits yet</td></tr></tbody>
+  </table>
+</div>
+
+<!-- WITHDRAWALS -->
+<div class="pg" id="pg-withdrawals">
+  <div class="sec-title">💸 All Withdrawal Requests</div>
+  <table class="table">
+    <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Number</th><th>Status</th><th>Time</th><th>Action</th></tr></thead>
+    <tbody id="wd-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No withdrawals yet</td></tr></tbody>
+  </table>
+</div>
+
+<!-- USERS -->
+<div class="pg" id="pg-users">
+  <div class="sec-title">👥 All Users</div>
+  <table class="table">
+    <thead><tr><th>Username</th><th>Email</th><th>Balance</th><th>Bonus</th><th>Total Dep</th><th>Joined</th><th>Status</th></tr></thead>
+    <tbody id="users-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No users yet</td></tr></tbody>
+  </table>
+</div>
+
+<!-- UPDATE BALANCE -->
+<div class="pg" id="pg-balance">
+  <div class="form-card">
+    <h3>💰 Update User Balance</h3>
+    <div id="bal-alert" class="alert"></div>
+    <div class="fg">
+      <label>Username</label>
+      <input id="bal-user" type="text" placeholder="Enter username">
+    </div>
+    <div class="fg">
+      <label>Action</label>
+      <select id="bal-action">
+        <option value="add">➕ Add Balance</option>
+        <option value="subtract">➖ Subtract Balance</option>
+        <option value="set">🔄 Set Balance</option>
+        <option value="bonus-add">🎁 Add Bonus</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Amount (৳)</label>
+      <input id="bal-amount" type="number" placeholder="Enter amount">
+    </div>
+    <div class="fg">
+      <label>Note (optional)</label>
+      <input id="bal-note" type="text" placeholder="e.g. Deposit approved">
+    </div>
+    <button class="btn btn-gold" onclick="updateBalance()">✅ Update Balance</button>
+  </div>
+
+  <div class="form-card">
+    <h3>🎁 Give Bonus to All Users</h3>
+    <div class="fg">
+      <label>Bonus Amount (৳)</label>
+      <input id="bulk-bonus" type="number" placeholder="e.g. 100">
+    </div>
+    <div class="fg">
+      <label>Reason</label>
+      <input id="bulk-reason" type="text" placeholder="e.g. Weekend bonus">
+    </div>
+    <button class="btn btn-gold" onclick="giveBulkBonus()">🎁 Give to All Users</button>
+  </div>
+</div>
+
+<!-- BET HISTORY -->
+<div class="pg" id="pg-bets">
+  <div class="sec-title">🎯 All Bet History</div>
+  <table class="table">
+    <thead><tr><th>User</th><th>Match</th><th>Pick</th><th>Odds</th><th>Stake</th><th>Status</th><th>Time</th></tr></thead>
+    <tbody id="bets-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">No bets yet</td></tr></tbody>
+  </table>
+</div>
+
+<!-- SETTINGS -->
+<div class="pg" id="pg-settings">
+  <div class="form-card">
+    <h3>⚙️ Site Settings</h3>
+    <div class="fg"><label>Site Name</label><input type="text" value="NexaBet"></div>
+    <div class="fg"><label>bKash Number</label><input type="text" id="set-bkash" placeholder="01XXXXXXXXXX"></div>
+    <div class="fg"><label>Nagad Number</label><input type="text" id="set-nagad" placeholder="01XXXXXXXXXX"></div>
+    <div class="fg"><label>Rocket Number</label><input type="text" id="set-rocket" placeholder="01XXXXXXXXXX"></div>
+    <div class="fg"><label>USDT Address (TRC20)</label><input type="text" id="set-usdt" placeholder="TRC20 address"></div>
+    <div class="fg"><label>Min Deposit (৳)</label><input type="number" value="200"></div>
+    <div class="fg"><label>Min Withdrawal (৳)</label><input type="number" value="500"></div>
+    <button class="btn btn-gold" onclick="showAlert2('✅ Settings saved!')">💾 Save Settings</button>
+  </div>
+
+  <div class="form-card">
+    <h3>🔐 Change Admin Password</h3>
+    <div class="fg"><label>Current Password</label><input type="password" placeholder="Current password"></div>
+    <div class="fg"><label>New Password</label><input type="password" placeholder="New password"></div>
+    <div class="fg"><label>Confirm New Password</label><input type="password" placeholder="Confirm password"></div>
+    <button class="btn btn-gold" onclick="showAlert2('✅ Password changed!')">🔐 Change Password</button>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+</div><!-- /admin-panel -->
+
+<script>
+// ===== MOCK DATA (will connect to Supabase) =====
+let DB = {
+  users:[
+    {id:1,username:'player1',email:'player1@email.com',balance:1500,bonus:500,totalDep:2000,joined:'Jun 1 2025',active:true},
+    {id:2,username:'testuser',email:'test@email.com',balance:300,bonus:200,totalDep:500,joined:'Jun 2 2025',active:true},
+  ],
+  deposits:[
+    {id:1,user:'player1',amount:2000,method:'bKash',number:'01711111111',status:'approved',time:'Jun 1 10:30'},
+    {id:2,user:'testuser',amount:500,method:'Nagad',number:'01811111111',status:'pending',time:'Jun 3 09:15'},
+  ],
+  withdrawals:[
+    {id:1,user:'player1',amount:500,method:'bKash',number:'01711111111',status:'pending',time:'Jun 3 11:00'},
+  ],
+  bets:[
+    {id:1,user:'player1',match:'Man City vs Real Madrid',pick:'Man City',odds:2.10,stake:100,status:'pending',time:'Jun 3 11:30'},
+    {id:2,user:'testuser',match:'IPL: MI vs CSK',pick:'MI Win',odds:1.85,stake:50,status:'won',time:'Jun 3 10:00'},
+  ]
+};
+
+// ===== AUTH =====
+function adminLogin(){
+  const u=document.getElementById('a-user').value;
+  const p=document.getElementById('a-pass').value;
+  if(u==='admin'&&p==='nexabet2025'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    document.getElementById('admin-name').textContent='Admin';
+    loadAll();
+  } else {
+    alert('Wrong username or password!\nDefault: admin / nexabet2025');
+  }
+}
+
+// ===== NAV =====
+function showPg(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-i').forEach(s=>s.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  if(el) el.classList.add('on');
+}
+
+// ===== LOAD ALL =====
+function loadAll(){
+  loadDashboard();
+  loadDeposits();
+  loadWithdrawals();
+  loadUsers();
+  loadBets();
+}
+
+function loadDashboard(){
+  const totalDep=DB.deposits.filter(d=>d.status==='approved').reduce((a,d)=>a+d.amount,0);
+  const totalWd=DB.withdrawals.filter(w=>w.status==='approved').reduce((a,w)=>a+w.amount,0);
+  const pending=[...DB.deposits,...DB.withdrawals].filter(r=>r.status==='pending').length;
+  document.getElementById('s-users').textContent=DB.users.length;
+  document.getElementById('s-dep').textContent='৳'+totalDep.toLocaleString();
+  document.getElementById('s-wd').textContent='৳'+totalWd.toLocaleString();
+  document.getElementById('s-pend').textContent=pending;
+  document.getElementById('s-bets').textContent=DB.bets.length;
+  document.getElementById('s-profit').textContent='৳'+(totalDep-totalWd).toLocaleString();
+
+  // Pending table
+  const pendingItems=[
+    ...DB.deposits.filter(d=>d.status==='pending').map(d=>({...d,type:'Deposit'})),
+    ...DB.withdrawals.filter(w=>w.status==='pending').map(w=>({...w,type:'Withdrawal'}))
+  ];
+  const tbody=document.getElementById('pending-tbody');
+  if(!pendingItems.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px">No pending requests ✅</td></tr>';return;}
+  tbody.innerHTML=pendingItems.map(r=>`<tr>
+    <td><strong>${r.user}</strong></td>
+    <td><span style="color:${r.type==='Deposit'?'#4ecca3':'#ff6b6b'}">${r.type}</span></td>
+    <td><strong style="color:var(--gold)">৳${r.amount}</strong></td>
+    <td>${r.method}</td>
+    <td style="color:var(--muted)">${r.time}</td>
+    <td style="display:flex;gap:6px">
+      <button class="btn btn-approve" onclick="approve('${r.type.toLowerCase()}',${r.id})">✅ Approve</button>
+      <button class="btn btn-reject" onclick="reject('${r.type.toLowerCase()}',${r.id})">❌ Reject</button>
+    </td>
+  </tr>`).join('');
+}
+
+function loadDeposits(){
+  document.getElementById('dep-tbody').innerHTML=DB.deposits.map(d=>`<tr>
+    <td><strong>${d.user}</strong></td>
+    <td><strong style="color:var(--gold)">৳${d.amount}</strong></td>
+    <td>${d.method}</td>
+    <td style="color:var(--muted)">${d.number}</td>
+    <td><span class="badge b-${d.status}">${d.status.toUpperCase()}</span></td>
+    <td style="color:var(--muted)">${d.time}</td>
+    <td style="display:flex;gap:5px">${d.status==='pending'?`
+      <button class="btn btn-approve" onclick="approve('deposit',${d.id})">✅</button>
+      <button class="btn btn-reject" onclick="reject('deposit',${d.id})">❌</button>`:'—'}
+    </td>
+  </tr>`).join('');
+}
+
+function loadWithdrawals(){
+  document.getElementById('wd-tbody').innerHTML=DB.withdrawals.map(w=>`<tr>
+    <td><strong>${w.user}</strong></td>
+    <td><strong style="color:var(--gold)">৳${w.amount}</strong></td>
+    <td>${w.method}</td>
+    <td style="color:var(--muted)">${w.number}</td>
+    <td><span class="badge b-${w.status}">${w.status.toUpperCase()}</span></td>
+    <td style="color:var(--muted)">${w.time}</td>
+    <td style="display:flex;gap:5px">${w.status==='pending'?`
+      <button class="btn btn-approve" onclick="approve('withdrawal',${w.id})">✅</button>
+      <button class="btn btn-reject" onclick="reject('withdrawal',${w.id})">❌</button>`:'—'}
+    </td>
+  </tr>`).join('');
+}
+
+function loadUsers(){
+  document.getElementById('users-tbody').innerHTML=DB.users.map(u=>`<tr>
+    <td><strong>${u.username}</strong></td>
+    <td style="color:var(--muted)">${u.email}</td>
+    <td><strong style="color:var(--gold)">৳${u.balance}</strong></td>
+    <td style="color:#4ecca3">৳${u.bonus}</td>
+    <td>৳${u.totalDep}</td>
+    <td style="color:var(--muted)">${u.joined}</td>
+    <td><span class="badge b-approved">ACTIVE</span></td>
+  </tr>`).join('');
+}
+
+function loadBets(){
+  document.getElementById('bets-tbody').innerHTML=DB.bets.map(b=>`<tr>
+    <td><strong>${b.user}</strong></td>
+    <td style="color:var(--muted)">${b.match}</td>
+    <td>${b.pick}</td>
+    <td style="color:var(--gold)">${b.odds}</td>
+    <td>৳${b.stake}</td>
+    <td><span class="badge b-${b.status==='won'?'approved':b.status==='lost'?'rejected':'pending'}">${b.status.toUpperCase()}</span></td>
+    <td style="color:var(--muted)">${b.time}</td>
+  </tr>`).join('');
+}
+
+// ===== APPROVE/REJECT =====
+function approve(type,id){
+  if(type==='deposit'){
+    const d=DB.deposits.find(d=>d.id===id);
+    if(d){
+      d.status='approved';
+      const u=DB.users.find(u=>u.username===d.user);
+      if(u){u.balance+=d.amount;u.totalDep+=d.amount;}
+      showAlert2(`✅ Deposit of ৳${d.amount} approved for ${d.user}. Balance updated!`);
+    }
+  } else {
+    const w=DB.withdrawals.find(w=>w.id===id);
+    if(w){
+      w.status='approved';
+      const u=DB.users.find(u=>u.username===w.user);
+      if(u) u.balance=Math.max(0,u.balance-w.amount);
+      showAlert2(`✅ Withdrawal of ৳${w.amount} approved for ${w.user}.`);
+    }
+  }
+  loadAll();
+}
+
+function reject(type,id){
+  const arr=type==='deposit'?DB.deposits:DB.withdrawals;
+  const r=arr.find(r=>r.id===id);
+  if(r){r.status='rejected';showAlert2(`❌ ${type} rejected.`);}
+  loadAll();
+}
+
+// ===== UPDATE BALANCE =====
+function updateBalance(){
+  const username=document.getElementById('bal-user').value.trim();
+  const action=document.getElementById('bal-action').value;
+  const amount=parseFloat(document.getElementById('bal-amount').value);
+  const alertEl=document.getElementById('bal-alert');
+
+  if(!username||!amount){
+    alertEl.className='alert alert-e show';
+    alertEl.textContent='Please fill username and amount.';return;
+  }
+
+  const u=DB.users.find(u=>u.username===username);
+  if(!u){
+    alertEl.className='alert alert-e show';
+    alertEl.textContent=`User "${username}" not found!`;return;
+  }
+
+  if(action==='add') u.balance+=amount;
+  else if(action==='subtract') u.balance=Math.max(0,u.balance-amount);
+  else if(action==='set') u.balance=amount;
+  else if(action==='bonus-add') u.bonus+=amount;
+
+  alertEl.className='alert alert-s show';
+  alertEl.textContent=`✅ Done! ${username}'s balance is now ৳${u.balance} (bonus: ৳${u.bonus})`;
+  loadUsers();
+  setTimeout(()=>alertEl.classList.remove('show'),4000);
+}
+
+function giveBulkBonus(){
+  const amount=parseFloat(document.getElementById('bulk-bonus').value);
+  if(!amount){showAlert2('Please enter bonus amount.');return;}
+  DB.users.forEach(u=>u.bonus+=amount);
+  showAlert2(`✅ ৳${amount} bonus given to all ${DB.users.length} users!`);
+  loadUsers();
+}
+
+function showAlert2(msg){alert(msg);}
+
+// Enter key for login
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none') adminLogin();
+});
+</script>
+</body>
+</html>
