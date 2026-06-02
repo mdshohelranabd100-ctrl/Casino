@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaBet Games</title>
+<style>
+:root{--gold:#f0b429;--dark:#070d1f;--card:#111d3c;--blue:#0d1b3e;--blue2:#162550;--muted:#7a8aaa;--border:#1e3060;--green:#1d9e75;--red:#e24b4a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{font-family:'Segoe UI',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.nav{background:var(--blue);padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100}
+.logo{color:var(--gold);font-size:18px;font-weight:900}
+.bal-display{background:var(--blue2);border:1px solid var(--gold);padding:5px 14px;border-radius:20px;font-size:13px;font-weight:700;color:var(--gold)}
+.game-tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 16px;background:var(--blue);scrollbar-width:none;border-bottom:1px solid var(--border)}
+.game-tabs::-webkit-scrollbar{display:none}
+.gtab{flex-shrink:0;background:var(--card);border:1px solid var(--border);padding:7px 16px;border-radius:20px;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap;font-weight:600}
+.gtab.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+.pg{display:none;padding:16px}.pg.on{display:block}
+
+/* CRASH */
+.crash-wrap{max-width:500px;margin:0 auto}
+.crash-screen{background:linear-gradient(180deg,#000510,#050d2e);border-radius:16px;height:260px;position:relative;overflow:hidden;border:2px solid var(--border);margin-bottom:14px;display:flex;align-items:center;justify-content:center}
+.crash-mult{font-size:64px;font-weight:900;color:var(--gold);text-shadow:0 0 30px rgba(240,180,41,.5);transition:color .3s}
+.crash-mult.crashed{color:var(--red);text-shadow:0 0 30px rgba(226,75,74,.5)}
+.crash-status{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:14px;color:var(--muted)}
+.crash-graph{position:absolute;bottom:0;left:0;right:0;height:100%;pointer-events:none}
+.crash-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.game-inp{background:var(--blue2);border:1px solid var(--border);color:#fff;padding:11px 14px;border-radius:9px;font-size:15px;outline:none;width:100%}
+.game-inp:focus{border-color:var(--gold)}
+.game-btn{padding:13px;border-radius:9px;font-size:15px;font-weight:800;cursor:pointer;border:none;width:100%;transition:.15s}
+.btn-bet{background:var(--gold);color:#111}
+.btn-bet:hover{background:#ffd700}
+.btn-cashout{background:var(--green);color:#fff}
+.btn-cashout:hover{background:#157a5a}
+.btn-disabled{background:#333;color:#777;cursor:not-allowed}
+.result-box{background:var(--blue2);border-radius:10px;padding:12px 16px;margin-bottom:10px;border:1px solid var(--border);font-size:14px;min-height:44px;text-align:center}
+.quick-bets{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+.qb{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
+.qb:active{border-color:var(--gold);color:var(--gold)}
+.history-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.history-row::-webkit-scrollbar{display:none}
+.h-pill{flex-shrink:0;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.h-green{background:#1d9e7533;color:#4ecca3;border:1px solid #1d9e75}
+.h-red{background:#e24b4a33;color:#ff6b6b;border:1px solid #e24b4a}
+
+/* DICE */
+.dice-wrap{max-width:500px;margin:0 auto}
+.dice-display{background:var(--card);border-radius:16px;padding:24px;text-align:center;margin-bottom:14px;border:2px solid var(--border)}
+.dice-result{font-size:80px;margin-bottom:8px;transition:transform .2s}
+.dice-result.rolling{animation:roll .6s ease-out}
+@keyframes roll{0%{transform:rotate(0deg) scale(.8)}50%{transform:rotate(180deg) scale(1.2)}100%{transform:rotate(360deg) scale(1)}}
+.dice-num{font-size:32px;font-weight:900;color:var(--gold);margin-bottom:4px}
+.dice-info{font-size:13px;color:var(--muted)}
+.dice-bet-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.dice-option{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:.15s}
+.dice-option:active,.dice-option.on{border-color:var(--gold);background:var(--blue2)}
+.dice-option .do-icon{font-size:22px;margin-bottom:4px}
+.dice-option .do-name{font-size:12px;font-weight:700}
+.dice-option .do-odds{font-size:11px;color:var(--gold);margin-top:2px}
+.dice-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+
+/* ROULETTE */
+.roulette-wrap{max-width:500px;margin:0 auto}
+.wheel-container{position:relative;width:220px;height:220px;margin:0 auto 16px}
+.wheel{width:220px;height:220px;border-radius:50%;border:6px solid var(--gold);position:relative;transition:transform 3s cubic-bezier(.17,.67,.12,.99);background:conic-gradient(
+  #e24b4a 0deg 10deg, #111d3c 10deg 20deg, #e24b4a 20deg 30deg, #111d3c 30deg 40deg,
+  #e24b4a 40deg 50deg, #111d3c 50deg 60deg, #e24b4a 60deg 70deg, #111d3c 70deg 80deg,
+  #e24b4a 80deg 90deg, #111d3c 90deg 100deg, #e24b4a 100deg 110deg, #111d3c 110deg 120deg,
+  #1d9e75 120deg 130deg, #e24b4a 130deg 140deg, #111d3c 140deg 150deg, #e24b4a 150deg 160deg,
+  #111d3c 160deg 170deg, #e24b4a 170deg 180deg, #111d3c 180deg 190deg, #e24b4a 190deg 200deg,
+  #111d3c 200deg 210deg, #e24b4a 210deg 220deg, #111d3c 220deg 230deg, #e24b4a 230deg 240deg,
+  #111d3c 240deg 250deg, #e24b4a 250deg 260deg, #111d3c 260deg 270deg, #e24b4a 270deg 280deg,
+  #111d3c 280deg 290deg, #e24b4a 290deg 300deg, #111d3c 300deg 310deg, #e24b4a 310deg 320deg,
+  #111d3c 320deg 330deg, #e24b4a 330deg 340deg, #111d3c 340deg 350deg, #e24b4a 350deg 360deg
+)}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:var(--dark);border-radius:50%;border:4px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:var(--gold);z-index:2}
+.wheel-pointer{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:24px;z-index:3}
+.roulette-bets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.rb{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 8px;text-align:center;cursor:pointer;transition:.15s}
+.rb:active,.rb.on{border-color:var(--gold);background:var(--blue2)}
+.rb-icon{font-size:20px;margin-bottom:4px}
+.rb-name{font-size:12px;font-weight:700}
+.rb-odds{font-size:11px;color:var(--gold)}
+.num-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:14px}
+.num-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 4px;text-align:center;cursor:pointer;font-size:12px;font-weight:700;transition:.15s}
+.num-btn:active,.num-btn.on{border-color:var(--gold)}
+.num-red{color:#ff6b6b}
+.num-black{color:#fff}
+.num-green{color:#4ecca3}
+
+/* COIN FLIP */
+.coin-wrap{max-width:400px;margin:0 auto;text-align:center}
+.coin-display{width:160px;height:160px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ffd700);display:flex;align-items:center;justify-content:center;font-size:72px;border:6px solid #ffd700;box-shadow:0 0 30px rgba(240,180,41,.3);transition:transform .1s}
+.coin-display.flipping{animation:flip .8s ease-out}
+@keyframes flip{0%{transform:rotateY(0)}50%{transform:rotateY(900deg) scale(1.2)}100%{transform:rotateY(1800deg)}}
+.coin-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.coin-pick{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:18px;text-align:center;cursor:pointer;transition:.15s;font-size:32px}
+.coin-pick:active,.coin-pick.on{border-color:var(--gold);background:var(--blue2)}
+.coin-pick .cp-name{font-size:14px;font-weight:700;margin-top:6px}
+.coin-pick .cp-odds{font-size:12px;color:var(--gold)}
+
+/* BLACKJACK */
+.bj-wrap{max-width:500px;margin:0 auto}
+.bj-table{background:linear-gradient(135deg,#0a2e0a,#0d3a0d);border-radius:16px;padding:16px;border:2px solid #1d9e75;margin-bottom:14px}
+.bj-section{margin-bottom:12px}
+.bj-label{font-size:12px;color:#aaa;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.cards{display:flex;gap:6px;flex-wrap:wrap;min-height:70px}
+.card{width:52px;height:72px;background:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;border:1px solid #ddd;flex-direction:column;gap:1px;box-shadow:2px 3px 8px rgba(0,0,0,.4)}
+.card .rank{font-size:16px;font-weight:900;line-height:1}
+.card .suit{font-size:14px;line-height:1}
+.card.red .rank,.card.red .suit{color:#e24b4a}
+.card.black .rank,.card.black .suit{color:#111}
+.card.hidden{background:linear-gradient(135deg,#0a1b3e,#162550);color:#fff}
+.bj-score{font-size:13px;color:var(--gold);font-weight:700;margin-top:6px}
+.bj-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.bj-btn{flex:1;min-width:80px;padding:11px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;border:none}
+.bj-btn-hit{background:var(--gold);color:#111}
+.bj-btn-stand{background:var(--blue2);color:#fff;border:1px solid var(--border)!important}
+.bj-btn-double{background:#533483;color:#fff}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo" onclick="window.location.href='/'">← NexaBet</div>
+  <div class="bal-display">Balance: ৳<span id="balance">1000</span></div>
+</nav>
+
+<div class="game-tabs">
+  <button class="gtab on" onclick="showGame('crash',this)">🚀 Crash</button>
+  <button class="gtab" onclick="showGame('dice',this)">🎲 Dice</button>
+  <button class="gtab" onclick="showGame('roulette',this)">🎡 Roulette</button>
+  <button class="gtab" onclick="showGame('coin',this)">🪙 Coin Flip</button>
+  <button class="gtab" onclick="showGame('blackjack',this)">🃟 Blackjack</button>
+</div>
+
+<!-- ===== CRASH ===== -->
+<div class="pg on" id="pg-crash">
+<div class="crash-wrap">
+  <div class="crash-screen">
+    <canvas class="crash-graph" id="crash-canvas"></canvas>
+    <div class="crash-mult" id="crash-mult">1.00x</div>
+    <div class="crash-status" id="crash-status">Place bet to start</div>
+  </div>
+  <div class="history-row" id="crash-history"></div>
+  <br>
+  <div class="crash-controls">
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Bet Amount (৳)</div>
+      <input class="game-inp" type="number" id="crash-bet" value="100" min="10">
+      <div class="quick-bets" style="margin-top:8px">
+        <span class="qb" onclick="setBet('crash-bet',50)">৳50</span>
+        <span class="qb" onclick="setBet('crash-bet',100)">৳100</span>
+        <span class="qb" onclick="setBet('crash-bet',500)">৳500</span>
+        <span class="qb" onclick="setBet('crash-bet',1000)">৳1K</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Auto Cashout at</div>
+      <input class="game-inp" type="number" id="crash-auto" value="2.00" step="0.1" min="1.1">
+      <div style="font-size:11px;color:var(--muted);margin-top:6px">0 = manual cashout</div>
+    </div>
+  </div>
+  <button class="game-btn btn-bet" id="crash-btn" onclick="crashAction()">🚀 Place Bet</button>
+  <br><br>
+  <div class="result-box" id="crash-result">Place a bet and watch the multiplier rise!</div>
+</div>
+</div>
+
+<!-- ===== DICE ===== -->
+<div class="pg" id="pg-dice">
+<div class="dice-wrap">
+  <div class="dice-display">
+    <div class="dice-result" id="dice-emoji">🎲</div>
+    <div class="dice-num" id="dice-num">?</div>
+    <div class="dice-info" id="dice-info">Pick a bet type below</div>
+  </div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:700">Select Bet Type:</div>
+  <div class="dice-bet-row">
+    <div class="dice-option on" id="do-low" onclick="selectDice('low',this)">
+      <div class="do-icon">⬇️</div>
+      <div class="do-name">Low (1-3)</div>
+      <div class="do-odds">2.00x</div>
+    </div>
+    <div class="dice-option" id="do-high" onclick="selectDice('high',this)">
+      <div class="do-icon">⬆️</div>
+      <div class="do-name">High (4-6)</div>
+      <div class="do-odds">2.00x</div>
+    </div>
+    <div class="dice-option" id="do-even" onclick="selectDice('even',this)">
+      <div class="do-icon">2️⃣</div>
+      <div class="do-name">Even</div>
+      <div class="do-odds">2.00x</div>
+    </div>
+    <div class="dice-option" id="do-odd" onclick="selectDice('odd',this)">
+      <div class="do-icon">1️⃣</div>
+      <div class="do-name">Odd</div>
+      <div class="do-odds">2.00x</div>
+    </div>
+    <div class="dice-option" id="do-six" onclick="selectDice('six',this)">
+      <div class="do-icon">🎯</div>
+      <div class="do-name">Exact 6</div>
+      <div class="do-odds">6.00x</div>
+    </div>
+    <div class="dice-option" id="do-one" onclick="selectDice('one',this)">
+      <div class="do-icon">🎯</div>
+      <div class="do-name">Exact 1</div>
+      <div class="do-odds">6.00x</div>
+    </div>
+  </div>
+  <div class="dice-controls">
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Bet Amount (৳)</div>
+      <input class="game-inp" type="number" id="dice-bet" value="100" min="10">
+    </div>
+    <div style="display:flex;align-items:flex-end">
+      <button class="game-btn btn-bet" onclick="rollDice()" id="dice-btn" style="padding:11px">🎲 Roll Dice</button>
+    </div>
+  </div>
+  <div class="result-box" id="dice-result">Pick a bet type and roll!</div>
+  <div class="history-row" id="dice-history" style="margin-top:10px"></div>
+</div>
+</div>
+
+<!-- ===== ROULETTE ===== -->
+<div class="pg" id="pg-roulette">
+<div class="roulette-wrap">
+  <div class="wheel-container">
+    <div class="wheel-pointer">▼</div>
+    <div class="wheel" id="roulette-wheel">
+      <div class="wheel-center" id="wheel-num">?</div>
+    </div>
+  </div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:700">Select Bet Type:</div>
+  <div class="roulette-bets">
+    <div class="rb on" id="rb-red" onclick="selRoulette('red',this)"><div class="rb-icon">🔴</div><div class="rb-name">Red</div><div class="rb-odds">2x</div></div>
+    <div class="rb" id="rb-black" onclick="selRoulette('black',this)"><div class="rb-icon">⚫</div><div class="rb-name">Black</div><div class="rb-odds">2x</div></div>
+    <div class="rb" id="rb-green" onclick="selRoulette('green',this)"><div class="rb-icon">🟢</div><div class="rb-name">Green (0)</div><div class="rb-odds">35x</div></div>
+    <div class="rb" id="rb-even" onclick="selRoulette('even',this)"><div class="rb-icon">2️⃣</div><div class="rb-name">Even</div><div class="rb-odds">2x</div></div>
+    <div class="rb" id="rb-odd" onclick="selRoulette('odd',this)"><div class="rb-icon">1️⃣</div><div class="rb-name">Odd</div><div class="rb-odds">2x</div></div>
+    <div class="rb" id="rb-low" onclick="selRoulette('1to18',this)"><div class="rb-icon">⬇️</div><div class="rb-name">1-18</div><div class="rb-odds">2x</div></div>
+  </div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:700">Or pick a number (35x):</div>
+  <div class="num-grid" id="num-grid"></div>
+  <div class="dice-controls">
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Bet Amount (৳)</div>
+      <input class="game-inp" type="number" id="roulette-bet" value="100" min="10">
+    </div>
+    <div style="display:flex;align-items:flex-end">
+      <button class="game-btn btn-bet" onclick="spinRoulette()" id="roulette-btn" style="padding:11px">🎡 Spin</button>
+    </div>
+  </div>
+  <div class="result-box" id="roulette-result">Select a bet type and spin!</div>
+</div>
+</div>
+
+<!-- ===== COIN FLIP ===== -->
+<div class="pg" id="pg-coin">
+<div class="coin-wrap">
+  <div class="coin-display" id="coin-display">🟡</div>
+  <div style="font-size:13px;color:var(--muted);margin-bottom:12px;font-weight:700">Pick Heads or Tails:</div>
+  <div class="coin-btns">
+    <div class="coin-pick on" id="cp-heads" onclick="selCoin('heads',this)">
+      <div>👑</div>
+      <div class="cp-name">Heads</div>
+      <div class="cp-odds">2.00x</div>
+    </div>
+    <div class="coin-pick" id="cp-tails" onclick="selCoin('tails',this)">
+      <div>🦅</div>
+      <div class="cp-name">Tails</div>
+      <div class="cp-odds">2.00x</div>
+    </div>
+  </div>
+  <div style="margin-bottom:10px">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Bet Amount (৳)</div>
+    <input class="game-inp" type="number" id="coin-bet" value="100" min="10">
+  </div>
+  <div class="quick-bets" style="margin-bottom:12px">
+    <span class="qb" onclick="setBet('coin-bet',50)">৳50</span>
+    <span class="qb" onclick="setBet('coin-bet',100)">৳100</span>
+    <span class="qb" onclick="setBet('coin-bet',500)">৳500</span>
+  </div>
+  <button class="game-btn btn-bet" onclick="flipCoin()">🪙 Flip Coin</button>
+  <br><br>
+  <div class="result-box" id="coin-result">Pick heads or tails and flip!</div>
+  <div class="history-row" id="coin-history" style="margin-top:10px"></div>
+</div>
+</div>
+
+<!-- ===== BLACKJACK ===== -->
+<div class="pg" id="pg-blackjack">
+<div class="bj-wrap">
+  <div class="bj-table">
+    <div class="bj-section">
+      <div class="bj-label">Dealer <span id="dealer-score" class="bj-score"></span></div>
+      <div class="cards" id="dealer-cards"></div>
+    </div>
+    <div class="bj-section">
+      <div class="bj-label">You <span id="player-score" class="bj-score"></span></div>
+      <div class="cards" id="player-cards"></div>
+    </div>
+  </div>
+  <div class="bj-btns">
+    <button class="bj-btn bj-btn-hit" id="bj-hit" onclick="bjHit()" disabled>👆 Hit</button>
+    <button class="bj-btn bj-btn-stand" id="bj-stand" onclick="bjStand()" disabled>✋ Stand</button>
+    <button class="bj-btn bj-btn-double" id="bj-double" onclick="bjDouble()" disabled>✌️ Double</button>
+  </div>
+  <div class="dice-controls">
+    <div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:5px">Bet Amount (৳)</div>
+      <input class="game-inp" type="number" id="bj-bet" value="100" min="10">
+    </div>
+    <div style="display:flex;align-items:flex-end">
+      <button class="game-btn btn-bet" onclick="bjDeal()" id="bj-deal" style="padding:11px">🃟 Deal Cards</button>
+    </div>
+  </div>
+  <div class="result-box" id="bj-result">Place a bet and deal cards!</div>
+</div>
+</div>
+
+<script>
+let balance = parseInt(localStorage.getItem('nexabet_balance')) || 1000;
+let crashState = 'idle'; // idle, running, crashed
+let crashMult = 1.00;
+let crashInterval = null;
+let crashBet = 0;
+let crashAutoCashout = 0;
+let crashCrashPoint = 1;
+let dicePick = 'low';
+let roulettePick = 'red';
+let coinPick = 'heads';
+let bjDeck = [], bjPlayer = [], bjDealer = [], bjBet = 0, bjPlaying = false;
+let crashHistory = [];
+
+function updateBal(){
+  localStorage.setItem('nexabet_balance', balance);
+  document.getElementById('balance').textContent = balance;
+}
+
+function showGame(id, btn){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='roulette') buildNumGrid();
+}
+
+function setBet(id, val){ document.getElementById(id).value = val; }
+
+// ===== CRASH =====
+function generateCrashPoint(){
+  const r = Math.random();
+  if(r < 0.35) return +(1 + Math.random() * 0.9).toFixed(2);
+  if(r < 0.65) return +(2 + Math.random() * 2).toFixed(2);
+  if(r < 0.85) return +(4 + Math.random() * 6).toFixed(2);
+  if(r < 0.95) return +(10 + Math.random() * 20).toFixed(2);
+  return +(30 + Math.random() * 70).toFixed(2);
+}
+
+function crashAction(){
+  if(crashState === 'idle') startCrash();
+  else if(crashState === 'running') cashoutCrash();
+}
+
+function startCrash(){
+  const bet = parseInt(document.getElementById('crash-bet').value);
+  const auto = parseFloat(document.getElementById('crash-auto').value) || 0;
+  if(!bet || bet < 10){ alert('Minimum bet is ৳10'); return; }
+  if(bet > balance){ alert('Insufficient balance!'); return; }
+  balance -= bet;
+  updateBal();
+  crashBet = bet;
+  crashAutoCashout = auto;
+  crashCrashPoint = generateCrashPoint();
+  crashMult = 1.00;
+  crashState = 'running';
+  document.getElementById('crash-btn').textContent = '💰 Cash Out';
+  document.getElementById('crash-btn').className = 'game-btn btn-cashout';
+  document.getElementById('crash-mult').className = 'crash-mult';
+  document.getElementById('crash-status').textContent = `Bet: ৳${bet} | Flying...`;
+  document.getElementById('crash-result').textContent = '🚀 Flying... Cash out before it crashes!';
+  crashInterval = setInterval(()=>{
+    crashMult = +(crashMult + (crashMult * 0.02)).toFixed(2);
+    document.getElementById('crash-mult').textContent = crashMult.toFixed(2)+'x';
+    if(crashAutoCashout > 0 && crashMult >= crashAutoCashout) cashoutCrash();
+    if(crashMult >= crashCrashPoint) doCrash();
+  }, 100);
+}
+
+function cashoutCrash(){
+  if(crashState !== 'running') return;
+  clearInterval(crashInterval);
+  crashState = 'idle';
+  const win = Math.floor(crashBet * crashMult);
+  balance += win;
+  updateBal();
+  document.getElementById('crash-btn').textContent = '🚀 Place Bet';
+  document.getElementById('crash-btn').className = 'game-btn btn-bet';
+  document.getElementById('crash-result').innerHTML = `<span style="color:#4ecca3;font-weight:800">✅ Cashed out at ${crashMult.toFixed(2)}x! Won ৳${win} (profit: ৳${win-crashBet})</span>`;
+  addCrashHistory(crashMult.toFixed(2)+'x', true);
+}
+
+function doCrash(){
+  clearInterval(crashInterval);
+  crashState = 'idle';
+  document.getElementById('crash-mult').className = 'crash-mult crashed';
+  document.getElementById('crash-mult').textContent = 'CRASH!';
+  document.getElementById('crash-status').textContent = `Crashed at ${crashCrashPoint}x`;
+  document.getElementById('crash-btn').textContent = '🚀 Place Bet';
+  document.getElementById('crash-btn').className = 'game-btn btn-bet';
+  document.getElementById('crash-result').innerHTML = `<span style="color:#ff6b6b;font-weight:800">💥 Crashed at ${crashCrashPoint}x! Lost ৳${crashBet}</span>`;
+  addCrashHistory(crashCrashPoint+'x', false);
+  setTimeout(()=>{
+    crashMult=1.00;
+    document.getElementById('crash-mult').textContent='1.00x';
+    document.getElementById('crash-mult').className='crash-mult';
+    document.getElementById('crash-status').textContent='Place bet to start';
+  },2000);
+}
+
+function addCrashHistory(val, won){
+  crashHistory.unshift({val,won});
+  if(crashHistory.length>10) crashHistory.pop();
+  document.getElementById('crash-history').innerHTML=crashHistory.map(h=>
+    `<span class="h-pill ${h.won?'h-green':'h-red'}">${h.val}</span>`
+  ).join('');
+}
+
+// ===== DICE =====
+const diceEmojis=['','⚀','⚁','⚂','⚃','⚄','⚅'];
+let diceHistory=[];
+
+function selectDice(type,el){
+  document.querySelectorAll('.dice-option').forEach(d=>d.classList.remove('on'));
+  el.classList.add('on');
+  dicePick=type;
+}
+
+function rollDice(){
+  const bet=parseInt(document.getElementById('dice-bet').value);
+  if(!bet||bet<10){alert('Min bet ৳10');return;}
+  if(bet>balance){alert('Insufficient balance!');return;}
+  const btn=document.getElementById('dice-btn');
+  btn.disabled=true;
+  const emoji=document.getElementById('dice-emoji');
+  emoji.classList.add('rolling');
+  balance-=bet;updateBal();
+  setTimeout(()=>{
+    const roll=Math.ceil(Math.random()*6);
+    emoji.className='dice-result';
+    emoji.textContent=diceEmojis[roll];
+    document.getElementById('dice-num').textContent=roll;
+    let won=false,mult=0;
+    if(dicePick==='low'&&roll<=3){won=true;mult=2;}
+    else if(dicePick==='high'&&roll>=4){won=true;mult=2;}
+    else if(dicePick==='even'&&roll%2===0){won=true;mult=2;}
+    else if(dicePick==='odd'&&roll%2!==0){won=true;mult=2;}
+    else if(dicePick==='six'&&roll===6){won=true;mult=6;}
+    else if(dicePick==='one'&&roll===1){won=true;mult=6;}
+    if(won){balance+=bet*mult;updateBal();}
+    const res=document.getElementById('dice-result');
+    res.innerHTML=won
+      ?`<span style="color:#4ecca3;font-weight:800">✅ Rolled ${roll}! Won ৳${bet*mult-bet} profit!</span>`
+      :`<span style="color:#ff6b6b;font-weight:800">❌ Rolled ${roll}! Lost ৳${bet}</span>`;
+    diceHistory.unshift({v:roll,w:won});
+    if(diceHistory.length>10) diceHistory.pop();
+    document.getElementById('dice-history').innerHTML=diceHistory.map(h=>
+      `<span class="h-pill ${h.w?'h-green':'h-red'}">${diceEmojis[h.v]}</span>`
+    ).join('');
+    document.getElementById('dice-info').textContent=`Last roll: ${roll}`;
+    btn.disabled=false;
+  },700);
+}
+
+// ===== ROULETTE =====
+const RED_NUMS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+
+function buildNumGrid(){
+  const grid=document.getElementById('num-grid');
+  if(grid.children.length>0) return;
+  grid.innerHTML='<div class="num-btn num-green on" id="rn-0" onclick="selRouletteNum(0,this)">0</div>'+
+    [...Array(36)].map((_,i)=>{
+      const n=i+1,isRed=RED_NUMS.includes(n);
+      return`<div class="num-btn ${isRed?'num-red':'num-black'}" id="rn-${n}" onclick="selRouletteNum(${n},this)">${n}</div>`;
+    }).join('');
+}
+
+let rouletteBetNum = null;
+function selRoulette(type,el){
+  document.querySelectorAll('.rb').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  roulettePick=type;
+  rouletteBetNum=null;
+  document.querySelectorAll('.num-btn').forEach(b=>b.classList.remove('on'));
+}
+function selRouletteNum(n,el){
+  document.querySelectorAll('.rb').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.num-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  rouletteBetNum=n;
+  roulettePick='number';
+}
+
+function spinRoulette(){
+  const bet=parseInt(document.getElementById('roulette-bet').value);
+  if(!bet||bet<10){alert('Min bet ৳10');return;}
+  if(bet>balance){alert('Insufficient balance!');return;}
+  const btn=document.getElementById('roulette-btn');
+  btn.disabled=true;
+  balance-=bet;updateBal();
+  const spins=5+Math.floor(Math.random()*5);
+  const deg=spins*360+Math.floor(Math.random()*360);
+  const wheel=document.getElementById('roulette-wheel');
+  wheel.style.transform=`rotate(${deg}deg)`;
+  setTimeout(()=>{
+    const result=Math.floor(Math.random()*37);
+    document.getElementById('wheel-num').textContent=result;
+    const isRed=RED_NUMS.includes(result);
+    const isBlack=result>0&&!isRed;
+    let won=false,mult=0;
+    if(roulettePick==='number'&&rouletteBetNum===result){won=true;mult=35;}
+    else if(roulettePick==='red'&&isRed){won=true;mult=2;}
+    else if(roulettePick==='black'&&isBlack){won=true;mult=2;}
+    else if(roulettePick==='green'&&result===0){won=true;mult=35;}
+    else if(roulettePick==='even'&&result>0&&result%2===0){won=true;mult=2;}
+    else if(roulettePick==='odd'&&result%2!==0){won=true;mult=2;}
+    else if(roulettePick==='1to18'&&result>=1&&result<=18){won=true;mult=2;}
+    if(won){balance+=bet*mult;updateBal();}
+    const col=result===0?'🟢':isRed?'🔴':'⚫';
+    document.getElementById('roulette-result').innerHTML=won
+      ?`<span style="color:#4ecca3;font-weight:800">✅ ${col} ${result}! Won ৳${bet*mult-bet} profit!</span>`
+      :`<span style="color:#ff6b6b;font-weight:800">❌ ${col} ${result}! Lost ৳${bet}</span>`;
+    btn.disabled=false;
+  },3100);
+}
+
+// ===== COIN FLIP =====
+let coinHistory=[];
+function selCoin(pick,el){
+  document.querySelectorAll('.coin-pick').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  coinPick=pick;
+}
+function flipCoin(){
+  const bet=parseInt(document.getElementById('coin-bet').value);
+  if(!bet||bet<10){alert('Min bet ৳10');return;}
+  if(bet>balance){alert('Insufficient balance!');return;}
+  balance-=bet;updateBal();
+  const coin=document.getElementById('coin-display');
+  coin.classList.add('flipping');
+  setTimeout(()=>{
+    const result=Math.random()<0.5?'heads':'tails';
+    coin.className='coin-display';
+    coin.textContent=result==='heads'?'👑':'🦅';
+    const won=result===coinPick;
+    if(won){balance+=bet*2;updateBal();}
+    document.getElementById('coin-result').innerHTML=won
+      ?`<span style="color:#4ecca3;font-weight:800">✅ ${result.toUpperCase()}! Won ৳${bet}!</span>`
+      :`<span style="color:#ff6b6b;font-weight:800">❌ ${result.toUpperCase()}! Lost ৳${bet}</span>`;
+    coinHistory.unshift({r:result,w:won});
+    if(coinHistory.length>10) coinHistory.pop();
+    document.getElementById('coin-history').innerHTML=coinHistory.map(h=>
+      `<span class="h-pill ${h.w?'h-green':'h-red'}">${h.r==='heads'?'👑':'🦅'}</span>`
+    ).join('');
+  },850);
+}
+
+// ===== BLACKJACK =====
+function makeDeck(){
+  const suits=['♠','♥','♦','♣'],ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  const deck=[];
+  for(const s of suits) for(const r of ranks) deck.push({rank:r,suit:s,red:s==='♥'||s==='♦'});
+  return deck.sort(()=>Math.random()-.5);
+}
+function cardVal(rank){
+  if(['J','Q','K'].includes(rank)) return 10;
+  if(rank==='A') return 11;
+  return parseInt(rank);
+}
+function handScore(hand){
+  let score=hand.reduce((a,c)=>a+cardVal(c.rank),0);
+  let aces=hand.filter(c=>c.rank==='A').length;
+  while(score>21&&aces>0){score-=10;aces--;}
+  return score;
+}
+function renderCard(c,hidden=false){
+  if(hidden) return`<div class="card hidden" style="font-size:28px">🂠</div>`;
+  return`<div class="card ${c.red?'red':'black'}"><div class="rank">${c.rank}</div><div class="suit">${c.suit}</div></div>`;
+}
+function renderHands(hideDealer=true){
+  document.getElementById('dealer-cards').innerHTML=bjDealer.map((c,i)=>renderCard(c,i===1&&hideDealer)).join('');
+  document.getElementById('player-cards').innerHTML=bjPlayer.map(c=>renderCard(c)).join('');
+  const ps=handScore(bjPlayer);
+  document.getElementById('player-score').textContent=`(${ps})`;
+  document.getElementById('dealer-score').textContent=hideDealer?`(${cardVal(bjDealer[0].rank)+'+'})`:`(${handScore(bjDealer)})`;
+}
+function bjDeal(){
+  const bet=parseInt(document.getElementById('bj-bet').value);
+  if(!bet||bet<10){alert('Min bet ৳10');return;}
+  if(bet>balance){alert('Insufficient balance!');return;}
+  balance-=bet;updateBal();
+  bjBet=bet;bjPlaying=true;
+  bjDeck=makeDeck();
+  bjPlayer=[bjDeck.pop(),bjDeck.pop()];
+  bjDealer=[bjDeck.pop(),bjDeck.pop()];
+  renderHands(true);
+  ['bj-hit','bj-stand','bj-double'].forEach(id=>document.getElementById(id).disabled=false);
+  document.getElementById('bj-deal').disabled=true;
+  const ps=handScore(bjPlayer);
+  if(ps===21){bjResult('Blackjack! You win! 🎉',3);}
+  else document.getElementById('bj-result').textContent=`Your score: ${ps}. Hit or Stand?`;
+}
+function bjHit(){
+  bjPlayer.push(bjDeck.pop());
+  renderHands(true);
+  const ps=handScore(bjPlayer);
+  if(ps>21) bjResult(`Bust! Score: ${ps}. You lose! 💥`,0);
+  else if(ps===21) bjStand();
+  else document.getElementById('bj-result').textContent=`Your score: ${ps}. Hit or Stand?`;
+}
+function bjStand(){
+  ['bj-hit','bj-stand','bj-double'].forEach(id=>document.getElementById(id).disabled=true);
+  while(handScore(bjDealer)<17) bjDealer.push(bjDeck.pop());
+  renderHands(false);
+  const ps=handScore(bjPlayer),ds=handScore(bjDealer);
+  if(ds>21) bjResult(`Dealer busts (${ds})! You win! 🎉`,2);
+  else if(ps>ds) bjResult(`You win! ${ps} vs ${ds} 🎉`,2);
+  else if(ps===ds) bjResult(`Push! ${ps} vs ${ds}. Tie! 🤝`,1);
+  else bjResult(`Dealer wins! ${ds} vs ${ps} 😞`,0);
+}
+function bjDouble(){
+  if(balance<bjBet){alert('Insufficient balance for double!');return;}
+  balance-=bjBet;bjBet*=2;updateBal();
+  bjPlayer.push(bjDeck.pop());
+  renderHands(true);
+  const ps=handScore(bjPlayer);
+  if(ps>21) bjResult(`Bust on double! Lost ৳${bjBet}!`,0);
+  else bjStand();
+}
+function bjResult(msg,outcome){
+  ['bj-hit','bj-stand','bj-double'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('bj-deal').disabled=false;
+  let win=0;
+  if(outcome===3){win=Math.floor(bjBet*2.5);} // blackjack
+  else if(outcome===2){win=bjBet*2;}
+  else if(outcome===1){win=bjBet;} // push
+  if(win>0){balance+=win;updateBal();}
+  const color=outcome>1?'#4ecca3':outcome===1?'var(--gold)':'#ff6b6b';
+  document.getElementById('bj-result').innerHTML=`<span style="color:${color};font-weight:800">${msg}${win>0?' Won ৳'+win:''}</span>`;
+  bjPlaying=false;
+}
+
+updateBal();
+</script>
+</body>
+</html>
